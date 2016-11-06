@@ -8,7 +8,10 @@ use DB;
 
 class Activities extends Model
 {
-	protected $table = 'activities';
+	protected $table = [
+	'activities',
+	'activities_signup',
+	];
 
 	protected $fillable=[
 		'name',
@@ -25,20 +28,20 @@ class Activities extends Model
         'max_reserves',
     ];
 
-    public static function get_active_activities($id){
+    public static function get_active_activities(){
     	$active_activities = DB::table('activities')->where('status', 1)->get();
     	return $active_activities;
     }
 
-    public static function get_all_activities($id){
+    public static function get_all_activities(){
     	$all_activities = DB::table('activities')->get();
     	return $all_activities;
     }
 
-    public static function get_signed_up_activities($id){
+    public static function get_signed_up_activities($user_id){
 	    $signed_up_activities = DB::table('activities_signup')
 	            ->join('activities', 'activity_id', '=', 'activities.id')
-	       		->where('member_id', $id)
+	       		->where('member_id', $user_id)
 	            ->get();
         return $signed_up_activities;
     }

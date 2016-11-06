@@ -46,11 +46,25 @@ class User extends Authenticatable
 
 
 
-    public static function get_member($id){
+    public static function get_member($user_id){
         $get_member =  DB::table('users')
             ->join('members', 'users.id', '=', 'members.user_id')
-            ->where('user_id', $id)
+            ->where('user_id', $user_id)
             ->get();
         return $get_member;
     }
+
+     public static function get_member_id($user_id){
+        $get_member =  DB::table('users')
+            ->join('members', 'users.id', '=', 'members.user_id')
+            ->where('user_id', $user_id)
+            ->get();
+
+        foreach($get_member as $member){
+            $member_id = $member->id;
+        }
+
+        return $member_id;
+    }
+    
 }

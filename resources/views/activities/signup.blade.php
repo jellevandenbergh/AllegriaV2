@@ -5,7 +5,8 @@
         <!-- echo out the system feedback (error and success messages) -->
 
    
-            <form method="post" action="{{ url('/activities/signup/{id}') }}">
+            <form method="post" action="{{$id}}">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <h3>Informatie activiteit:</h3>
                 <table class="table activities-signup single">
                     <thead>
@@ -68,11 +69,11 @@
                         </tr>
                         <tr>
                             <td>Email</td>
-                            <td>{{ $member->email }}</td>
+                            <td><label for="comments">{{ $member->email }}</label></td>
                             <td colspan="2" rowspan="2"><textarea name="comments" placeholder="Niet verplicht"></textarea></td>
                         </tr>
                         <tr>
-                            <td>Opstapplaats</td>
+                            <td><label for="place">Opstapplaats</label></td>
                             <td><select name="place"><option value="LPP">LPP</option><option value="MBW">MBW</option></select></td>
                         </tr>
                     </tbody>
