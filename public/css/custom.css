@@ -1,0 +1,325 @@
+/******************************/
+/*         TABLE CSS          */
+/******************************/
+.filterIn {
+  display: table-row !important;
+}
+table.three .data,table.three .detail {
+  display: none;
+}
+table.table {
+    margin-top: 20px;
+	width: 100%;
+    font-size: 14;
+    border-collapse: collapse;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+table a {
+	text-decoration: none;
+    display:block;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+table.link tbody tr:hover {
+	background-color: #D3D3D3 !important;
+}
+td.link {
+  cursor: pointer;
+}
+thead td {
+	padding: 10px;
+    font-weight: 600;
+}
+tbody td.center:hover {
+    outline: 1px dotted black;
+}
+table .center {
+    text-align: center;
+}
+table td.center {
+	width: 10%;
+}
+table.single tbody tr:nth-child(even), table.dubble>tbody>tr:nth-child(4n+3), table thead tr, .bg-even {
+	background-color: #F0F0F9;
+}
+
+/* ACCOUNT */
+table.account td {
+	padding: 10px;
+	width: 16.6%;
+}
+
+/* ACTIVITIES */
+table.activities td {
+	width: 25%;
+}
+table.activities-all td {
+    width: 33%;
+}
+table.activities-all tr:nth-child(odd) td, table.activities tr:nth-child(odd) td {
+    padding: 10px;
+}
+table.activities-all tr td table tr td, table.activities tr td table tr td {
+    padding: 10px !important;
+}
+table.activities-all td.center, table.activities td.center {
+    padding: 0 !important;
+}
+table.activities-all td.center a, table.activities td.center a {
+    padding: 10px;
+}
+table.activities-all tr.link:hover, table.activities tr.link:hover {
+    background-color: #D3D3D3 !important;
+    cursor: pointer;
+}
+table.activities-all tr[tabledata-slider=opened], table.activities-all tr[tabledata-slider=opening], table.activities-all tr[tabledata-slider=closing], table.activities tr[tabledata-slider=opened], table.activities tr[tabledata-slider=opening], table.activities tr[tabledata-slider=closing] {
+    background-color : #D3D3D3 !important;
+}
+table.activities-all tr[tabledata-slider=opened]+tr, table.activities-all tr[tabledata-slider=opening]+tr, table.activities-all tr[tabledata-slider=closing]+tr, table.activities-all tr:nth-child(odd):hover+tr, table.activities tr[tabledata-slider=opened]+tr, table.activities tr[tabledata-slider=opening]+tr, table.activities tr[tabledata-slider=closing]+tr, table.activities tr:nth-child(odd):hover+tr {
+    background-color: #DDD;
+}
+table.activities-memberdetails {
+  display: none;
+}
+table.activities-detail {
+    width: 100%;
+}
+table.activities-detail td {
+    width: 16.6%;
+}
+table.activities-signup td {
+    width: 16.6%;
+    padding: 10px;
+}
+table.activities-quest td {
+    padding: 10px;
+    width: 33.3%;
+}
+table.activities-signout td {
+    padding: 10px;
+}
+table.activities-signout td:first-child {
+    text-align: center;
+    width: 4%;
+}
+table.activities-intros td {
+    width: 25%;
+    padding: 10px;
+}
+table.activities-signup textarea, table.activities-intros textarea, table.activities-quest textarea {
+    height: 100%;
+    resize: vertical;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    border: 0;
+    padding: 5px;
+    font-size: 14px;
+}
+table.activities-edit td {
+    width: 50%;
+    padding: 10px;
+}
+
+/******************************/
+/*         Searchbar          */
+/******************************/
+
+ul.action-top {
+  position: absolute;
+  top: -30px;
+  right: 0;
+}
+
+ul.action-top li {
+  display: inline-block;
+  list-style: none;
+}
+
+.searchbar {
+  height: 38px;
+  top: 0;
+  right: 0;
+  font-size: 14px;
+  list-style: none;
+  border: 1px solid lightgray;
+  width: 250px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color:  white;
+}
+
+.searchbar i {
+  margin: 10px 5px 10px 10px;
+  width: 15px;
+  color: #777;
+}
+
+.searchbar input {
+  width: 200px;
+  padding: 10px 5px !important;
+  outline: none;
+}
+
+.searchbar input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+.display-none {
+  display: none;
+}
+
+.display-block {
+  display: block;
+}
+
+.hr {
+  border-top: 1px solid #ddd;
+  margin: 50px 0;
+}
+
+.avatarright {
+  position: relative;
+  padding: 10px 0;
+  margin-top: 10px;
+}
+
+.avatarright h1 {
+  margin: 0;
+}
+
+.avatarright img {
+  border: 1px solid lightgray;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  position: absolute;
+  top: -10px;
+  right: 0;
+  height: 70px;
+}
+
+.avatarleft {
+  margin: 30px 0 45px;
+}
+
+.avatarleft img {
+  border: 1px solid lightgray;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  height: 70px;
+}
+
+input[type="file"] {
+  background-color: transparent !important;
+}
+
+/******************************/
+/*        Action menu         */
+/******************************/
+
+ul.action-menu {
+  padding: 0;
+  list-style: none;
+}
+
+ul.action-menu li {
+  position: relative;
+  cursor: pointer;
+  display: inline;
+}
+
+ul.action-sub {
+  min-width: 98%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  position: absolute;
+  background-color: white;
+  padding: 0;
+  margin: 10px 0;
+  border: 1px solid lightgray;
+  left: 0;
+}
+
+ul.action-sub li {
+  display: block;
+  width: 100%;
+}
+
+ul.action-sub li input {
+  border: 1px solid white !important;
+  background: 0 !important;
+  width: 100%;
+  text-align: left;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+select {
+  padding: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: 0;
+  width: 100%;
+}
+
+.sendemail {
+  width: 50%;
+}
+
+.sendemail td {
+  padding: 10px;
+  max-width: 100%;
+}
+
+.sendemail input[type="text"], .sendemail textarea {
+  width: 100%;
+  border: 1px solid #D3D3D3;
+  text-align: left;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.sendemail textarea {
+  height: 100px;
+  min-width: 400px;
+}
+
+.sendemail td:first-child {
+  width: 15%;
+  text-align: right;
+}
+
+.table input, textarea, select {
+  border: 1px solid #D3D3D3 !important; 
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.send-feedback {
+  text-decoration: none;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: #34495e;
+  color: white;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  padding: 10px;
+  font-weight: bold;
+  -webkit-box-shadow: 2px 2px 5px rgba(50, 50, 50, 0.5);
+  -moz-box-shadow:    2px 2px 5px rgba(50, 50, 50, 0.5);
+  box-shadow:         2px 2px 5px rgba(50, 50, 50, 0.5);
+}
