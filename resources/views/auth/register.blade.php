@@ -1,76 +1,83 @@
-@extends('layouts.app')
+@include('layouts.header')
 
-@section('content')
 <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
-                        {{ csrf_field() }}
+    <h1>Lid toevoegen</h1>
+    <div class="box">
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+        <!-- echo out the system feedback (error and success messages) -->
+		<form method="post" action="{{ url('/register') }}" class="allegriaform">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
+			<table class="table activities-signup single">
+				<thead>
+					<tr>
+	                    <td colspan="2"><b>Persoonlijk</b></td>
+	                    <td colspan="2"><b>Adres</b></td>
+	                    <td colspan="2"><b>School</b></td>
+	                </tr>
+				</thead>
+	            <tbody>
+	                <tr>
+	                    <td><label for="lastname">Achternaam</label></td>
+	                    <td><input id="lastname" type="text" name="lastname" placeholder="Verplicht" required></td>
+	                    <td><label for="address">Straat</label></td>
+	                    <td><input id="address" type="text" name="address" placeholder="Verplicht" required></td>
+	                    <td><label for="RNRnumber">RNRnummer</label></td>
+	                    <td><input id="RNRnumber" type="number" name="RNRnumber" placeholder="123456" maxlength="6"></td>
+	                </tr>
+	                <tr>
+	                    <td><label for="insertion">Tussenvoegsel</label></td>
+	                    <td><input id="insertion" type="text" name="insertion"></td>
+	                    <td><label for="housenumber">Huisnummer</label></td>
+	                    <td><input id="housenumber" type="text" name="housenumber" placeholder="14 A" required></td>
+	                    <td><label for="location_building">Gebouw</label></td>
+	                    <td><input id="location_building" type="text" name="location_building" placeholder="Verplicht" required></td>
+	                </tr>
+	                <tr>
+	                    <td><label for="firstname">Voornaam</label></td>
+	                    <td><input id="firstname" type="text" name="firstname" placeholder="Verplicht" required></td>
+	                    <td><label for="zipcode">Postcode</label></td>
+	                    <td><input id="zipcode" type="text" name="zipcode" placeholder="1234 AB" required></td>
+	                    <td><label for="location_floor">Lokaal</label></td>
+	                    <td><input id="location_floor" type="text" name="location_floor" placeholder="Verplicht"></td>
+	                </tr>
+	                <tr>
+	                    <td><label for="initials">Voorletter</label></td>
+	                    <td><input id="initials" type="text" name="initials" placeholder="Verplicht" required></td>
+	                    <td><label for="place">Plaats</label></td>
+	                    <td><input id="place" type="text" name="place" placeholder="Verplicht" required></td>
+	                    <td><label for="member_since">Lid sinds</label></td>
+	                    <td><input id="member_since" type="date" name="member_since" placeholder="dd-mm-jjjj" required></td>
+	                </tr>
+	                <tr>
+	                    <td><label>Aanhef</label></td>
+	                    <td><select name="salutation"><option value="de heer">De heer</option><option value="mevrouw">Mevrouw</option></td>
+	                    <td colspan="2"></td>
+	                    <td><label for="email">Email</label></td>
+	                    <td><input id="email" type="email" name="email" placeholder="voorbeeld@gmail.com" required></td>
+	                </tr>
+	                <tr>
+	                    <td><label for="birthday">Geboortedatum</label></td>
+	                    <td><input id="birthday" type="date" name="birthday" placeholder="dd-mm-jjjj" required></td>
+	                    <td colspan="2"></td>
+	                    <td>Functie</td>
+@if($user = Auth::guest())
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+@elseif($user = Auth::user()->user_account_type == 3)
+	                    <td><select name="function"><option value="1">Lid</option><option value="2">Bestuur</option></select></td>
+@else
+	                    <td><select name="function"><option value="1">Lid</option><option value="2">Bestuur</option><option value="3">Admin</option><option value="4">Super Admin</option></select></td>	                    
+@endif	                
+					</tr>
+					<tr>
+                        <td><label for="phonenumber">Telefoonnummer</label></td>
+                        <td><input id="phonenumber" type="text" name="phonenumber" placeholder="06-12345678"></td>
+                        <td colspan="4"></td>
+                    </tr>
+	            </tbody>
+	        </table>
+			<p><button type="submit" class="btn btn-primary">Toevoegen</button> <a href="<?php echo Config::get('URL');?>members" class="allegriabutton">Annuleren</a></p>
+    	</form>
     </div>
 </div>
-@endsection
+
+@include('layouts.footer')

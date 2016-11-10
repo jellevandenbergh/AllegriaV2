@@ -46,7 +46,7 @@
                         <td>Opstapplaats</td>
                         <td><input id="bus_boarding_point" type="text" name="bus_boarding_point" placeholder="Verplicht"></td>
                         <td>Aantal bussen</td>
-                        <td><input id="bus_amount" type="number" name="bus_amount" value="1"required></td>
+                        <td><input id="bus_amount" type="number" name="bus_amount" value="1"></td>
                         <td></td>
                         <td style="cursor: pointer"><a  onclick="bus_save()">Opslaan</a></td>
                     </tr>

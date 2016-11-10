@@ -6,12 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 use DB;
 
+use Session;
+
 class Activities extends Model
 {
-	protected $table = [
-	'activities',
-	'activities_signup',
-	];
+	protected $table = 'activities';
 
 	protected $fillable=[
 		'name',
@@ -29,7 +28,7 @@ class Activities extends Model
     ];
 
     public static function get_active_activities(){
-    	$active_activities = DB::table('activities')->where('status', 1)->get();
+    	$active_activities = DB::table('activities')->where('status', 2)->get();
     	return $active_activities;
     }
 
@@ -47,6 +46,18 @@ class Activities extends Model
     }
 
     public static function addACTION(){
+    	$_POST['price_members'] = str_replace(array(',', '.'), '',$_POST['price_members']);
+        $_POST['price_intros'] = str_replace(array(',', '.'), '',$_POST['price_intros']);
+
+        if ($_POST['max_intros'] == 0) {
+            $_POST['price_intros'] = 0;
+        }
+
+        if( $_POST['bus'] == '1'){
+        	$_POST['bus_boarding_point'] = '';
+        	$_POST['bus_amount'] = 0;
+        }
+
 		$new_activitie = Activities::create([
 			'name' => $_POST['name'],
 			'max_members' => $_POST['max_members'],
@@ -61,6 +72,21 @@ class Activities extends Model
 			'comments' => $_POST['comments'],
 			'max_reserves' => $_POST['max_reserves'],
 		]);
+
+		$new_activitie_id = $new_activitie->id;
+
+		$get_new_activitie = DB::table('activities')->where('id', $new_activitie_id)->get();
+
+		if ($get_new_activitie == "[]") {
+		    Session::flash('feedback_error', 'Er is iets mis gegaan!');
+		}
+		else{
+			$server = ($_SERVER["SERVER_NAME"]);
+			$signupUrl =  $server .'/AllegriaV2/public/activities/signup/'. $new_activitie->id;
+
+			Session::flash('feedback_success', 'Activiteit toegevoegd! De link voor het aanmelden van deze activiteit is: '.$signupUrl.'');
+		}
+
     }
 
     public static function get_activitie_by_id($id){

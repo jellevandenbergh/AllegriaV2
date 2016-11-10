@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use DB;
 use Auth;
+use Session;
+use Request;
 
 use App\ActivitiesSignup;
 use App\Activities;
@@ -30,8 +30,8 @@ class ActivitiesController extends Controller
 
     public function addACTION()
     {
-    	Activities::addAction();
-    	return redirect('activities'); 
+    	$feedback = Activities::addAction();
+    	return redirect('activities');
     }
 
 
@@ -41,6 +41,7 @@ class ActivitiesController extends Controller
     	$get_activitie_signup = Activities::get_activitie_signup($id);
     	return view('activities.overview', compact('get_activitie','get_activitie_signup'));
     }
+
 
     public function signup($id)
     {

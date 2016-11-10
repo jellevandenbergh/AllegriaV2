@@ -107,8 +107,6 @@
                 <input type="hidden" name="id" value="">
             </form>
             <div class="hr"></div>
-
-            <p class="red-text">Activiteit niet gevonden.</p>
             <br>
             <p><a href=" class="allegriabutton"><i class="fa fa-arrow-left"></i> Terug</a></p>
     </div>

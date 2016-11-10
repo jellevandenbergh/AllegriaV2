@@ -21,28 +21,6 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
-    public function __construct(ActivationService $activationService)
-    {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
-        $this->activationService = $activationService;
-    }
-
-    public function register(Request $request)
-    {
-        $validator = $this->validator($request->all());
-
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                $request, $validator
-            );
-        }
-
-        $user = $this->create($request->all());
-
-        $this->activationService->sendActivationMail($user);
-
-        return redirect('/login')->with('status', 'We sent you an activation code. Check your email.');
-    }
     /**
      * Where to redirect users after login / registration.
      *
@@ -50,7 +28,6 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/account';
 
-    protected $activationService;
 
     /**
      * Create a new controller instance.
@@ -71,9 +48,14 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'lastname' => 'required|max:50',
+            'firstname' => 'required',
+            'address' => 'required',
+            'housenumber' => 'required',
+            'zipcode' => 'required',
+            'place' => 'required',
+            'birthday' => 'required',
+            'location_building' => 'required',
         ]);
     }
 
@@ -85,10 +67,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+        return $data;
+        return Members::create([
+            'lastname' => $data['lastname'],
+            'initials' => $data['initials'],
+            'insertion' => $data['insertion'],
+            'salution' => $data['salution'],
+            'firstname' => $data ['firstname'],
+            'address' => $data['address'],
+            'housenumber' => $data['housenumber'],
+            'zipcode' => $data['zipcode'],
+            'place' => $data['place'],
+            'birthday' => $data['birthday'],
+            'location_building' => $data['location_building'],
+            'location_floor' => $data['location_floor'],
+            'phonenumber' => $data['phonenumber'],
         ]);
+
+
     }
 }

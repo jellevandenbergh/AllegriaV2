@@ -8,6 +8,12 @@
     });
 </script>
 <div class="container">
+    @if(Session::has('feedback_success'))
+        <div class="feedback success"><p>{{ Session::get('feedback_success') }}</p></div>
+    @endif
+    @if(Session::has('feedback_error'))
+        <div class="feedback error"><p>{{ Session::get('feedback_error') }}</p></div>
+    @endif
     <h1>
         Activiteiten overzicht<?php if (Auth::user()->user_account_type >= 3):?>
         <ul class="action-top">
