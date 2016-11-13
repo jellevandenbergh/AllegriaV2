@@ -25,10 +25,10 @@ Route::get('/activities', ['uses' => 'ActivitiesController@index', 'middleware' 
 Route::get('/activities/add', ['uses' => 'ActivitiesController@add', 'middleware' => 'auth']);
 Route::post('/activities/add', ['uses' => 'ActivitiesController@addACTION', 'middleware' => 'auth']);
 
-Route::get('/activities/overview/{id}', ['uses' => 'ActivitiesController@overview', 'middleware' => 'auth']);
+Route::get('/activities/overview/{activity_id}', ['uses' => 'ActivitiesController@overview', 'middleware' => 'auth']);
 
-Route::get('/activities/signup/{id}', ['uses' => 'ActivitiesController@signup', 'middleware' => 'auth']);
-Route::post('/activities/signup/{id}', ['uses' => 'ActivitiesController@signupACTION', 'middleware' => 'auth']);
+Route::get('/activities/signup/{activity_id}', ['uses' => 'ActivitiesController@signup', 'middleware' => 'auth']);
+Route::post('/activities/signup/{activity_id}', ['uses' => 'ActivitiesController@signupACTION', 'middleware' => 'auth']);
 
 Route::get('/', 'HomeController@index');
 

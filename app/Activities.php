@@ -37,10 +37,11 @@ class Activities extends Model
     	return $all_activities;
     }
 
-    public static function get_signed_up_activities($user_id){
+    public static function get_signed_up_activities(){
+    	$member_id = User::get_member_id();
 	    $signed_up_activities = DB::table('activities_signup')
 	            ->join('activities', 'activity_id', '=', 'activities.id')
-	       		->where('member_id', $user_id)
+	       		->where('member_id', $member_id)
 	            ->get();
         return $signed_up_activities;
     }
@@ -89,13 +90,67 @@ class Activities extends Model
 
     }
 
-    public static function get_activitie_by_id($id){
-	    $get_activitie = DB::table('activities')->where('id', $id)->get();
+    public static function get_activitie_by_id($activity_id){
+	    $get_activitie = DB::table('activities')->where('id', $activity_id)->get();
         return $get_activitie;
     }
 
-    public static function get_activitie_signup($id){
-    	$get_activitie_signup = DB::table('activities_signup')->where('activity_id', $id)->get();
+    public static function get_activitie_signup($activity_id){
+    	$get_activitie_signup = DB::table('activities_signup')->where('activity_id', $activity_id)->get();
     	return $get_activitie_signup;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 }

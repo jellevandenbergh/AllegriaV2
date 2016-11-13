@@ -5,7 +5,7 @@
         <!-- echo out the system feedback (error and success messages) -->
 
    
-            <form method="post" action="{{$id}}">
+            <form method="post" action="{{$activity_id}}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <h3>Informatie activiteit:</h3>
                 <table class="table activities-signup single">
@@ -24,7 +24,7 @@
                         <td>Max introducés</td>
                         <td>{{ $activitie->max_intros }}</td>
                         <td>Vrije plekken</td>
-                        <td>Freeplace</td>
+                        <td>{{ $activitie->free_places }}</td>
                     </tr>
                     <tr>
                         <td>Datum activiteit</td>

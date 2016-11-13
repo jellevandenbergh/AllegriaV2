@@ -18,7 +18,7 @@ class ActivitiesController extends Controller
     	$user_id = Auth::user()->id;
     	$active_activities = Activities::get_active_activities();
     	$all_activities = Activities::get_all_activities();
-        $signed_up_activities = Activities::get_signed_up_activities($user_id);
+        $signed_up_activities = Activities::get_signed_up_activities();
 
         return view('activities.index', compact('active_activities','all_activities','signed_up_activities'));
     }
@@ -35,33 +35,25 @@ class ActivitiesController extends Controller
     }
 
 
-    public function overview($id)
+    public function overview($activity_id)
     {
-    	$get_activitie = Activities::get_activitie_by_id($id);
-    	$get_activitie_signup = Activities::get_activitie_signup($id);
+    	$get_activitie = Activities::get_activitie_by_id($activity_id);
+    	$get_activitie_signup = Activities::get_activitie_signup($activity_id);
     	return view('activities.overview', compact('get_activitie','get_activitie_signup'));
     }
 
 
-    public function signup($id)
+    public function signup($activity_id)
     {
-    	$user_id = Auth::user()->id;
-    	$get_activitie = Activities::get_activitie_by_id($id);
-    	$get_member = User::get_member($user_id);
-    	return view('activities.signup', compact('get_activitie','get_member','id'));
+    	$get_activitie = Activities::get_activitie_by_id($activity_id);
+    	$get_member = User::get_member();
+    	return view('activities.signup', compact('get_activitie','get_member','activity_id'));
     }
 
-    public function signupACTION($id)
+    public function signupACTION($activity_id)
     {
-    	$user_id = Auth::user()->id;
-    	$member_id = User::get_member_id($user_id);
-
-    	$new_activitie_signup = ActivitiesSignup::create([
-			'activity_id' => $id,
-			'member_id' => $member_id,
-			'place' => $_POST['place'],
-			'comments' => $_POST['comments'],
-		]);
+    	$new_signup = ActivitiesSignup::signupACTION($activity_id);
+    	return redirect('activities');
     }
 }
 

@@ -21,7 +21,7 @@
         </ul>
     </h1>
     <?php if ($active_activities == "[]"): ?>
-        <p>Geen active activiteiten</p>
+        <strong style="color:red;">activiteiten</strong>
     <?php else: ?>
         <div class="box">
             <h3>Aanmelden voor:</h3>
@@ -72,9 +72,8 @@
                 </tbody>
             </table>
         <?php endif; ?>
-
         <?php if ($signed_up_activities == '[]'): ?>
-            <p>Geen activiteiten waarvoor aangemeld</p>
+            <strong style="color:red;">Geen activiteiten waarvoor aangemeld</strong>
         <?php else: ?> 
             <h3>Aangemeld voor:</h3>
             <table class="table activities-all dubble">
@@ -92,7 +91,7 @@
                     <tr id="dataA{{ $signed_up_activitie->id }}" class="dataA link">
                         <td>{{ $signed_up_activitie->name }}</td>
                         <td>{{ $signed_up_activitie->date }}</td>
-                        <td>Beschikbare plekken</td>
+                        <td>{{ $signed_up_activitie->free_places }}</td>
                         <td class="center"><a href="<?= Config::get('URL') . 'activities/quest/' . $signed_up_activitie->id; ?>"><i class="fa fa-plus-square"></i></i></a></td>
                         <td class="center"><a href="<?= Config::get('URL') . 'activities/signout/' . $signed_up_activitie->id; ?>"><i class="fa fa-sign-out"></i></a></td>
                     </tr>
@@ -129,7 +128,7 @@
         <?php if (Auth::user()->user_account_type >= 2): ?>
             <h3>Alle activiteiten (bestuur):</h3>
             <?php if ($all_activities == '[]'): ?>
-                <p>Geen activiteiten gevondens</p>
+                <strong style="color:red;">Geen activiteiten gevonden</strong>
             <?php else: ?>    
                 <table class="table activities-all dubble">
                     <thead>
@@ -177,7 +176,7 @@
                                 </tr>
                                 <tr>
                                     <td>Beschikbare plekken</td>
-                                    <td>freeplace</td>
+                                    <td>{{ $all_activitie->free_places }}</td>
                                     <td colspan="4" rowspan="2"></td>
                                 </tr>
                             </table>

@@ -3,6 +3,8 @@
 namespace App;
 
 use DB;
+
+use Auth;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -46,21 +48,24 @@ class User extends Authenticatable
 
 
 
-    public static function get_member($user_id){
+    public static function get_member(){
+        $user_id = Auth::user()->id;
         $get_member =  DB::table('users')
             ->join('members', 'users.id', '=', 'members.user_id')
             ->where('user_id', $user_id)
             ->get();
+
         return $get_member;
     }
 
-     public static function get_member_id($user_id){
-        $get_member =  DB::table('users')
+    public static function get_member_id(){
+        $user_id = Auth::user()->id;
+        $get_member_id =  DB::table('users')
             ->join('members', 'users.id', '=', 'members.user_id')
             ->where('user_id', $user_id)
             ->get();
 
-        foreach($get_member as $member){
+        foreach($get_member_id as $member){
             $member_id = $member->id;
         }
 

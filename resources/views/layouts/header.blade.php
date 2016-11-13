@@ -21,18 +21,12 @@
                 </li> 
             @elseif($user = Auth::user()->user_account_type <= 2)
                 <li>
-                    <a href="http://localhost/AllegriaV2/public/home">Home</a>
-                </li> 
-                <li>
                     <a href="http://localhost/AllegriaV2/public/account">Account</a>
                 </li>
                 <li>
                     <a href="http://localhost/AllegriaV2/public/activities">Activiteiten</a>
                 </li>
             @elseif($user = Auth::user()->user_account_type >= 3)
-                <li>
-                    <a href="http://localhost/AllegriaV2/public/home">Home</a>
-                </li> 
                 <li>
                     <a href="http://localhost/AllegriaV2/public/account">Account</a>
                 </li>
