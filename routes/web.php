@@ -18,17 +18,19 @@ Route::get('/', function () {
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/account', ['uses' => 'AccountController@index', 'middleware' => 'auth']);
+Route::get('/account', ['uses' => 'AccountController@index', 'middleware' => 'lid']);
 
-Route::get('/activities', ['uses' => 'ActivitiesController@index', 'middleware' => 'auth']);
+Route::get('/activities', ['uses' => 'ActivitiesController@index', 'middleware' => 'lid']);
 
-Route::get('/activities/add', ['uses' => 'ActivitiesController@add', 'middleware' => 'auth']);
-Route::post('/activities/add', ['uses' => 'ActivitiesController@addACTION', 'middleware' => 'auth']);
+Route::get('/activities/add', ['uses' => 'ActivitiesController@add', 'middleware' => 'admin']);
+Route::post('/activities/add', ['uses' => 'ActivitiesController@addACTION', 'middleware' => 'admin']);
 
-Route::get('/activities/overview/{activity_id}', ['uses' => 'ActivitiesController@overview', 'middleware' => 'auth']);
+Route::get('/activities/overview/{activity_id}', ['uses' => 'ActivitiesController@overview', 'middleware' => 'lid']);
 
-Route::get('/activities/signup/{activity_id}', ['uses' => 'ActivitiesController@signup', 'middleware' => 'auth']);
-Route::post('/activities/signup/{activity_id}', ['uses' => 'ActivitiesController@signupACTION', 'middleware' => 'auth']);
+Route::get('/activities/signup/{activity_id}', ['uses' => 'ActivitiesController@signup', 'middleware' => 'lid']);
+Route::post('/activities/signup/{activity_id}', ['uses' => 'ActivitiesController@signupACTION', 'middleware' => 'lid']);
+
+Route::get('/unauthorized', 'HomeController@unauthorized');
 
 Route::get('/', 'HomeController@index');
 

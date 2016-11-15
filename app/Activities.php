@@ -67,6 +67,8 @@ class Activities extends Model
 			'max_intros' => $_POST['max_intros'],
 			'bus_boarding_point' => $_POST['bus_boarding_point'],
 			'bus_amount' => $_POST['bus_amount'],
+			'free_places' => $_POST['max_members'],
+			'free_reserves' => $_POST['max_reserves'],
 			'max_signup_date' => $_POST['max_signup_date'],
 			'price_members' => $_POST['price_members'],
 			'price_intros' => $_POST['price_intros'],

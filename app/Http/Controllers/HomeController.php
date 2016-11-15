@@ -34,4 +34,9 @@ class HomeController extends Controller
             return view('auth.login');
         }
     }
+
+    public function unauthorized()
+    {
+        return view('errors.unauthorized');
+    }
 }

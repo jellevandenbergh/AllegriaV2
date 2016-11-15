@@ -10,7 +10,7 @@ table.three .data,table.three .detail {
 table.table {
     margin-top: 20px;
 	width: 100%;
-    font-size: 14;
+    font-size: 14 !important;
     border-collapse: collapse;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;

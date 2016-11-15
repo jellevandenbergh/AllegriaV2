@@ -19,7 +19,6 @@ class ActivitiesController extends Controller
     	$active_activities = Activities::get_active_activities();
     	$all_activities = Activities::get_all_activities();
         $signed_up_activities = Activities::get_signed_up_activities();
-
         return view('activities.index', compact('active_activities','all_activities','signed_up_activities'));
     }
 

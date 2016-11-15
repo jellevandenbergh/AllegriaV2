@@ -22,6 +22,7 @@
     </h1>
     <?php if ($active_activities == "[]"): ?>
         <strong style="color:red;">activiteiten</strong>
+        <hr>
     <?php else: ?>
         <div class="box">
             <h3>Aanmelden voor:</h3>
@@ -74,6 +75,7 @@
         <?php endif; ?>
         <?php if ($signed_up_activities == '[]'): ?>
             <strong style="color:red;">Geen activiteiten waarvoor aangemeld</strong>
+            <hr>
         <?php else: ?> 
             <h3>Aangemeld voor:</h3>
             <table class="table activities-all dubble">
@@ -129,6 +131,7 @@
             <h3>Alle activiteiten (bestuur):</h3>
             <?php if ($all_activities == '[]'): ?>
                 <strong style="color:red;">Geen activiteiten gevonden</strong>
+                <hr>
             <?php else: ?>    
                 <table class="table activities-all dubble">
                     <thead>

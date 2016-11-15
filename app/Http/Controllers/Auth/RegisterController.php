@@ -67,23 +67,9 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return $data;
         return Members::create([
-            'lastname' => $data['lastname'],
-            'initials' => $data['initials'],
-            'insertion' => $data['insertion'],
-            'salution' => $data['salution'],
-            'firstname' => $data ['firstname'],
-            'address' => $data['address'],
-            'housenumber' => $data['housenumber'],
-            'zipcode' => $data['zipcode'],
-            'place' => $data['place'],
-            'birthday' => $data['birthday'],
-            'location_building' => $data['location_building'],
-            'location_floor' => $data['location_floor'],
-            'phonenumber' => $data['phonenumber'],
+            'password' => bcrypt($data['password']),
+            'email' => $data['email'],
         ]);
-
-
     }
 }
