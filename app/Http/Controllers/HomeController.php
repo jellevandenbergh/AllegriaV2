@@ -37,6 +37,7 @@ class HomeController extends Controller
 
     public function unauthorized()
     {
-        return view('errors.unauthorized');
+        return view('errors.unauthorized',compact('audio'));
+
     }
 }

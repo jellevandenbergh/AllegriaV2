@@ -13,7 +13,7 @@
 <body>
     <div class="header2">
         <div class="navigation2">
-            <a href="/home" class="logo2">Allegria - Personeelsvereniging Da Vinci College</a>
+            <a href="http://localhost/AllegriaV2/public/home" class="logo2">Allegria - Personeelsvereniging Da Vinci College</a>
             <ul class="navigation2left">
             @if($user = Auth::guest())
                 <li>

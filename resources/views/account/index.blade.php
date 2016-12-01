@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="avatarright">
-        <h1>Geen profiel</h1>
+        <h1>{{ $fullname }}</h1>
         <img src="http://localhost/AllegriaV2/public/avatars/default.jpg">
     </div>
     <div class="box">

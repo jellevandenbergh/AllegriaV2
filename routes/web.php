@@ -20,6 +20,9 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('/account', ['uses' => 'AccountController@index', 'middleware' => 'lid']);
 
+Route::get('/account/edit', ['uses' => 'AccountController@edit_account', 'middleware' => 'lid']);
+Route::post('/account/edit', ['uses' => 'AccountController@edit_accountACTION', 'middleware' => 'lid']);
+
 Route::get('/activities', ['uses' => 'ActivitiesController@index', 'middleware' => 'lid']);
 
 Route::get('/activities/add', ['uses' => 'ActivitiesController@add', 'middleware' => 'admin']);

@@ -17,14 +17,19 @@ class SuperAdminAuthenticated
      */
     public function handle($request, Closure $next)
     {
-        if(auth::guest()){
-            return redirect('http://localhost/AllegriaV2/public/login');
-        }
-        elseif(auth::user()->user_account_type == 4) {
-            return $next($request);
+        if(Auth::check() == 1){
+            if(auth::guest()){
+                return redirect('login');
+            }
+            elseif(auth::user()->user_account_type == 4) {
+                return $next($request);
+            }
+            else{
+                return redirect('/unauthorized');
+            }
         }
         else{
-            return redirect('/unauthorized');
+            return redirect('login');
         }
     }
 }

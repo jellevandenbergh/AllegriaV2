@@ -27,6 +27,41 @@ class Activities extends Model
         'max_reserves',
     ];
 
+    public static function freePlace($àctivity_id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "SELECT count(*) AS count FROM activities_signup WHERE activity_id = :id AND status = 1";
+        $query = $database->prepare($sql);
+        $query->execute(array(":id"=>$id));
+
+        
+
+        $result_signup = $query->fetch();
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "SELECT count(*) AS count FROM activities_quest LEFT JOIN activities_signup ON activities_quest.activity_signup_id = activities_signup.id WHERE activity_id = :id AND activities_quest.status = 1";
+        $query = $database->prepare($sql);
+        $query->execute(array(":id"=>$id));
+
+        $result_quest = $query->fetch();
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "SELECT max_members FROM activities WHERE id = :id";
+        $query = $database->prepare($sql);
+        $query->execute(array(":id"=>$id));
+
+        $result_max_members = $query->fetch();
+
+        $result = $result_max_members->max_members - ($result_signup->count + $result_quest->count);
+
+        if ($result <= 0):
+            $result = "Vol/Wachtlijst";
+        endif;
+
+        return $result;
+    }
+
+
     public static function get_active_activities(){
     	$active_activities = DB::table('activities')->where('status', 2)->get();
     	return $active_activities;
@@ -98,7 +133,10 @@ class Activities extends Model
     }
 
     public static function get_activitie_signup($activity_id){
-    	$get_activitie_signup = DB::table('activities_signup')->where('activity_id', $activity_id)->get();
+        $get_activitie_signup = DB::table('activities_signup')
+                ->join('activities', 'activity_id', '=', 'activities.id')
+                ->join('members', 'member_id', '=', 'members.id')
+                ->get();
     	return $get_activitie_signup;
     }
 

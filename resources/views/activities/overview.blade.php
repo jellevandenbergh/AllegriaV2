@@ -61,7 +61,18 @@
                             <td id="confirmYesRemember" class="link-yes">Herinnerings email <i class="fa"></i></td>
                         </tr>
                     </thead>
-                    <tbody id="tbodyconfirmYes"></tbody>
+                    <tbody id="tbodyconfirmYes">
+                        <tr>
+                            <td>{{ $activeactivitie->firstname }}</td>
+                            <td>{{ $activeactivitie->lastname }}</td>
+                            <td>{{ $activeactivitie->email }}</td>
+                            <td>{{ $activeactivitie->intros }}</td>
+                            <td>{{ $activeactivitie->total_price }}</td>
+                            <td>{{ $activeactivitie->paid }}</td>
+                            <td>{{ $activeactivitie->datetime_signup }}</td>
+                            <td>{{ $activeactivitie->remembersent }}</td>
+                        </tr>
+                    </tbody>
                 </table>
                 <h3>Geen bevestiging:</h3>
                 <table class="table activities-signout single">
@@ -78,7 +89,10 @@
                             <td id="confirmNoRemember" class="link-no">Herinnerings email <i class="fa"></i></td>
                         </tr>
                     </thead>
-                    <tbody id="tbodyconfirmNo"></tbody>
+                    <tbody id="tbodyconfirmNo">
+                        
+
+                    </tbody>
                 </table>
 
 

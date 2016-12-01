@@ -46,7 +46,31 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public static function get_fullname(){
+        $user_id = Auth::user()->id;
+        $get_member = User::get_member();
 
+        foreach($get_member as $member){
+            $firstname = $member->firstname;
+            $lastname = $member->lastname;
+            $insertion = $member->insertion;
+        }
+
+        if(empty($insertion)){
+            $fullname = "" .$firstname. " " .$lastname. "";
+        }
+        else{
+            $fullname = "" .$firstname. " " .$insertion. " " .$lastname. "";
+        }
+       
+        return $fullname;
+    }   
+
+    public static function get_user(){
+       $user_id = Auth::user()->id;
+       $get_user = DB::table('users')->where('id', $user_id)->get();
+       return $get_user;
+    } 
 
     public static function get_member(){
         $user_id = Auth::user()->id;
@@ -70,6 +94,19 @@ class User extends Authenticatable
         }
 
         return $member_id;
+    }
+
+    public static function edit_account(){
+        $user_id = Auth::user()->id;
+        DB::table('members')->where('user_id', $user_id)->update([
+            'housenumber' => $_POST['housenumber'],
+            'zipcode' => $_POST['zipcode'],
+            'place' => $_POST['place'],
+            'location_building' => $_POST['location_building'],
+            'location_floor' => $_POST['location_floor'],
+            'phonenumber' => $_POST['phonenumber'],
+      ]);
+
     }
     
 }
