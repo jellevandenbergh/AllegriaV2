@@ -4,6 +4,8 @@ namespace App;
 
 use DB;
 
+use Session;
+
 use Auth;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -97,16 +99,26 @@ class User extends Authenticatable
     }
 
     public static function edit_account(){
-        $user_id = Auth::user()->id;
-        DB::table('members')->where('user_id', $user_id)->update([
-            'housenumber' => $_POST['housenumber'],
-            'zipcode' => $_POST['zipcode'],
-            'place' => $_POST['place'],
-            'location_building' => $_POST['location_building'],
-            'location_floor' => $_POST['location_floor'],
-            'phonenumber' => $_POST['phonenumber'],
-      ]);
 
-    }
-    
+        $user_id = Auth::user()->id;
+        if (preg_match("/^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i", $_POST['zipcode'])){
+            Session::flash('feedback_error', 'Vul een geldig postcode in');
+        }
+        else{
+            $query = DB::table('members')->where('user_id', $user_id)->update([
+                'housenumber' => $_POST['housenumber'],
+                'zipcode' => $_POST['zipcode'],
+                'place' => $_POST['place'],
+                'location_building' => $_POST['location_building'],
+                'location_floor' => $_POST['location_floor'],
+                'phonenumber' => $_POST['phonenumber'],
+            ]);
+            if(count($query) == 1){
+                Session::flash('feedback_error', 'Gegevens zijn gewijzigd!');
+            }
+            else{
+                Session::flash('feedback_error', 'Er is iets mis gegaan');
+            }
+        }
+    } 
 }

@@ -31,7 +31,7 @@
                         <td>Tussenvoegsel</td>
                         <td>{{ $member->insertion }}</td>
                         <td>Huisnummer</td>
-                        <td><input type="text" name="housenumber" value="{{ $member->housenumber }}"></td>
+                        <td><input type="text" name="housenumber" value="{{ $member->housenumber }}" maxlength="10"></td>
                         <td>Gebouw</td>
                         <td><input type="text" name="location_building" value="{{ $member->location_building }}"></td>
                     </tr>
@@ -39,7 +39,7 @@
                         <td>Voornaam</td>
                         <td>{{ $member->firstname }}</td>
                         <td>Postcode</td>
-                        <td><input type="text" name="zipcode" value="{{ $member->zipcode }}"></td>
+                        <td><input type="text" name="zipcode" value="{{ $member->zipcode }}" maxlength="6"></td>
                         <td>Lokaal</td>
                         <td><input type="text" name="location_floor" value="{{ $member->location_floor }}"></td>
                     </tr>

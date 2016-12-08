@@ -29,6 +29,7 @@ class AccountController extends Controller
         foreach($get_user as $user){
             $user_email = $user->email;
         }
+
         return view('account.edit', compact('get_member','fullname','user_email'));
     }
 

@@ -48,31 +48,7 @@
 
                 <h3>Bevestiging:</h3>
                 <table class="table activities-signout single">
-                    <thead id="theadconfirmYes">
-                        <tr>
-                            <td><label><i class="fa fa-check" id="select-all-confirm-yes"></i></label></td>
-                            <td id="confirmYesFirstname" class="link-yes">Voornaam <i class="fa"></i></td>
-                            <td id="confirmYeslastname" class="link-yes">Achternaam <i class="fa"></i></td>
-                            <td id="confirmYesEmail" class="link-yes">Email <i class="fa"></i></td>
-                            <td id="confirmYesQuests" class="link-yes">Aantal intro's <i class="fa"></i></td>
-                            <td id="confirmYesAmount" class="link-yes">Totaal bedrag <i class="fa"></i></td>
-                            <td id="confirmYesPaid" class="link-yes">Betaald <i class="fa"></i></td>
-                            <td id="confirmYesSignup" class="link-yes">Datum aanmelding <i class="fa fa-caret-down"></i></td>
-                            <td id="confirmYesRemember" class="link-yes">Herinnerings email <i class="fa"></i></td>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyconfirmYes">
-                        <tr>
-                            <td>{{ $activeactivitie->firstname }}</td>
-                            <td>{{ $activeactivitie->lastname }}</td>
-                            <td>{{ $activeactivitie->email }}</td>
-                            <td>{{ $activeactivitie->intros }}</td>
-                            <td>{{ $activeactivitie->total_price }}</td>
-                            <td>{{ $activeactivitie->paid }}</td>
-                            <td>{{ $activeactivitie->datetime_signup }}</td>
-                            <td>{{ $activeactivitie->remembersent }}</td>
-                        </tr>
-                    </tbody>
+                    <p>Geen bestevestigde aanmeldingen gevonden</p>
                 </table>
                 <h3>Geen bevestiging:</h3>
                 <table class="table activities-signout single">
@@ -89,15 +65,23 @@
                             <td id="confirmNoRemember" class="link-no">Herinnerings email <i class="fa"></i></td>
                         </tr>
                     </thead>
+                    @foreach($get_activitie_signup as $activeactivitie)
                     <tbody id="tbodyconfirmNo">
-                        
-
+                         <tr>
+                            <td colspan="1"></td>
+                            <td>{{ $activeactivitie->firstname }}</td>
+                            <td>{{ $activeactivitie->lastname }}</td>
+                            <td>{{ $activeactivitie->email }}</td>
+                            <td>0</td>
+                            <td>Total_price</td>
+                            <td>{{ $activeactivitie->paid }}</td>
+                            <td>{{ $activeactivitie->datetime_signup }}</td>
+                            <td>{{ $activeactivitie->remembersent }}</td>
+                        </tr>
                     </tbody>
+                    @endforeach
                 </table>
-
-
                 <ul class="action-menu">
-
                     <li>
                         <a class="allegriabutton" id="mail">Verstuur mail <i class="fa fa-caret-down"></i></a>
                         <ul class="display-none action-sub" id="action-mail">

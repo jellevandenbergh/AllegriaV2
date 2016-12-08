@@ -19,6 +19,7 @@ class ActivitiesController extends Controller
     	$active_activities = Activities::get_active_activities();
     	$all_activities = Activities::get_all_activities();
         $signed_up_activities = Activities::get_signed_up_activities();
+        
         return view('activities.index', compact('active_activities','all_activities','signed_up_activities'));
     }
 
@@ -30,6 +31,7 @@ class ActivitiesController extends Controller
     public function addACTION()
     {
     	$feedback = Activities::addAction();
+
     	return redirect('activities');
     }
 
@@ -38,6 +40,7 @@ class ActivitiesController extends Controller
     {
     	$get_activitie = Activities::get_activitie_by_id($activity_id);
     	$get_activitie_signup = Activities::get_activitie_signup($activity_id);
+
     	return view('activities.overview', compact('get_activitie','get_activitie_signup'));
     }
 
@@ -46,6 +49,7 @@ class ActivitiesController extends Controller
     {
     	$get_activitie = Activities::get_activitie_by_id($activity_id);
     	$get_member = User::get_member();
+
     	return view('activities.signup', compact('get_activitie','get_member','activity_id'));
     }
 
