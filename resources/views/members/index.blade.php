@@ -2,7 +2,7 @@
 
 @include('layouts.header')
 <div class="container">
-    <h1>Leden overzicht <!--<i id="waiting" class="fa fa-spinner fa-spin"></i>-->
+    <h1>Leden overzicht</h1> <!--<i id="waiting" class="fa fa-spinner fa-spin"></i>-->
         <ul class="action-top">
 @if(Auth::user()->user_account_type > 3)
             <li><a href="members/add" class="allegriabutton"><i class="fa fa-plus"></i> Lid toevoegen</a></li>
@@ -14,7 +14,6 @@
     <div class="box">
 
         @include('layouts.feedback')
-
         <table class="table activities three">
             <thead>
             <tr>

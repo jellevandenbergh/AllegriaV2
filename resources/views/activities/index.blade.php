@@ -174,7 +174,7 @@
                                 </tr>
                                 <tr>
                                     <td>Beschikbare plekken</td>
-                                    <td>{{ $all_activitie->free_places }}</td>
+                                    <td></td>
                                     <td colspan="4" rowspan="2"></td>
                                 </tr>
                             </table>

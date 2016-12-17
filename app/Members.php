@@ -132,20 +132,20 @@ class Members extends Model
             DB::table('users')->where('id', $new_user->id)->delete();
             exit;
         }
-
-
-        // send mail
-        /*8mail::send('email.test',['name' => 'Lucas'], function($message)
-        {
-            $message->to('Lucasderoo16@hotmail.com','Lucas')->subject('Test');
-
-        });*/
-
         $server = ($_SERVER["SERVER_NAME"]);
         // create signup url
         $activationlink =  $server .'/AllegriaV2/public/account/newuser/'.$token;
+        $fullname = Members::get_fullname_by_id($new_member->id);
 
-        Session::flash('feedback_success', 'Lid toegevoegd! De link voor activeren is: '.$activationlink.'');
+        // send mail
+        mail::send('email.newmember',compact('fullname','activationlink'), function($message)
+        {
+            $message->to($_POST['email'], 'Allegria')->subject('Account activeren');
+
+        });
+
+
+        Session::flash('feedback_success', 'Lid toegevoegd!');
         
 
         // end send mail
@@ -200,6 +200,11 @@ class Members extends Model
         return true;
         
         // send mail
+        mail::send('email.forgotpassword',compact('activationlink'), function($message)
+        {
+            $message->to($_POST['email'], 'Allegria')->subject('Paswoord vergeten');
+
+        });
         // end send mail
     }
 
@@ -273,7 +278,7 @@ class Members extends Model
         }
         $query = DB::table('users')->where('user_activation_hash', $token)->update([
             'password' => bcrypt($_POST['password_new']),
-            'user_activation_hash' => '',
+            'user_activation_hash' => 'NULL',
             'user_activated' => 2,
         ]);
         Session::flash('feedback_success', 'Wachtwoord opgeslagen, Log nu hier in');

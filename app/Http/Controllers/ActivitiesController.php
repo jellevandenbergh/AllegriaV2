@@ -68,10 +68,14 @@ class ActivitiesController extends Controller
     {
         // get activity by id
     	$get_activitie = Activities::get_activitie_by_id($activity_id);
+        // get activity name
+        $get_activitie_name = Activities::get_activity_name($activity_id);
         // get member
     	$get_member = User::get_member();
+        // get fullname of user
+        $fullname = User::get_fullname();
         // return activities signup view
-    	return view('activities.signup', compact('get_activitie','get_member','activity_id'));
+    	return view('activities.signup', compact('get_activitie','get_member','activity_id','get_activitie_name','fullname'));
     }
     public function signupACTION($activity_id)
     {

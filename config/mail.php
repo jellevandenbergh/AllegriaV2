@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => 'sendmail',
+    'driver' => 'smtp',
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 587),
+    'port' => env('MAIL_PORT', 465),
 
     /*
     |--------------------------------------------------------------------------
@@ -57,7 +57,7 @@ return [
 
     'from' => [
         'address' => 'lucideroo2@gmail.com',
-        'name' => 'Lucastest',
+        'name' => 'Allegria - Test',
     ],
 
     /*
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
 
     /*
     |--------------------------------------------------------------------------
@@ -97,7 +97,7 @@ return [
     |
     */
 
-    'password' => env('MAIL_PASSWORD', 'ma2210-ni0807'),
+    'password' => env('MAIL_PASSWORD', 'ekugbzzrarnyvyhc'),
 
     /*
     |--------------------------------------------------------------------------

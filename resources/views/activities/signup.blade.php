@@ -1,9 +1,8 @@
 @include('layouts.header')
 <div class="container">
+    <h1>{{ $get_activitie_name }}</h1>
     <div class="box">
-
-        <!-- echo out the system feedback (error and success messages) -->
-
+        @include('layouts.feedback')
    
             <form method="post" action="{{$activity_id}}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -24,7 +23,7 @@
                         <td>Max introducés</td>
                         <td>{{ $activitie->max_intros }}</td>
                         <td>Vrije plekken</td>
-                        <td>{{ $activitie->free_places }}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>Datum activiteit</td>
@@ -57,7 +56,7 @@
                     @foreach($get_member as $member)
                         <tr>
                             <td>Naam</td>
-                            <td></td>
+                            <td>{{ $fullname }}</td>
                             <td>Aantal introducés</td>
                             <td></td>
                         </tr>

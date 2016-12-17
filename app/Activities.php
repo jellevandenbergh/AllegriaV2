@@ -29,6 +29,12 @@ class Activities extends Model
         'max_reserves',
     ];
 
+    public static function get_activity_name($activity_id){
+        // get all active activities
+        $get_activitie_name = DB::table('activities')->where('id', $activity_id)->value('name');
+        // return active activites to controller
+        return $get_activitie_name;
+    }
 
     public static function get_active_activities(){
         // get all active activities
@@ -57,9 +63,9 @@ class Activities extends Model
     }
 
     public static function addACTION(){
-        // put comma in price members
+        // put . in price members
     	$_POST['price_members'] = str_replace(array(',', '.'), '',$_POST['price_members']);
-        // put comma in price intro's
+        // put . in price intro's
         $_POST['price_intros'] = str_replace(array(',', '.'), '',$_POST['price_intros']);
 
         // check if max intro's = 0 if so, price intro' is also 0
@@ -118,6 +124,7 @@ class Activities extends Model
     public static function get_activitie_by_id($activity_id){
         // get activity by id
 	    $get_activitie = DB::table('activities')->where('id', $activity_id)->get();
+
         // return activity to controller
         return $get_activitie;
     }
