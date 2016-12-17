@@ -13,29 +13,43 @@ class AccountController extends Controller
 {
     public function index()
     {
+        // get fullname
     	$fullname = User::get_fullname();
-    	$id = Auth::user()->id;
-    	$members = DB::table('members')->where('user_id', $id)->get();
-
-        return view('account.index', compact('members','fullname'));
+        // get member
+    	$get_member = User::get_member();
+        // return account index view
+        return view('account.index', compact('get_member','fullname'));
     }
-
 
     public function edit_account()
     {
+        // get member
     	$get_member = User::get_member();
+        // get fullname
         $fullname = User::get_fullname();
-        $get_user = User::get_user();
-        foreach($get_user as $user){
-            $user_email = $user->email;
-        }
-
+        // get user id
+        $id = Auth::user()->id;
+        // get user email
+        $user_email = DB::table('users')->where('id', $id)
+        ->value('email');
+        // return account edit view
         return view('account.edit', compact('get_member','fullname','user_email'));
     }
-
     public function edit_accountACTION()
     {
-        $data = User::edit_account();
+        // call model to handle request
+        User::edit_account();
+        // return account view
         return redirect('account');
+    }
+
+    public function editpassword()
+    {
+        return view('account.resetpassword');
+    }
+    public function editpasswordACTION()
+    {
+       User::edit_password();
+       return redirect('account');
     }
 }

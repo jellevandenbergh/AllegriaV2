@@ -5,7 +5,7 @@
     <h1></h1>
     <span class="clear"></span>
     <div class="box">
-        <!-- echo out the system feedback (error and success messages) -->
+        @include('layouts.feedback')
             <table class="table activities-signup single">
                 <thead>
                     <tr>

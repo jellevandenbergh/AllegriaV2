@@ -6,7 +6,8 @@
         <img src="http://localhost/AllegriaV2/public/avatars/default.jpg">
     </div>
     <div class="box">
-        <?php if ($members == "[]") : ?>
+    @include('layouts.feedback')
+        <?php if ($get_member == "[]") : ?>
             <p style="color:red">Geen gegevens gevonden</p>
         <?php else : ?>
   
@@ -20,7 +21,7 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach ($members as $member)
+            @foreach ($get_member as $member)
                 <tr>
                     <td>Achternaam</td>
                     <td>{{ $member->lastname }}</td>

@@ -7,7 +7,7 @@
             <p><img src=""></p>
             <p><a href="">Foto bewerken</a></p>
         </div>
-        <form method="post" action="edit" class="allegriaform">
+        <form method="post" action="" class="allegriaform">
          <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="id" value="">
             <table class="table account single">
@@ -57,17 +57,22 @@
                         <td>{{ $member->salutation }}</td>
                         <td colspan="2"></td>
                         <td>Email:</td>
-                        <td>{{ $user_email }}</td>
+                        <td>{{ $member->email }}</td>
                     </tr>
                     <tr>
                         <td>Geboortedatum</td>
                         <td>{{ $member->birthday }}</td>
-                        <td colspan="4"></td>
+                        <td colspan="2"></td>
+                        <td>Geverifieerd</td>
+                        <td><?php echo($member->user_activated < 2 ? 'Nee' : 'Ja') ?></td>
                     </tr>
                     <tr>
                         <td>Telefoonnummer</td>
                         <td><input type="text" name="phonenumber" value="{{ $member->phonenumber }}"></td>
-                        <td colspan="4"></td>
+                        <td colspan="3"></td>
+@if($member->user_activated == 1)
+                        <td><a href="http://localhost/AllegriaV2/public/members/sendverification/{{$member_id}}" class="allegriabutton" type="submit"><i class="fa fa-mail-forward"></i> Stuur verivicatielink</a></td>
+@endif
                     </tr>
                     </tbody>
                     @endforeach

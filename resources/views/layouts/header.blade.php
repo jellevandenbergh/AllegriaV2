@@ -34,7 +34,7 @@
                     <a href="http://localhost/AllegriaV2/public/activities">Activiteiten</a>
                 </li>
                 <li>
-                    <a href="#">Leden</a>
+                    <a href="http://localhost/AllegriaV2/public/members">Leden</a>
                 </li>
             @endif
             </ul>
@@ -42,8 +42,22 @@
             <ul class="navigation2right">
             @if($user = Auth::guest())
             @else
+                <li class="loggedin">
+                    Ingelogd als: <strong>
+                    @if(auth::user()->user_account_type == 1)
+                    (Lid)
+                    @elseif(auth::user()->user_account_type == 2)
+                    (Bestuur)
+                    @elseif(auth::user()->user_account_type == 3)
+                    (Admin)
+                    @elseif(auth::user()->user_account_type == 4)
+                    (Super Admin)
+                    @endif
+                    </strong>
+                </li>
+
                 <li>
-                    <a href="logout">Uitloggen</a>
+                    <a href="http://localhost/AllegriaV2/public/logout">Uitloggen</a>
                 </li>
             
             @endif

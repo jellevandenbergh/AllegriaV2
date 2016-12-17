@@ -13,8 +13,7 @@
     <h1>Activiteiten toevoegen</h1>
     <span class="clear"></span>
     <div class="box">
-
-        <!-- echo out the system feedback (error and success messages) -->
+    @include('layouts.feedback')
         <form class="form-horizontal" role="form" method="POST" action="{{ url('http://localhost/AllegriaV2/public/activities/add') }}">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <table class="table activities-signup single">
