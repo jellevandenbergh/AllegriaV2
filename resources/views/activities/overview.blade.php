@@ -47,10 +47,9 @@
             <form method="post" action="{{ url('/overview') }}" class="allegriaform">
 
                 <h3>Bevestiging:</h3>
-                <table class="table activities-signout single">
-                    <p>Geen bestevestigde aanmeldingen gevonden</p>
-                </table>
-                <h3>Geen bevestiging:</h3>
+                @if(empty($get_activitie_signup_confirmed))
+                <p>Geen bevestigingen gevonden</p>
+                @else
                 <table class="table activities-signout single">
                     <thead id="theadconfirmNo">
                         <tr>
@@ -65,22 +64,58 @@
                             <td id="confirmNoRemember" class="link-no">Herinnerings email <i class="fa"></i></td>
                         </tr>
                     </thead>
-                    @foreach($get_activitie_signup as $activeactivitie)
+                    @foreach($get_activitie_signup_confirmed as $confirmed)
                     <tbody id="tbodyconfirmNo">
                          <tr>
                             <td colspan="1"></td>
-                            <td>{{ $activeactivitie->firstname }}</td>
-                            <td>{{ $activeactivitie->lastname }}</td>
-                            <td>{{ $activeactivitie->email }}</td>
+                            <td>{{ $confirmed->firstname }}</td>
+                            <td>{{ $confirmed->lastname }}</td>
+                            <td>{{ $confirmed->email }}</td>
                             <td>0</td>
                             <td>Total_price</td>
-                            <td>{{ $activeactivitie->paid }}</td>
-                            <td>{{ $activeactivitie->datetime_signup }}</td>
-                            <td>{{ $activeactivitie->remembersent }}</td>
+                            <td>{{ $confirmed->paid }}</td>
+                            <td>{{ $confirmed->datetime_signup }}</td>
+                            <td>{{ $confirmed->remembersent }}</td>
                         </tr>
                     </tbody>
                     @endforeach
                 </table>
+                @endif
+                <h3>Geen bevestiging:</h3>
+                @if(empty($get_activitie_signup_not_confirmed))
+                <p>Geen niet-bevestigingen gevonden</p>
+                @else
+                <table class="table activities-signout single">
+                    <thead id="theadconfirmNo">
+                        <tr>
+                            <td><label><i class="fa fa-check" id="select-all-confirm-no"></i></label></td>
+                            <td id="confirmNoFirstname" class="link-no">Voornaam <i class="fa"></i></td>
+                            <td id="confirmNolastname" class="link-no">Achternaam <i class="fa"></i></td>
+                            <td id="confirmNoEmail" class="link-no">Email <i class="fa"></i></td>
+                            <td id="confirmNoQuests" class="link-no">Aantal intro's <i class="fa"></i></td>
+                            <td id="confirmNoAmount" class="link-no">Totaal bedrag <i class="fa"></i></td>
+                            <td id="confirmNoPaid" class="link-no">Betaald <i class="fa"></i></td>
+                            <td id="confirmNoSignup" class="link-no">Datum aanmelding <i class="fa fa-caret-down"></i></td>
+                            <td id="confirmNoRemember" class="link-no">Herinnerings email <i class="fa"></i></td>
+                        </tr>
+                    </thead>
+                    @foreach($get_activitie_signup_not_confirmed as $not_confirmed)
+                    <tbody id="tbodyconfirmNo">
+                         <tr>
+                            <td colspan="1"></td>
+                            <td>{{ $not_confirmed->firstname }}</td>
+                            <td>{{ $not_confirmed->lastname }}</td>
+                            <td>{{ $not_confirmed->email }}</td>
+                            <td>0</td>
+                            <td>Total_price</td>
+                            <td>{{ $not_confirmed->paid }}</td>
+                            <td>{{ $not_confirmed->datetime_signup }}</td>
+                            <td>{{ $not_confirmed->remembersent }}</td>
+                        </tr>
+                    </tbody>
+                    @endforeach
+                </table>
+                @endif
                 <ul class="action-menu">
                     <li>
                         <a class="allegriabutton" id="mail">Verstuur mail <i class="fa fa-caret-down"></i></a>

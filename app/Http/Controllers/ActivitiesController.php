@@ -58,9 +58,11 @@ class ActivitiesController extends Controller
         // get activity by id
     	$get_activitie = Activities::get_activitie_by_id($activity_id);
         // get members signed up for activitie by activity id
-    	$get_activitie_signup = Activities::get_activitie_signup($activity_id);
+    	$get_activitie_signup_confirmed = Activities::get_activitie_signup_confirmed($activity_id);
+        // get members signed up for activitie but not confirmed
+        $get_activitie_signup_not_confirmed = Activities::get_activitie_signup_not_confirmed($activity_id);
         // return activities overview view
-    	return view('activities.overview', compact('get_activitie','get_activitie_signup'));
+    	return view('activities.overview', compact('get_activitie','get_activitie_signup_confirmed','get_activitie_signup_not_confirmed'));
     }
 
 
@@ -70,19 +72,25 @@ class ActivitiesController extends Controller
     	$get_activitie = Activities::get_activitie_by_id($activity_id);
         // get activity name
         $get_activitie_name = Activities::get_activity_name($activity_id);
-        // get member
+        // get max intros
+        $get_max_intros = ActivitiesSignup::get_max_intros($activity_id);
+        // get price members
+        $get_price_members = ActivitiesSignup::get_price_members($activity_id);
+        // get price intros
+        $get_price_intros = ActivitiesSignup::get_price_intros($activity_id);
+         // get member
     	$get_member = User::get_member();
         // get fullname of user
         $fullname = User::get_fullname();
         // return activities signup view
-    	return view('activities.signup', compact('get_activitie','get_member','activity_id','get_activitie_name','fullname'));
+    	return view('activities.signup', compact('get_activitie','get_member','activity_id','get_activitie_name','fullname','get_max_intros','get_price_members','get_price_intros'));
     }
     public function signupACTION($activity_id)
     {
         // check if terms and conditions is checked
         if ($_POST['agree'] == "on"){
             // call model to handle request
-    	   ActivitiesSignup::signupACTION($activity_id);
+    	   ActivitiesSignup::signup($activity_id);
         }
         else{
             // if terms and conditions is not checked add error message to session
@@ -90,6 +98,12 @@ class ActivitiesController extends Controller
         }
         // return activities view
         return redirect('activities'); 
+    }
+
+    public function confirmsignupACTION($token)
+    {
+        ActivitiesSignup::confirmsignup($token);
+        return redirect('activities');
     }
 }
 

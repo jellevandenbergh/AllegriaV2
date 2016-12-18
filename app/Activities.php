@@ -129,16 +129,29 @@ class Activities extends Model
         return $get_activitie;
     }
 
-    public static function get_activitie_signup($activity_id){
+    public static function get_activitie_signup_confirmed($activity_id){
         // get activity signup
         $get_activitie_signup = DB::table('activities_signup')
-                ->join('activities', 'activity_id', '=', 'activities.id')
                 ->join('members', 'member_id', '=', 'members.id')
                 ->join('users', 'members.user_id', '=', 'users.id')
-                ->where('activities.id',$activity_id)
+                ->where('activity_id', $activity_id)
+                ->where('confirmation', 2)
                 ->get();
         // return activity signup to controller  
     	return $get_activitie_signup;
     }
+
+    public static function get_activitie_signup_not_confirmed($activity_id){
+        // get activity signup
+        $get_activitie_signup = DB::table('activities_signup')
+                ->join('members', 'member_id', '=', 'members.id')
+                ->join('users', 'members.user_id', '=', 'users.id')
+                ->where('activity_id', $activity_id)
+                ->where('confirmation', 1)
+                ->get();
+        // return activity signup to controller  
+        return $get_activitie_signup;
+    }
+
   
-}
+}   

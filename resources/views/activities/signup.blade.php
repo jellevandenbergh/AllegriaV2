@@ -58,7 +58,11 @@
                             <td>Naam</td>
                             <td>{{ $fullname }}</td>
                             <td>Aantal introducés</td>
-                            <td></td>
+                            <td>
+<?php for ($i=0; $i <= $get_max_intros; $i++) { ?>
+                            <input type="radio" id="intros-<?=$i?>" name="max_intros" value="<?=$i?>" <?= (($i==0)?"checked":"")?>><label for="intros-<?=$i?>"><?=$i?></label><?= (($i==5)?"<br>":"")?>
+<?php } ?>       
+                            </td>
                         </tr>
                         <tr>
                             <td>Geboortedatum</td>
@@ -79,7 +83,7 @@
                     @endforeach
                 </table>
 
-                <div id="divintros" class="display-none">
+                 <div id="divintros" class="display-none">
                     <div class="hr"></div>
                     <h3>Introducés:</h3>
                     <table id="tableintros" class="table activities-signup single">
@@ -103,7 +107,6 @@
             <p><a href="" class="allegriabutton"><i class="fa fa-arrow-left"></i> Terug</a></p>
     </div>
 </div>
-
 <script>
     $(function(){
         $("input[name=max_intros]").change(function () {
@@ -119,8 +122,8 @@
 
     function calculatePrice()
     {
-        var memberPrice = ;
-        var introsPrice = ;
+        var memberPrice = <?=$get_price_members ?>;
+        var introsPrice = <?=$get_price_intros ?>;
         var introsCount = $("input[name=max_intros]:checked").val();
         var totalPrice = (memberPrice + (introsPrice * introsCount));
         $("#price").text("€"+(totalPrice/100).toFixed(2).toString().replace(".", ","));

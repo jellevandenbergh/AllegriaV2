@@ -88,7 +88,7 @@
                     <tr id="dataA{{ $signed_up_activitie->id }}" class="dataA link">
                         <td>{{ $signed_up_activitie->name }}</td>
                         <td>{{ $signed_up_activitie->date }}</td>
-                        <td>{{ $signed_up_activitie->free_places }}</td>
+                        <td></td>
                         <td class="center"><a href="<?= Config::get('URL') . 'activities/quest/' . $signed_up_activitie->id; ?>"><i class="fa fa-plus-square"></i></i></a></td>
                         <td class="center"><a href="<?= Config::get('URL') . 'activities/signout/' . $signed_up_activitie->id; ?>"><i class="fa fa-sign-out"></i></a></td>
                     </tr>

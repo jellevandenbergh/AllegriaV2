@@ -37,6 +37,7 @@ Route::get('/activities/delete/{activity_id}', ['uses' => 'ActivitiesController@
 Route::get('/activities/overview/{activity_id}', ['uses' => 'ActivitiesController@overview', 'middleware' => 'lid']);
 Route::get('/activities/signup/{activity_id}', ['uses' => 'ActivitiesController@signup', 'middleware' => 'lid']);
 Route::post('/activities/signup/{activity_id}', ['uses' => 'ActivitiesController@signupACTION', 'middleware' => 'lid']);
+Route::get('/activities/confirmsignup/{token}', ['uses' => 'ActivitiesController@confirmsignupACTION', 'middleware' => 'lid']);
 /* END ACTIVITIES ROUTES */
 
 /* MEMBERS ROUTES */

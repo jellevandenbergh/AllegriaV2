@@ -170,13 +170,17 @@ class Members extends Model
     }
     public static function forgot_password(){
 
-        $check_email = DB::table('users')->where('email', $_POST['email'])->value('user_password_reset_timestamp');
+        $check_email = DB::table('users')->where('email', $_POST['email'])->get();
         if (!count($check_email) ==  1) {
             Session::flash('feedback_error', 'Email niet gevonden!');
             return false;
         }
 
-        $timestamp = time() - (int)$check_email;
+        foreach($check_email as $check){
+            $user_password_reset_timestamp = $check->user_password_reset_timestamp;
+        }
+
+        $timestamp = time() - (int)$user_password_reset_timestamp;
 
         $time_left = 300 - $timestamp;
 
@@ -195,9 +199,6 @@ class Members extends Model
         $server = ($_SERVER["SERVER_NAME"]);
 
         $activationlink =  $server .'/AllegriaV2/public/forgotpassword/'.$token;
-
-        Session::flash('feedback_success', 'Link voor password reset is:'.$activationlink.'');
-        return true;
         
         // send mail
         mail::send('email.forgotpassword',compact('activationlink'), function($message)
@@ -206,6 +207,8 @@ class Members extends Model
 
         });
         // end send mail
+        Session::flash('feedback_success', 'Er is een email gestuurd om uw wachtwoord opnieuw in te stellen');
+        return true;
     }
 
     public static function reset_password_by_token($token){
@@ -278,7 +281,7 @@ class Members extends Model
         }
         $query = DB::table('users')->where('user_activation_hash', $token)->update([
             'password' => bcrypt($_POST['password_new']),
-            'user_activation_hash' => 'NULL',
+            'user_activation_hash' => NULL,
             'user_activated' => 2,
         ]);
         Session::flash('feedback_success', 'Wachtwoord opgeslagen, Log nu hier in');
