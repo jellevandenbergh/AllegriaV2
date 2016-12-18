@@ -5,6 +5,7 @@ namespace App;
 use DB;
 
 use Session;
+use Auth;
 
 use App\User;
 use Mail;
@@ -68,6 +69,20 @@ class Members extends Model
             ->join('members', 'users.id', '=', 'members.user_id')
             ->get();
 
+        foreach ($members as $member) {
+            if($member->user_account_type == 1){
+                $member->user_account_type = 'lid';
+            }
+            elseif($member->user_account_type == 2){
+                $member->user_account_type = 'bestuur';
+            }
+            elseif($member->user_account_type == 3){
+                $member->user_account_type = 'admin';
+            }
+            elseif($member->user_account_type == 4){
+                $member->user_account_type = 'super admin';
+            }
+        }
         return $members;
     }
 

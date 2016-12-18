@@ -41,7 +41,8 @@ Route::get('/activities/confirmsignup/{token}', ['uses' => 'ActivitiesController
 /* END ACTIVITIES ROUTES */
 
 /* MEMBERS ROUTES */
-Route::get('members', 'MembersController@index');
+Route::get('members', ['uses' => 'MembersController@index', 'middleware' => 'admin']);
+Route::get('members/getmembers', ['uses' => 'MembersController@getmembers', 'middleware' => 'admin']);
 Route::get('members/edit/{member_id}', ['uses' => 'MembersController@edit', 'middleware' => 'admin']);
 Route::post('members/edit/{member_id}', ['uses' => 'MembersController@editACTION', 'middleware' => 'admin']);
 Route::get('members/delete/{member_id}', ['uses' => 'MembersController@delete', 'middleware' => 'admin']);

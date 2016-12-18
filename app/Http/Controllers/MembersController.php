@@ -19,6 +19,10 @@ class MembersController extends Controller
         return view('members.index', compact('members'));
     }
 
+    public function getmembers(){
+        $members = Members::get_all_members();
+        return json_encode($members);
+    }
     public function add()
     {
         return view('members.add');
