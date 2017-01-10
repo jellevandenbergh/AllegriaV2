@@ -46,6 +46,9 @@ class Activities extends Model
             if (strtotime($activity->max_signup_date) < time() - 86400) {
                $arr[] = $activity->id;
             }
+            else{
+                $arr[] = [];
+            }
         }
 
         foreach ($active_activities as $key => $obj) {
