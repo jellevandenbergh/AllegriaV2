@@ -1,10 +1,18 @@
 @include('layouts.header')
 <div class="container">
-    <h1><?=(($this->signup && $this->activity)?"Introducés voor: ".htmlentities($this->activity->name):"Activiteit niet gevonden")?></h1>
+    <h1><?=(empty($get_activity_by_id)?"Activiteit niet gevonden":"Introducés voor: ".$get_activity_name)?></h1>
     <div class="box">
     @include('layouts.feedback')
-        1<div class="feedback error"><strong>Deze activiteit zit vol! Opgeven is nog steeds mogelijk voor de wachtlijst.</strong></div>
-            <form method="post" action="<?php echo Config::get('URL');?>activities/questACTION">
+@if(empty($get_activity_by_id))
+<p class="red-text">Activiteit niet gevonden.</p>
+            <br>
+            <p><a href="activities" class="allegriabutton"><i class="fa fa-arrow-left"></i> Terug</a></p>
+@else
+<!--@if($intros_count >= $get_max_intros)
+<div class="feedback error"><strong>Deze activiteit zit vol! Opgeven is nog steeds mogelijk voor de wachtlijst.</strong></div>
+@endif-->
+            <form method="post" action="">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <h3>Informatie activiteit:</h3>
                 <table class="table activities-signup single">
                     <thead>
@@ -15,28 +23,30 @@
                         </tr>
                     </thead>
                     <tbody>
+                    @foreach($get_activity_by_id  as $activity)
                         <tr>
                             <td>Naam</td>
-                            <td><?= htmlentities($this->activity->name);?></td>
+                            <td>{{ $activity->name }}</td>
                             <td>Max introducés</td>
-                            <td><?= htmlentities($this->activity->max_intros)?></td>
+                            <td>{{ $activity->max_intros }}</td>
                             <td>Vrije plekken</td>
-                            <td><?= htmlentities($this->activity->freePlace)?></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>Datum activiteit</td>
-                            <td><?=Functions::formatDate($this->activity->date)?></td>
+                            <td>{{ $activity->date }}</td>
                             <td>Prijs per introducé</td>
-                            <td><?=Functions::formatPrice($this->activity->price_intros)?></td>
-                            <td colspan="2"><?= (($this->activity->comments)?"Opmerkingen":"Geen opmerkingen")?></td>
+                            <td>{{ $activity->price_intros }}</td>
+                            <td colspan="2"><?= (($activity->comments)?"Opmerkingen":"Geen opmerkingen")?></td>
                         </tr>
                         <tr>
                             <td>Uiterste inschrijfdatum</td>
-                            <td><?=Functions::formatDate($this->activity->max_signup_date)?></td>
+                            <td>{{ $activity->max_signup_date }}</td>
                             <td>Prijs per lid</td>
-                            <td><?=Functions::formatPrice($this->activity->price_members)?></td>
-                            <td colspan="2"><?= htmlentities($this->activity->comments);?></td>
+                            <td>{{ $activity->price_members }}</td>
+                            <td colspan="2">{{ $activity->comments }}</td>
                         </tr>
+                    @endforeach
                     </tbody>
                 </table>
 
@@ -53,44 +63,37 @@
                         </tr>
                     </thead>
                     <tbody>
-<?php if(isset($this->signup->intros)): foreach($this->signup->intros as $key => $value): ?>
+                    @foreach($get_intros_by_id as $intros)
                         <tr>
-                            <td><?=htmlentities($value->name)?></td>
-                            <td><?=htmlentities($value->birthday)?></td>
-                            <td><?=htmlentities($value->comments)?></td>
+                            <td>{{ $intros->name }}</td>
+                            <td>{{ $intros->birthday }}</td>
+                            <td>{{ $intros->comments }}</td>
                         </tr>
-<?php endforeach; endif; if($this->signup->count<$this->activity->max_intros): ?>
+                    @endforeach
                         <!-- <tr>
                             <td colspan="3"></td>
                         </tr> -->
-<?php for ($i=$this->signup->count; $i < $this->activity->max_intros; $i++): ?>
+                    <?php for ($i=$intros_count + 1; $i <= $get_max_intros; $i++){ ?>
                         <tr>
-                            <td><input type="text" class="intros" name="intro-<?=$i?>-name" placeholder="Naam"></td>
-                            <td><input type="date" name="intro-<?=$i?>-birthday" placeholder="dd-mm-jjjj"></td>
-                            <td><textarea name="intro-<?=$i?>-comments" placeholder="Niet verplicht"></textarea></td>
+                            <td><input type="text" class="intros" name="name-intro-<?=$i?>" placeholder="Naam"></td>
+                            <td><input type="date" name="birthday-intro-<?=$i?>" placeholder="dd-mm-jjjj"></td>
+                            <td><textarea name="comments-intro-<?=$i?>" placeholder="Niet verplicht"></textarea></td>
                         </tr>
-<?php endfor; endif; ?>
+                    <?php } ?>
                     </tbody>
                 </table>
-<?php if($this->signup->count>=$this->activity->max_intros): ?>
-                <p>Je kunt geen introducés meer toevoegen, omdat je het maximale aantal bereikt hebt van: <strong><?=htmlentities($this->activity->max_intros)?> introducés</strong>.</p>
+<?php if($intros_count >= $get_max_intros): ?>
+                <p>Je kunt geen introducés meer toevoegen, omdat je het maximale aantal bereikt hebt van: <strong>{{ $get_max_intros }} introducés</strong>.</p>
                 <div class="hr"></div>
-                <p><a href="<?php echo Config::get('URL');?>activities" class="allegriabutton"><i class="fa fa-arrow-left"></i> Terug</a> <a href="<?=Config::get('URL').'activities/signout/'.$this->activity->id?>" class="allegriabutton">Introducés uitschrijven <i class="fa fa-external-link"></i></a></p>
+                <p><a href="activities" class="allegriabutton"><i class="fa fa-arrow-left"></i> Terug</a> <a href="activities/signout/".$activity_id."" class="allegriabutton">Introducés uitschrijven <i class="fa fa-external-link"></i></a></p>
 <?php else: ?>
-                <div class="hr"></div>
 
-                <p>Totaal bedrag: <strong id="price"><?=Functions::formatPrice($this->activity->price_members+($this->activity->price_intros*$this->signup->count))?></strong></p>
-
-                <input type="hidden" name="activity_signup_id" value="<?=$this->signup->id?>"><input type="hidden" name="activity_id" value="<?=$this->activity->id?>"><input type="hidden" name="activity_signup_count" value="<?=$this->signup->count?>"><input type="hidden" name="activity_max_intros" value="<?=$this->activity->max_intros?>">
+                <p>Totaal bedrag: <strong id="price"></strong></p>
                 <p><input id="agree" name="agree" type="checkbox" required><label for="agree">Ik ga akkoord met het <a href="<?php echo Config::get('URL');?>download/reglement.pdf" target="_blank">reglement</a>.</label></p>
-                <p><input type="submit" name="submit" value="Opslaan"> <a href="<?php echo Config::get('URL');?>activities" class="allegriabutton">Annuleren</a> <a href="<?=Config::get('URL').'activities/signout/'.$this->activity->id?>" class="allegriabutton">Introducés uitschrijven <i class="fa fa-external-link"></i></a></p>
-<?php endif; ?>
+                <p><input type="submit" name="submit" value="Opslaan"> <a href="activities" class="allegriabutton">Annuleren</a> <a href="activities/signout/".$activity_id."" class="allegriabutton">Introducés uitschrijven <i class="fa fa-external-link"></i></a></p>
             </form>
-        <?php else: ?>
-            <p class="red-text">Activiteit niet gevonden.</p>
-            <br>
-            <p><a href="<?php echo Config::get('URL'); ?>activities" class="allegriabutton"><i class="fa fa-arrow-left"></i> Terug</a></p>
-        <?php endif; ?>
+<?php endif; ?>
+        @endif
     </div>
 </div>
 <script>
@@ -104,12 +107,11 @@
         });
         calculatePrice(count);
     });
-
     function calculatePrice(count)
     {
-        var memberPrice = <?=$this->activity->price_members?>;
-        var introsPrice = <?=$this->activity->price_intros?>;
-        var introsCount = <?=$this->signup->count?> + count;
+        var memberPrice = <?=$get_price_members ?>;
+        var introsPrice = <?=$get_price_intros ?>;
+        var introsCount = <?=$intros_count ?> + count;
         var totalPrice = (memberPrice + (introsPrice * introsCount));
         $("#price").text("€"+(totalPrice/100).toFixed(2).toString().replace(".", ","));
     }

@@ -109,7 +109,7 @@ class MembersController extends Controller
         if(!Members::new_user_set_new_password($token)){
             return view('account.resetpassword');
         }
-        return redirect('/login');
+        return redirect('login');
     }
 
     public function edit($member_id)

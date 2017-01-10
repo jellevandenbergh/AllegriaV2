@@ -153,14 +153,14 @@ class Members extends Model
         $fullname = Members::get_fullname_by_id($new_member->id);
 
         // send mail
-        mail::send('email.newmember',compact('fullname','activationlink'), function($message)
+        /*mail::send('email.newmember',compact('fullname','activationlink'), function($message)
         {
             $message->to($_POST['email'], 'Allegria')->subject('Account activeren');
 
-        });
+        });*/
 
 
-        Session::flash('feedback_success', 'Lid toegevoegd!');
+        Session::flash('feedback_success', 'Lid toegevoegd! Activeerlink is:'.$activationlink.'');
         
 
         // end send mail
@@ -183,6 +183,7 @@ class Members extends Model
         Session::flash('feedback_success', 'Lid verwijderd');
         return true;
     }
+
     public static function forgot_password(){
 
         $check_email = DB::table('users')->where('email', $_POST['email'])->get();
@@ -372,10 +373,12 @@ class Members extends Model
         if(count($query) == 1){
             // add succes message to session
             Session::flash('feedback_success', 'Gegevens zijn gewijzigd!');
+            return true;
         }
         else{
             // add error message to session
             Session::flash('feedback_error', 'Er is iets mis gegaan');
+            return false;
         }
 
     }

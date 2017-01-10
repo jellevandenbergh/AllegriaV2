@@ -37,37 +37,37 @@ Route::get('/activities/delete/{activity_id}', ['uses' => 'ActivitiesController@
 Route::get('/activities/overview/{activity_id}', ['uses' => 'ActivitiesController@overview', 'middleware' => 'lid']);
 Route::get('/activities/signup/{activity_id}', ['uses' => 'ActivitiesController@signup', 'middleware' => 'lid']);
 Route::post('/activities/signup/{activity_id}', ['uses' => 'ActivitiesController@signupACTION', 'middleware' => 'lid']);
-Route::get('/activities/confirmsignup/{token}', ['uses' => 'ActivitiesController@confirmsignupACTION', 'middleware' => 'lid']);
+//Route::get('/activities/confirmsignup/{token}', ['uses' => 'ActivitiesController@confirmsignupACTION', 'middleware' => 'lid']);
+Route::get('/activities/quest/{activity_id}', ['uses' => 'ActivitiesController@editintros', 'middleware' => 'lid']);
+Route::post('/activities/quest/{activity_id}', ['uses' => 'ActivitiesController@editintrosACTION', 'middleware' => 'lid']);
 /* END ACTIVITIES ROUTES */
 
 /* MEMBERS ROUTES */
-Route::get('members', ['uses' => 'MembersController@index', 'middleware' => 'admin']);
-Route::get('members/getmembers', ['uses' => 'MembersController@getmembers', 'middleware' => 'admin']);
-Route::get('members/edit/{member_id}', ['uses' => 'MembersController@edit', 'middleware' => 'admin']);
-Route::post('members/edit/{member_id}', ['uses' => 'MembersController@editACTION', 'middleware' => 'admin']);
-Route::get('members/delete/{member_id}', ['uses' => 'MembersController@delete', 'middleware' => 'admin']);
-Route::post('members/delete/{member_id}', ['uses' => 'MembersController@deleteACTION', 'middleware' => 'admin']);
-Route::get('members/add', ['uses' => 'MembersController@add', 'middleware' => 'admin']);
-Route::post('members/add', ['uses' => 'MembersController@addACTION', 'middleware' => 'admin']);
+Route::get('/members', ['uses' => 'MembersController@index', 'middleware' => 'admin']);
+Route::get('/members/getmembers', ['uses' => 'MembersController@getmembers', 'middleware' => 'admin']);
+Route::get('/members/edit/{member_id}', ['uses' => 'MembersController@edit', 'middleware' => 'admin']);
+Route::post('/members/edit/{member_id}', ['uses' => 'MembersController@editACTION', 'middleware' => 'admin']);
+Route::get('/members/delete/{member_id}', ['uses' => 'MembersController@delete', 'middleware' => 'admin']);
+Route::post('/members/delete/{member_id}', ['uses' => 'MembersController@deleteACTION', 'middleware' => 'admin']);
+Route::get('/members/add', ['uses' => 'MembersController@add', 'middleware' => 'admin']);
+Route::post('/members/add', ['uses' => 'MembersController@addACTION', 'middleware' => 'admin']);
 Route::get('/account/newuser/{token}', ['uses' => 'MembersController@activatemember']);
 Route::post('/account/newuser/{token}', ['uses' => 'MembersController@activatememberACTION']);
-Route::get('members/sendverification/{member_id}', ['uses' => 'MembersController@sendverification', 'middleware' => 'admin']);
-Route::post('members/sendverification/{member_id}', ['uses' => 'MembersController@sendverificationACTION', 'middleware' => 'admin']);
+Route::get('/members/sendverification/{member_id}', ['uses' => 'MembersController@sendverification', 'middleware' => 'admin']);
+Route::post('/members/sendverification/{member_id}', ['uses' => 'MembersController@sendverificationACTION', 'middleware' => 'admin']);
 /* END MEMBERS ROUTES */
-
-Route::get('/activities', ['uses' => 'ActivitiesController@index', 'middleware' => 'admin']);
 
 /* UNAUTHORIZED ROUTE */
 Route::get('/unauthorized', 'HomeController@unauthorized');
 
 
 /* AUTH ROUTES */ 
-Route::get('register', 'Auth\Registercontroller@showRegistrationForm');
-Route::post('register', 'Auth\Registercontroller@register');
-Route::get('login', ['as' => 'auth.login', 'uses' => 'Auth\LoginController@showLoginForm']);
+//Route::get('register', 'Auth\Registercontroller@showRegistrationForm');
+//Route::post('register', 'Auth\Registercontroller@register');
+Route::get('/login', ['as' => 'auth.login', 'uses' => 'Auth\LoginController@showLoginForm']);
 Route::get('/', ['as' => 'auth.login', 'uses' => 'Auth\LoginController@showLoginForm']);
-Route::post('login', ['as' => 'auth.login', 'uses' => 'Auth\LoginController@login']);
-Route::get('logout', ['as' => 'auth.logout', 'uses' => 'Auth\LoginController@logout']);
+Route::post('/login', ['as' => 'auth.login', 'uses' => 'Auth\LoginController@login']);
+Route::get('/logout', ['as' => 'auth.logout', 'uses' => 'Auth\LoginController@logout']);
 /* END AUTH ROUTES */
 
 

@@ -7,6 +7,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="http://localhost/AllegriaV2/public/css/style.css" />
     <link rel="stylesheet" href="http://localhost/AllegriaV2/public/css/custom.css" />
+    <link rel="icon" href="http://localhost/AllegriaV2/public/images/icon.png">
     <!-- JS -->
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 </head>

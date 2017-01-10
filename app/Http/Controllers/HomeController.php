@@ -19,6 +19,10 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    public function unauthorized()
+    {
+        return view('errors.unauthorized');
+    }
     /**
      * Show the application dashboard.
      *

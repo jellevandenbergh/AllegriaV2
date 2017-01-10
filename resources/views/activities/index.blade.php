@@ -6,7 +6,16 @@
         $('tr.dataB').tabledataslider({detailIdPrefix:'detailB'});
         $('.activities-memberdetails').css('display','table');
     });
+
+    function alreadysignup(){
+        alert('U bent al aangemeld voor deze activiteit');
+    }
 </script>
+<style>
+.hide{
+    display: none;
+}
+</style>
 <div class="container">
     @include('layouts.feedback')
     <h1>
@@ -16,7 +25,7 @@
         </ul>
     </h1>
     <?php if ($active_activities == "[]"): ?>
-        <strong style="color:red;">activiteiten</strong>
+        <strong style="color:red;">Geen active activiteiten</strong>
         <hr>
     <?php else: ?>
         <div class="box">
@@ -47,13 +56,13 @@
                                     <td>Max introducés</td>
                                     <td>{{ $activeactivitie->max_intros }}</td>
                                     <td>Prijs per lid</td>
-                                    <td>{{ $activeactivitie->price_members }}</td>
+                                    <td>€{{ $activeactivitie->price_members }}</td>
                                     <td colspan="2"><?= (($activeactivitie->comments)?"Opmerkingen":"Geen opmerkingen")?></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"></td>
                                     <td>Prijs per introducé</td>
-                                    <td>{{ $activeactivitie->price_intros }}</td>
+                                    <td>€{{ $activeactivitie->price_intros }}</td>
                                     <td colspan="2" rowspan="2">{{ $activeactivitie->comments }}</td>
                                 </tr>
                         <?php if ($activeactivitie->comments): ?> 
@@ -99,14 +108,14 @@
                                     <td>Uiterste inschrijfdatum</td>
                                     <td>{{ $signed_up_activitie->max_signup_date }}</td>
                                     <td>Prijs per lid</td>
-                                    <td>{{ $signed_up_activitie->price_members }}</td>
+                                    <td>€{{ $signed_up_activitie->price_members }}</td>
                                     <td colspan="2"><?= (($signed_up_activitie->comments)?"Opmerkingen":"Geen opmerkingen")?></td>
                                 </tr>
                                 <tr>
                                     <td>Max introducés</td>
                                     <td>{{ $signed_up_activitie->max_intros }}</td>
                                     <td>Prijs per introducé</td>
-                                    <td>{{ $signed_up_activitie->price_intros }}</td>
+                                    <td>€{{ $signed_up_activitie->price_intros }}</td>
                                     <td colspan="2" rowspan="2">{{ $signed_up_activitie->comments }}</td>
                                 </tr>
                                 <?php if ($signed_up_activitie->comments): ?> 
@@ -162,14 +171,14 @@
                                     <td>Uiterste inschrijfdatum</td>
                                     <td>{{ $all_activitie->max_signup_date }}</td>
                                     <td>Prijs per lid</td>
-                                    <td>{{ $all_activitie->price_members }}</td>
+                                    <td>€{{ $all_activitie->price_members }}</td>
                                     <td colspan="2"><?= (($all_activitie->comments)?"Opmerkingen":"Geen opmerkingen")?></td>
                                 </tr>
                                 <tr>
                                     <td>Max introducés</td>
                                     <td>{{ $all_activitie->max_intros }}</td>
                                     <td>Prijs per introducé</td>
-                                    <td>{{ $all_activitie->price_intros }}</td>
+                                    <td>€{{ $all_activitie->price_intros }}</td>
                                     <td colspan="2" rowspan="2"><?=htmlentities($all_activitie->comments)?></td>
                                 </tr>
                                 <tr>

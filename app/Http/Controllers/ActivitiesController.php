@@ -8,6 +8,7 @@ use Session;
 use Request;
 
 use App\ActivitiesSignup;
+use App\ActivitiesQuest;
 use App\Activities;
 use App\user;
 
@@ -33,7 +34,7 @@ class ActivitiesController extends Controller
     public function addACTION()
     {
         // call model to handle request
-    	Activities::addAction();
+    	Activities::add_activity();
         // redirect to /activities
     	return redirect('activities');
     }
@@ -47,7 +48,7 @@ class ActivitiesController extends Controller
     public function deleteACTION($activity_id)
     {
         // call model to handle request
-        $signupid = Activities::deleteACTION($activity_id);
+        $signupid = Activities::delete_activity($activity_id);
         // redirect to /activities
         return redirect('activities');
     }
@@ -56,7 +57,7 @@ class ActivitiesController extends Controller
     public function overview($activity_id)
     {
         // get activity by id
-    	$get_activitie = Activities::get_activitie_by_id($activity_id);
+    	$get_activitie = Activities::get_activity_by_id($activity_id);
         // get members signed up for activitie by activity id
     	$get_activitie_signup_confirmed = Activities::get_activitie_signup_confirmed($activity_id);
         // get members signed up for activitie but not confirmed
@@ -69,7 +70,7 @@ class ActivitiesController extends Controller
     public function signup($activity_id)
     {
         // get activity by id
-    	$get_activitie = Activities::get_activitie_by_id($activity_id);
+    	$get_activitie = Activities::get_activity_by_id($activity_id);
         // get activity name
         $get_activitie_name = Activities::get_activity_name($activity_id);
         // get max intros
@@ -100,10 +101,40 @@ class ActivitiesController extends Controller
         return redirect('activities'); 
     }
 
+    public function editintros($activity_id)
+    {
+        // get quests by activity_id
+        $get_intros_by_id = ActivitiesQuest::get_intros_by_id($activity_id);
+        // get count of intros
+        $intros_count = count($get_intros_by_id);
+        // get activity by activity id
+        $get_activity_by_id = Activities::get_activity_by_id($activity_id);
+        // get activty name by activity id
+        $get_activity_name = Activities::get_activity_name($activity_id);
+        // get max intros by activity id
+        $get_max_intros = ActivitiesSignup::get_max_intros($activity_id);
+        // get price intros by activity id
+        $get_price_intros = ActivitiesSignup::get_price_intros($activity_id);
+        // get price members
+        $get_price_members = ActivitiesSignup::get_price_members($activity_id);
+        // return activities quest view
+        return view('activities.quest', compact('get_intros_by_id','intros_count','get_activity_by_id','get_activity_name','get_max_intros','get_price_intros','get_price_members'));
+    }
+
+    public function editintrosACTION($activity_id)
+    {
+       ActivitiesQuest::addQuest($activity_id);
+       return redirect('activities');
+    }
     public function confirmsignupACTION($token)
     {
         ActivitiesSignup::confirmsignup($token);
         return redirect('activities');
+    }
+
+    public function formatprice($price){
+        $formatprice = Activities::formatprice($price);
+        return $formatprice;
     }
 }
 

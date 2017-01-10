@@ -13,6 +13,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+
+    // Override required, otherwise existing Authentication system will not match credential
     /**
      * The attributes that are mass assignable.
      *

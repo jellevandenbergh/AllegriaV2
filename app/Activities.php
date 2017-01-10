@@ -10,6 +10,7 @@ use Session;
 
 class Activities extends Model
 {
+    public $timestamps = false;
     // define protected tables
 	protected $table = 'activities';
 
@@ -31,14 +32,27 @@ class Activities extends Model
 
     public static function get_activity_name($activity_id){
         // get all active activities
-        $get_activitie_name = DB::table('activities')->where('id', $activity_id)->value('name');
+        $get_activity_name = DB::table('activities')->where('id', $activity_id)->value('name');
         // return active activites to controller
-        return $get_activitie_name;
+        return $get_activity_name;
     }
 
     public static function get_active_activities(){
         // get all active activities
-    	$active_activities = DB::table('activities')->where('status', 2)->get();
+    	$active_activities = DB::table('activities')->where('status', 1)->get();
+
+
+        foreach ($active_activities as $activity) {
+            if (strtotime($activity->max_signup_date) < time() - 86400) {
+               $arr[] = $activity->id;
+            }
+        }
+
+        foreach ($active_activities as $key => $obj) {
+          if (in_array($obj->id, $arr)) {
+            unset($active_activities[$key]);
+          }
+        } 
         // return active activites to controller
     	return $active_activities;
     }
@@ -62,7 +76,7 @@ class Activities extends Model
         return $signed_up_activities;
     }
 
-    public static function addACTION(){
+    public static function add_activity(){
         // put . in price members
     	$_POST['price_members'] = str_replace(array(',', '.'), '',$_POST['price_members']);
         // put . in price intro's
@@ -116,17 +130,37 @@ class Activities extends Model
 
     }
 
-    public static function deleteACTION($activity_id){
+    public static function delete_activity($activity_id){
+        $check_activity = DB::table('activities')->where('id', $activity_id)->get();
+        if (!count($check_activity) ==  1) {
+            Session::flash('feedback_error', 'Activiteit niet gevonden');
+            return flase;
+        }
+
         DB::table('activities')->where('id', $activity_id)->delete();
+        $activities_signup_id = DB::table('activities_signup')->where('activity_id', $activity_id)->pluck('id');
+        foreach($activities_signup_id as $id){
+             DB::table('activities_quest')->where('activity_signup_id', $id)->delete();
+        }
         DB::table('activities_signup')->where('activity_id', $activity_id)->delete();
+        Session::flash('feedback_success', 'Activiteit verwijderd');
+        return true;
     }
 
-    public static function get_activitie_by_id($activity_id){
+    public static function get_activity_by_id($activity_id){
         // get activity by id
-	    $get_activitie = DB::table('activities')->where('id', $activity_id)->get();
+	    $get_activity_by_id = DB::table('activities')->where('id', $activity_id)->get();
+
+        foreach($get_activity_by_id as $activity){
+            if (strtotime($activity->max_signup_date) < time() - 86400) {
+                DB::table('activities')->where('id', $activity->id)->update([
+                    'status' => 1,
+                ]);
+            }
+        }
 
         // return activity to controller
-        return $get_activitie;
+        return $get_activity_by_id;
     }
 
     public static function get_activitie_signup_confirmed($activity_id){
@@ -153,5 +187,10 @@ class Activities extends Model
         return $get_activitie_signup;
     }
 
+    /*public static function formatprice($price){
+        $formatprice = '5,00';
+
+        return $formatprice;
+    }*/
   
 }   
