@@ -115,6 +115,7 @@ class Members extends Model
 
         if (count($new_user) !=  1) {
              Session::flash('feedback_error', 'Account maken niet gelukt!');
+             return false;
              exit;
         }
 
@@ -204,7 +205,7 @@ class Members extends Model
             Session::flash('feedback_error', 'Wacht '. $time_left .' seconden voordat u het opnieuw probeert');
             return false;
         }
-
+        
         $token = hash_hmac('sha256', str_random(40), config('app.key'));
 
         DB::table('users')->where('email', $_POST['email'])->update([
@@ -356,7 +357,7 @@ class Members extends Model
         }
         else{
             return true;
-            return $user_password_reset_timestamp;
+            //return $user_password_reset_timestamp;
         }
     }
 

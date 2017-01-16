@@ -59,11 +59,21 @@ class ActivitiesController extends Controller
         // get activity by id
     	$get_activitie = Activities::get_activity_by_id($activity_id);
         // get members signed up for activitie by activity id
-    	$get_activitie_signup_confirmed = Activities::get_activitie_signup_confirmed($activity_id);
-        // get members signed up for activitie but not confirmed
-        $get_activitie_signup_not_confirmed = Activities::get_activitie_signup_not_confirmed($activity_id);
+    	//$get_activitie_signup_confirmed = Activities::get_activitie_signup_confirmed($activity_id);
         // return activities overview view
-    	return view('activities.overview', compact('get_activitie','get_activitie_signup_confirmed','get_activitie_signup_not_confirmed'));
+    	return view('activities.overview', compact('get_activitie','get_activitie_signup_confirmed','activity_id'));
+    }
+
+    public function overviewACTION($activity_id){
+        Activities::overview_ACTION($activity_id);
+        return redirect('activities/overview/'.$activity_id); 
+    }
+
+    public function overviewmembers($activity_id)
+    {
+        // get activity by id
+        $get_overview_members = Activities::get_overview_members($activity_id);
+        return json_encode($get_overview_members);
     }
 
 
@@ -98,6 +108,16 @@ class ActivitiesController extends Controller
             Session::flash('feedback_error', 'Accepteer de regelementen');
         }
         // return activities view
+        return redirect('activities'); 
+    }
+
+    public function signout($activity_id)
+    {
+        return view('activities.signout');
+    }
+    public function signoutACTION($activity_id)
+    {
+        ActivitiesSignup::signout($activity_id);
         return redirect('activities'); 
     }
 

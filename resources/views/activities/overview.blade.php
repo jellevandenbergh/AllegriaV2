@@ -44,16 +44,14 @@
 
             <div class="hr"></div>
 
-            <form method="post" action="{{ url('/overview') }}" class="allegriaform">
+            <form method="post" action="" class="allegriaform">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                <h3>Bevestiging:</h3>
-                @if(empty($get_activitie_signup_confirmed))
-                <p>Geen bevestigingen gevonden</p>
-                @else
+                <h3>Aanmeldingen</h3>
                 <table class="table activities-signout single">
                     <thead id="theadconfirmNo">
                         <tr>
-                            <td><label><i class="fa fa-check" id="select-all-confirm-no"></i></label></td>
+                            <td><label><i class="fa fa-check" id="select-all-confirm"></i></label></td>
                             <td id="confirmNoFirstname" class="link-no">Voornaam <i class="fa"></i></td>
                             <td id="confirmNolastname" class="link-no">Achternaam <i class="fa"></i></td>
                             <td id="confirmNoEmail" class="link-no">Email <i class="fa"></i></td>
@@ -64,65 +62,15 @@
                             <td id="confirmNoRemember" class="link-no">Herinnerings email <i class="fa"></i></td>
                         </tr>
                     </thead>
-                    @foreach($get_activitie_signup_confirmed as $confirmed)
-                    <tbody id="tbodyconfirmNo">
-                         <tr>
-                            <td colspan="1"></td>
-                            <td>{{ $confirmed->firstname }}</td>
-                            <td>{{ $confirmed->lastname }}</td>
-                            <td>{{ $confirmed->email }}</td>
-                            <td>0</td>
-                            <td>Total_price</td>
-                            <td>{{ $confirmed->paid }}</td>
-                            <td>{{ $confirmed->datetime_signup }}</td>
-                            <td>{{ $confirmed->remembersent }}</td>
-                        </tr>
+                    <tbody id="tbodyconfirm">
                     </tbody>
-                    @endforeach
                 </table>
-                @endif
-                <h3>Geen bevestiging:</h3>
-                @if(empty($get_activitie_signup_not_confirmed))
-                <p>Geen niet-bevestigingen gevonden</p>
-                @else
-                <table class="table activities-signout single">
-                    <thead id="theadconfirmNo">
-                        <tr>
-                            <td><label><i class="fa fa-check" id="select-all-confirm-no"></i></label></td>
-                            <td id="confirmNoFirstname" class="link-no">Voornaam <i class="fa"></i></td>
-                            <td id="confirmNolastname" class="link-no">Achternaam <i class="fa"></i></td>
-                            <td id="confirmNoEmail" class="link-no">Email <i class="fa"></i></td>
-                            <td id="confirmNoQuests" class="link-no">Aantal intro's <i class="fa"></i></td>
-                            <td id="confirmNoAmount" class="link-no">Totaal bedrag <i class="fa"></i></td>
-                            <td id="confirmNoPaid" class="link-no">Betaald <i class="fa"></i></td>
-                            <td id="confirmNoSignup" class="link-no">Datum aanmelding <i class="fa fa-caret-down"></i></td>
-                            <td id="confirmNoRemember" class="link-no">Herinnerings email <i class="fa"></i></td>
-                        </tr>
-                    </thead>
-                    @foreach($get_activitie_signup_not_confirmed as $not_confirmed)
-                    <tbody id="tbodyconfirmNo">
-                         <tr>
-                            <td colspan="1"></td>
-                            <td>{{ $not_confirmed->firstname }}</td>
-                            <td>{{ $not_confirmed->lastname }}</td>
-                            <td>{{ $not_confirmed->email }}</td>
-                            <td>0</td>
-                            <td>Total_price</td>
-                            <td>{{ $not_confirmed->paid }}</td>
-                            <td>{{ $not_confirmed->datetime_signup }}</td>
-                            <td>{{ $not_confirmed->remembersent }}</td>
-                        </tr>
-                    </tbody>
-                    @endforeach
-                </table>
-                @endif
                 <ul class="action-menu">
                     <li>
                         <a class="allegriabutton" id="mail">Verstuur mail <i class="fa fa-caret-down"></i></a>
                         <ul class="display-none action-sub" id="action-mail">
                             <!-- <li><input type="submit" name="submit" value="Handmatig"></li> -->
                             <li><input type="submit" name="submit" value="Betaal herinnering"></li>
-                            <li><input type="submit" name="submit" value="Bevestiging"></li>
                             <li><input type="submit" name="submit" value="Annulering"></li>
                         </ul>
                     </li>
@@ -146,24 +94,13 @@
 </div>
 
 <script>
-$('#select-all-confirm-yes').click(function(event) {
-    if ($('.checkbox-confirm-yes').is(":checked")) {
-        $('.checkbox-confirm-yes').each(function() {
+$('#select-all-confirm').click(function(event) {
+    if ($('.checkbox-confirm').is(":checked")) {
+        $('.checkbox-confirm').each(function() {
             $(this).prop('checked', false);
         })
     } else {
-        $('.checkbox-confirm-yes').each(function() {
-            $(this).prop('checked', true);
-        })
-    }
-});
-$('#select-all-confirm-no').click(function(event) {
-    if ($('.checkbox-confirm-no').is(":checked")) {
-        $('.checkbox-confirm-no').each(function() {
-            $(this).prop('checked', false);
-        })
-    } else {
-        $('.checkbox-confirm-no').each(function() {
+        $('.checkbox-confirm').each(function() {
             $(this).prop('checked', true);
         })
     }
@@ -198,7 +135,7 @@ $('.link-no').on('click', function(event){sortTable(event, 'confirmNo')});
 function getMembers()
 {
     $.ajax({
-        url:"",
+        url:"http://localhost/AllegriaV2/public/activities/overviewmembers/<?=$activity_id?>",
         success:setMembers
     });
 }
@@ -231,35 +168,20 @@ function buildTable()
 {   
     var tableConfirmYes = '';
     for (var i in ConfirmYes) {
-        tableConfirmYes += '<tr id="data'+ConfirmYes[i].id+'" class="data link">';
-            tableConfirmYes += '<td><input type="checkbox" class="checkbox-confirm-yes" id="checkbox-'+ConfirmYes[i].id+'" name="checkbox-'+ConfirmYes[i].id+'" value="'+ConfirmYes[i].id+'"></td>'
-            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].id+'">'+ConfirmYes[i].firstname+'</label></td>';
-            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].id+'">'+ConfirmYes[i].lastname+' '+ConfirmYes[i].insertion+'</label></td>';
-            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].id+'">'+ConfirmYes[i].user_email+'</label></td>';
-            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].id+'">'+ConfirmYes[i].count+'</label></td>';
-            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].id+'">'+ConfirmYes[i].amount+'</label></td>';
-            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].id+'">'+ConfirmYes[i].paid+'</label></td>';
-            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].id+'">'+ConfirmYes[i].datetime_signup+'</label></td>';
-            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].id+'">'+ConfirmYes[i].remembersent+'</label></td>';
+        tableConfirmYes += '<tr id="data'+ConfirmYes[i].signup_id+'" class="data link">';
+            tableConfirmYes += '<td><input type="checkbox" class="checkbox-confirm" id="checkbox-'+ConfirmYes[i].signup_id+'" name="checkbox-'+ConfirmYes[i].signup_id+'" value="'+ConfirmYes[i].signup_id+'"></td>'
+            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].signup_id+'">'+ConfirmYes[i].firstname+'</label></td>';
+            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].signup_id+'">'+ConfirmYes[i].lastname+' '+ConfirmYes[i].insertion+'</label></td>';
+            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].signup_id+'">'+ConfirmYes[i].email+'</label></td>';
+            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].signup_id+'">'+ConfirmYes[i].singup_intros+'</label></td>';
+            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].signup_id+'">'+ConfirmYes[i].amount+'</label></td>';
+            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].signup_id+'">'+ConfirmYes[i].paid+'</label></td>';
+            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].signup_id+'">'+ConfirmYes[i].datetime_signup+'</label></td>';
+            tableConfirmYes += '<td><label for="checkbox-'+ConfirmYes[i].signup_id+'">'+ConfirmYes[i].remembersent+'</label></td>';
         tableConfirmYes += '</tr>';
     };
-    $('#tbodyconfirmYes').html(tableConfirmYes);
+    $('#tbodyconfirm').html(tableConfirmYes);
 
-    var tableConfirmNo = '';
-    for (var i in ConfirmNo) {
-        tableConfirmNo += '<tr id="data'+ConfirmNo[i].id+'" class="data link">';
-            tableConfirmNo += '<td><input type="checkbox" class="checkbox-confirm-no" id="checkbox-'+ConfirmNo[i].id+'" name="checkbox-'+ConfirmNo[i].id+'" value="'+ConfirmNo[i].id+'"></td>'
-            tableConfirmNo += '<td><label for="checkbox-'+ConfirmNo[i].id+'">'+ConfirmNo[i].firstname+'</label></td>';
-            tableConfirmNo += '<td><label for="checkbox-'+ConfirmNo[i].id+'">'+ConfirmNo[i].lastname+' '+ConfirmNo[i].insertion+'</label></td>';
-            tableConfirmNo += '<td><label for="checkbox-'+ConfirmNo[i].id+'">'+ConfirmNo[i].user_email+'</label></td>';
-            tableConfirmNo += '<td><label for="checkbox-'+ConfirmNo[i].id+'">'+ConfirmNo[i].count+'</label></td>';
-            tableConfirmNo += '<td><label for="checkbox-'+ConfirmNo[i].id+'">'+ConfirmNo[i].amount+'</label></td>';
-            tableConfirmNo += '<td><label for="checkbox-'+ConfirmNo[i].id+'">'+ConfirmNo[i].paid+'</label></td>';
-            tableConfirmNo += '<td><label for="checkbox-'+ConfirmNo[i].id+'">'+ConfirmNo[i].datetime_signup+'</label></td>';
-            tableConfirmNo += '<td><label for="checkbox-'+ConfirmNo[i].id+'">'+ConfirmNo[i].remembersent+'</label></td>';
-        tableConfirmNo += '</tr>';
-    };
-    $('#tbodyconfirmNo').html(tableConfirmNo);
 }
 
 function sortTable(event, confirm)
@@ -363,7 +285,7 @@ function sortTable(event, confirm)
     // without destroying them.
     var nr = 0;
     var row = 0;
-    while (tbodyConfirmYes.firstChild) {
+    while (tbodyconfirm.firstChild) {
         if (row == 0){
             ConfirmYes[nr].tr = [];
         }

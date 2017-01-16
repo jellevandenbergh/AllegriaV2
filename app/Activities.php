@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use Mail;
 
 use Session;
 
@@ -18,6 +19,7 @@ class Activities extends Model
 	protected $fillable=[
 		'name',
 		'max_members',
+        'free_places',
         'status',
         'date',
         'max_intros',
@@ -39,7 +41,7 @@ class Activities extends Model
 
     public static function get_active_activities(){
         // get all active activities
-    	$active_activities = DB::table('activities')->where('status', 1)->get();
+    	$active_activities = DB::table('activities')->where('status', 2)->get();
 
 
         foreach ($active_activities as $activity) {
@@ -47,7 +49,7 @@ class Activities extends Model
                $arr[] = $activity->id;
             }
             else{
-                $arr[] = [];
+                $arr[] = '';
             }
         }
 
@@ -63,6 +65,10 @@ class Activities extends Model
     public static function get_all_activities(){
         // get all activities
     	$all_activities = DB::table('activities')->get();
+
+        $hallo = Activities::get_array($all_activities);
+
+        return $hallo;
         // return all activities to controller
     	return $all_activities;
     }
@@ -77,6 +83,10 @@ class Activities extends Model
 	            ->get();
         // return signed up activities to controller
         return $signed_up_activities;
+    }
+
+    public static function get_array($array){
+        return $array;
     }
 
     public static function add_activity(){
@@ -166,34 +176,158 @@ class Activities extends Model
         return $get_activity_by_id;
     }
 
-    public static function get_activitie_signup_confirmed($activity_id){
+    public static function get_overview_members($activity_id){
         // get activity signup
         $get_activitie_signup = DB::table('activities_signup')
-                ->join('members', 'member_id', '=', 'members.id')
-                ->join('users', 'members.user_id', '=', 'users.id')
                 ->where('activity_id', $activity_id)
                 ->where('confirmation', 2)
+                ->join('members', 'member_id', '=', 'members.id')
+                ->join('users', 'members.user_id', '=', 'users.id')
                 ->get();
+
+
+        foreach($get_activitie_signup as $activity){
+            $get_activitie_signup_intros = DB::table('activities_quest')
+            ->where('activity_signup_id', $activity->signup_id)
+            ->count();
+
+            $activity->singup_intros = $get_activitie_signup_intros;
+
+        }
+
+        foreach($get_activitie_signup as $activity){
+            $get_activitie_signup_intros = DB::table('activities_quest')
+            ->where('activity_signup_id', $activity->signup_id)
+            ->count();
+
+            $price_members = ActivitiesSignup::get_price_members($activity_id);
+            $price_intros = ActivitiesSignup::get_price_intros($activity_id);
+            $amount = $price_intros * $get_activitie_signup_intros + $price_members;
+
+
+            $activity->amount = $amount;
+            $activity->singup_intros = $get_activitie_signup_intros;
+
+        }
+
+
         // return activity signup to controller  
     	return $get_activitie_signup;
     }
 
-    public static function get_activitie_signup_not_confirmed($activity_id){
-        // get activity signup
-        $get_activitie_signup = DB::table('activities_signup')
-                ->join('members', 'member_id', '=', 'members.id')
-                ->join('users', 'members.user_id', '=', 'users.id')
-                ->where('activity_id', $activity_id)
-                ->where('confirmation', 1)
-                ->get();
-        // return activity signup to controller  
-        return $get_activitie_signup;
-    }
 
+    public static function check_active_activity($activity_id){
+        $get_active_activity = DB::table('activities')
+                ->where('id', $activity_id)
+                ->where('status', 2)
+                ->get();
+        if(empty($get_active_activity)){
+            return false;
+        }
+        elseif(count($get_active_activity) == 1){
+            return true;
+        }
+        return false;
+    }
     /*public static function formatprice($price){
         $formatprice = '5,00';
 
         return $formatprice;
     }*/
+
+    public static function overview_ACTION($activity_id)
+    {
+        $action = $_POST['submit'];
+
+        unset($_POST['submit']);unset($_POST['id']);unset($_POST['_token']);
+
+        if (empty($_POST)){
+            Session::flash('feedback_error', "niemand geselecteerd");
+            return false;
+        }
+        elseif ($action == "Ja" || $action == "Nee"){
+            ($action=="Ja")?$action=1:$action=0;
+            foreach ($_POST as $POST) {               
+                DB::table('activities_signup')->where('signup_id', $POST)->update([
+                    'paid' => $action,
+                ]);
+            }
+            Session::flash('feedback_success', "veranderingen zijn gelukt!");
+            return true;
+        }
+
+        elseif ($action=="Betaal herinnering"){
+            foreach($_POST as $POST){
+
+                $member_id = DB::table('activities_signup')
+                ->where('signup_id', $POST)
+                ->value('member_id');
+
+                $fullname = Members::get_fullname_by_id($member_id);
+
+                $get_user_id = DB::table('members')
+                ->where('id', $member_id)
+                ->value('user_id');
+
+                $user_email = DB::table('users')
+                ->where('id', $get_user_id)
+                ->value('email');
+
+                $get_activitie_signup_intros = DB::table('activities_quest')
+                ->where('activity_signup_id', $POST)
+                ->count();
+
+                $price_members = ActivitiesSignup::get_price_members($activity_id);
+                $price_intros = ActivitiesSignup::get_price_intros($activity_id);
+                $amount = $price_intros * $get_activitie_signup_intros + $price_members;
+
+                $activity_name = Activities::get_activity_name($activity_id);
+
+                mail::send('email.payreminder',compact('fullname','amount','activity_name','user_email'), function($message)
+                use ($user_email)
+                {
+                    $message->to($user_email, 'Allegria')->subject('Betaalbevestiging');
+
+                });
+
+            }
+            Session::flash('feedback_success', "Het verzenden is gelukt!");
+            return true;
+
+        }
+        elseif ($action=="Annulering"){
+            /*$mail = new Mail();
+            $database = DatabaseFactory::getFactory()->getConnection();
+            foreach ($POST as $key => $value) {    
+                $sql = "SELECT name FROM activities WHERE id = :id";
+                $query = $database->prepare($sql);
+                $query->execute(array(':id' => $activity_id));
+                $activity = $query->fetch();
+
+                $sql = "SELECT user_email FROM activities_signup  LEFT JOIN members ON activities_signup.member_id = members.id LEFT JOIN users ON members.user_id = users.user_id WHERE activities_signup.id = :id";
+                $query = $database->prepare($sql);
+                $query->execute(array(':id' => $value));
+                $result = $query->fetch();
+
+                if (!$mail->sendMailWithPHPMailer($result->user_email, Text::get('MAIL_FORGETPASSWORD_RECEIVER'), Text::get('MAIL_FORGETPASSWORD_NAME'), 'Afmelding voor '.$activity->name,
+                    'U bent afgemeld voor de activiteit: '.$activity->name.'.', true)):
+                    Session::add('feedback_negative', "iets mis gegaan");
+                    return false;
+                endif;
+
+                $sql = "UPDATE activities_signup SET confirmation = 0 WHERE id = :id LIMIT 1";
+                $query = $database->prepare($sql);
+                $query->execute(array(':id' => strip_tags($value)));
+
+                if ($query->rowCount()!=1):
+                    Session::add('feedback_negative', "iets mis gegaan");
+                    return false;
+                endif;
+            }
+            Session::add('feedback_positive', "Het verzenden is gelukt!");
+            return true;
+        endif;*/
+        }
+    }
   
 }   

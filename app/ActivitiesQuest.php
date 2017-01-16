@@ -73,7 +73,7 @@ class ActivitiesQuest extends Model
     	$check_signup = DB::table('activities_signup')
     		->where('activity_id', $activity_id)
     		->where('member_id', $member_id)
-    		->pluck('id');
+    		->pluck('signup_id');
         if (!count($check_signup) ==  1) {
             //Session::flash('feedback_error', 'Geen aanmeldingen gevonden');
             return false;

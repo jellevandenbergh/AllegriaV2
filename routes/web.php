@@ -34,9 +34,13 @@ Route::get('/activities/add', ['uses' => 'ActivitiesController@add', 'middleware
 Route::post('/activities/add', ['uses' => 'ActivitiesController@addACTION', 'middleware' => 'admin']);
 Route::post('/activities/delete/{activity_id}', ['uses' => 'ActivitiesController@deleteACTION', 'middleware' => 'admin']);
 Route::get('/activities/delete/{activity_id}', ['uses' => 'ActivitiesController@delete', 'middleware' => 'admin']);
-Route::get('/activities/overview/{activity_id}', ['uses' => 'ActivitiesController@overview', 'middleware' => 'lid']);
+Route::get('/activities/overview/{activity_id}', ['uses' => 'ActivitiesController@overview', 'middleware' => 'bestuur']);
+Route::post('/activities/overview/{activity_id}', ['uses' => 'ActivitiesController@overviewACTION', 'middleware' => 'bestuur']);
+Route::get('/activities/overviewmembers/{activity_id}', ['uses' => 'ActivitiesController@overviewmembers', 'middleware' => 'bestuur']);
 Route::get('/activities/signup/{activity_id}', ['uses' => 'ActivitiesController@signup', 'middleware' => 'lid']);
 Route::post('/activities/signup/{activity_id}', ['uses' => 'ActivitiesController@signupACTION', 'middleware' => 'lid']);
+Route::get('/activities/signout/{activity_id}', ['uses' => 'ActivitiesController@signout', 'middleware' => 'lid']);
+Route::post('/activities/signout/{activity_id}', ['uses' => 'ActivitiesController@signoutACTION', 'middleware' => 'lid']);
 //Route::get('/activities/confirmsignup/{token}', ['uses' => 'ActivitiesController@confirmsignupACTION', 'middleware' => 'lid']);
 Route::get('/activities/quest/{activity_id}', ['uses' => 'ActivitiesController@editintros', 'middleware' => 'lid']);
 Route::post('/activities/quest/{activity_id}', ['uses' => 'ActivitiesController@editintrosACTION', 'middleware' => 'lid']);

@@ -46,7 +46,7 @@
                         <td>{{ $activeactivitie->name }}</td>
                         <td>{{ $activeactivitie->date }}</td>
                         <td>{{ $activeactivitie->max_signup_date }}</td>
-                        <td>Beschikbare plekken</td>
+                        <td>{{ $activeactivitie->free_places }}</td>
                         <td class="center"><a href="<?= Config::get('URL') . 'activities/signup/' . $activeactivitie->id; ?>"><i class="fa fa-sign-in"></i></a></td>
                     </tr>
                     <tr>

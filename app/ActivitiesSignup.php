@@ -46,18 +46,29 @@ class ActivitiesSignup extends Model
             // add error message to session
             Session::flash('feedback_error', 'U bent al aangemeld voor deze activiteit!');
             return false;
-            exit;
+        }
+
+        if(!Activities::check_active_activity($activity_id)){
+            Session::flash('feedback_error', 'Activiteit is niet actief!');
+            return false;
+        }
+
+        $get_max_members = ActivitiesSignup::get_max_members($activity_id);
+
+        $get_free_places = ActivitiesSignup::get_free_places($activity_id);
+        
+        if($get_free_places <= 0){
+            Session::flash('feedback_error', 'Er zijn geen vrije plekken meer beschikbaar');
+            return false;
         }
 
         $activity_by_id = Activities::get_activity_by_id($activity_id);
-        foreach($activity_by_id as $activity){
+
+        foreach ($activity_by_id as $activity) {
             if (strtotime($activity->max_signup_date) < time() - 86400) {
-                DB::table('activities')->where('id', $activity->id)->update([
-                    'status' => 1,
-                ]);
+               Session::flash('feedback_error', 'uiterste inschrijfdatum verlopen! u bent niet aangemeld');
+               return false;
             }
-            Session::flash('feedback_error', 'De uisterste inschrijfdatum is verlopen');
-            return false;
         }
 
         $token = hash_hmac('sha256', str_random(40), config('app.key'));
@@ -69,6 +80,7 @@ class ActivitiesSignup extends Model
             'comments' => $_POST['comments'],
             'confirmation_token' => $token,
             'status' => 2,
+            'confirmation' => 2,
         ]);
 
         // add new signupQuest to database
@@ -81,6 +93,10 @@ class ActivitiesSignup extends Model
             ]);
         }
 
+        $free_places = $get_free_places - 1;
+        DB::table('activities')->where('id', $activity_id)->update([
+            'free_places' => $free_places,
+        ]);
         // get new signup
         $rowcount = ActivitiesSignup::check_dubble_signup($activity_id);
 
@@ -101,6 +117,14 @@ class ActivitiesSignup extends Model
             $delete_intros = DB::table('activities_quest')
             ->whereIn('activity_signup_id', $get_signup_id)
             ->delete();
+
+            $get_free_places = ActivitiesSignup::get_free_places($activity_id);
+
+            $free_places = $get_free_places + 1;
+            DB::table('activities')->where('id', $activity_id)->update([
+                'free_places' => $free_places,
+            ]);
+
             // add error message to session
             Session::flash('feedback_error', 'Er is iets mis gegaan!, u bent niet aangemeld.');
             return false;
@@ -111,6 +135,60 @@ class ActivitiesSignup extends Model
         return true;
     }
 
+    public static function signout($activity_id){
+        // get member id
+        $member_id = User::get_member_id();
+
+        $get_max_members = ActivitiesSignup::get_max_members($activity_id);
+
+        $get_free_places = ActivitiesSignup::get_free_places($activity_id);
+
+        $free_places = $get_free_places + 1;
+
+        if($free_places > $get_max_members){
+            Session::flash('feedback_error', 'Er is iets mis gegaan!, u bent niet afgemeld.');
+            return false;
+        }
+
+        $activity_signup_id = DB::table('activities_signup')
+            ->where('member_id', $member_id)
+            ->where('activity_id', $activity_id)
+            ->value('signup_id');
+
+        DB::table('activities_signup')
+            ->where('member_id', $member_id)
+            ->where('activity_id', $activity_id)
+            ->delete();
+
+        DB::table('activities_quest')
+            ->where('activity_signup_id', $activity_signup_id)
+            ->delete();
+
+        $check_signup_delete = DB::table('activities_signup')
+            ->where('signup_id', $activity_signup_id)
+            ->count();
+
+        $check_quest_delete = DB::table('activities_quest')
+            ->where('activity_signup_id', $activity_signup_id)
+            ->count();
+
+        if($check_quest_delete != 0){
+            return false;
+            Session::flash('feedback_error', 'Er is iets mis gegaan!, u bent niet afgemeld.');
+        }
+
+        if($check_signup_delete != 0){
+            return false;
+            Session::flash('feedback_error', 'Er is iets mis gegaan!, u bent niet afgemeld.');
+        }
+
+        DB::table('activities')->where('id', $activity_id)->update([
+            'free_places' => $free_places,
+        ]);
+
+        Session::flash('feedback_success', 'U bent afgemeld');
+        return true;
+    }
     /*public static function confirmsignup($token)
     {
         $check_token = DB::table('activities_signup')->where('confirmation_token', $token)->get();
@@ -146,6 +224,20 @@ class ActivitiesSignup extends Model
         $get_price_members = DB::table('activities')->where('id', $activity_id)->value('price_members');
 
         return $get_price_members;
+    }
+
+    public static function get_max_members($activity_id)
+    {
+        $get_max_members = DB::table('activities')->where('id', $activity_id)->value('max_members');
+
+        return $get_max_members;
+    }
+
+    public static function get_free_places($activity_id)
+    {
+        $get_free_places = DB::table('activities')->where('id', $activity_id)->value('free_places');
+
+        return $get_free_places;
     }
 
     public static function check_dubble_signup($activity_id)
