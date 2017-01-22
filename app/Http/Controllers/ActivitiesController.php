@@ -58,16 +58,11 @@ class ActivitiesController extends Controller
     {
         // get activity by id
     	$get_activitie = Activities::get_activity_by_id($activity_id);
-        // get members signed up for activitie by activity id
-    	//$get_activitie_signup_confirmed = Activities::get_activitie_signup_confirmed($activity_id);
         $get_overview_reserves = ActivitiesSignup::get_overview_reserves($activity_id);
 
         $get_overview_members = ActivitiesSignup::get_overview_members($activity_id);
-        // var_dump($get_overview_reserves);
-        //return $get_overview_reserves;
-
-        // return activities overview view
-    	return view('activities.overview', compact('get_activitie','get_overview_members','activity_id','get_overview_reserves'));
+       
+    	return view('activities.overview', compact('get_activitie','get_overview_members','activity_id','get_overview_reserves','get_free_places'));
     }
 
     public function overviewACTION($activity_id){
@@ -99,7 +94,9 @@ class ActivitiesController extends Controller
         // get fullname of user
         $fullname = User::get_fullname();
         // return activities signup view
-    	return view('activities.signup', compact('get_activitie','get_member','activity_id','get_activitie_name','fullname','get_max_intros','get_price_members','get_price_intros'));
+        $get_free_places = ActivitiesSignup::get_free_places($activity_id);
+
+    	return view('activities.signup', compact('get_free_places','get_activitie','get_member','activity_id','get_activitie_name','fullname','get_max_intros','get_price_members','get_price_intros'));
     }
     public function signupACTION($activity_id)
     {
@@ -143,7 +140,7 @@ class ActivitiesController extends Controller
         // get price members
         $get_price_members = ActivitiesSignup::get_price_members($activity_id);
         // return activities quest view
-        return view('activities.quest', compact('get_intros_by_id','intros_count','get_activity_by_id','get_activity_name','get_max_intros','get_price_intros','get_price_members'));
+        return view('activities.quest', compact('get_free_places','get_intros_by_id','intros_count','get_activity_by_id','get_activity_name','get_max_intros','get_price_intros','get_price_members'));
     }
 
     public function editintrosACTION($activity_id)

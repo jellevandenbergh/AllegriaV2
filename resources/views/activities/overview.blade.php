@@ -146,7 +146,7 @@
                 </table>
                 <ul class="action-menu">
                     <li>
-                        <a class="allegriabutton" id="replace">Verplaatsen<i class="fa fa-caret-down"></i></a>
+                        <a class="allegriabutton" id="replace">Opties<i class="fa fa-caret-down"></i></a>
                         <ul class="display-none action-sub" id="action-replace">
                             <!-- <li><input type="submit" name="submit" value="Handmatig"></li> -->
                             <li><input type="submit" name="submit" value="overzetten naar inschrijvingen"></li>

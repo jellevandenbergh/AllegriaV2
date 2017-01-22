@@ -265,7 +265,7 @@ class Activities extends Model
                     ->where('signup_id', $POST)
                     ->count();
 
-                $check_reserve = DB::table('activities_signup')
+                $check_if_reserve = DB::table('activities_signup')
                     ->where('signup_id', $POST)
                     ->value('reserve');
 
@@ -292,7 +292,7 @@ class Activities extends Model
                         return false;
                     }
 
-                    if($check_reserve == 1){
+                    if($check_if_reserve == 1){
                         $free_places = $get_free_places + 1;
 
                         DB::table('activities')

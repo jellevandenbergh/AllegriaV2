@@ -3,7 +3,11 @@
     <h1>{{ $get_activitie_name }}</h1>
     <div class="box">
         @include('layouts.feedback')
-   
+        @if($get_free_places < 1)
+            <div class="feedback error">
+            Er zijn geen vrije plekken meer over. U kunt u hier aanmelden voor de reservelijst
+            </div>
+        @endif
             <form method="post" action="{{$activity_id}}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <h3>Informatie activiteit:</h3>
@@ -23,7 +27,7 @@
                         <td>Max introducés</td>
                         <td>{{ $activitie->max_intros }}</td>
                         <td>Vrije plekken</td>
-                        <td></td>
+                        <td>{{ $activitie->free_places }}</td>
                     </tr>
                     <tr>
                         <td>Datum activiteit</td>
