@@ -67,8 +67,6 @@ class Activities extends Model
     	$all_activities = DB::table('activities')->get();
 
         $hallo = Activities::get_array($all_activities);
-
-        return $hallo;
         // return all activities to controller
     	return $all_activities;
     }
@@ -86,7 +84,9 @@ class Activities extends Model
     }
 
     public static function get_array($array){
-        return $array;
+        /*foreach($array as $price){
+            $price_members 
+        }*/
     }
 
     public static function add_activity(){
@@ -176,45 +176,6 @@ class Activities extends Model
         return $get_activity_by_id;
     }
 
-    public static function get_overview_members($activity_id){
-        // get activity signup
-        $get_activitie_signup = DB::table('activities_signup')
-                ->where('activity_id', $activity_id)
-                ->where('confirmation', 2)
-                ->join('members', 'member_id', '=', 'members.id')
-                ->join('users', 'members.user_id', '=', 'users.id')
-                ->get();
-
-
-        foreach($get_activitie_signup as $activity){
-            $get_activitie_signup_intros = DB::table('activities_quest')
-            ->where('activity_signup_id', $activity->signup_id)
-            ->count();
-
-            $activity->singup_intros = $get_activitie_signup_intros;
-
-        }
-
-        foreach($get_activitie_signup as $activity){
-            $get_activitie_signup_intros = DB::table('activities_quest')
-            ->where('activity_signup_id', $activity->signup_id)
-            ->count();
-
-            $price_members = ActivitiesSignup::get_price_members($activity_id);
-            $price_intros = ActivitiesSignup::get_price_intros($activity_id);
-            $amount = $price_intros * $get_activitie_signup_intros + $price_members;
-
-
-            $activity->amount = $amount;
-            $activity->singup_intros = $get_activitie_signup_intros;
-
-        }
-
-
-        // return activity signup to controller  
-    	return $get_activitie_signup;
-    }
-
 
     public static function check_active_activity($activity_id){
         $get_active_activity = DB::table('activities')
@@ -296,37 +257,156 @@ class Activities extends Model
 
         }
         elseif ($action=="Annulering"){
-            /*$mail = new Mail();
-            $database = DatabaseFactory::getFactory()->getConnection();
-            foreach ($POST as $key => $value) {    
-                $sql = "SELECT name FROM activities WHERE id = :id";
-                $query = $database->prepare($sql);
-                $query->execute(array(':id' => $activity_id));
-                $activity = $query->fetch();
+            foreach ($_POST as $POST) {    
+                $get_free_places = ActivitiesSignup::get_free_places($activity_id);
+                $get_max_members = ActivitiesSignup::get_max_members($activity_id);
 
-                $sql = "SELECT user_email FROM activities_signup  LEFT JOIN members ON activities_signup.member_id = members.id LEFT JOIN users ON members.user_id = users.user_id WHERE activities_signup.id = :id";
-                $query = $database->prepare($sql);
-                $query->execute(array(':id' => $value));
-                $result = $query->fetch();
+                $check_signup = DB::table('activities_signup')
+                    ->where('signup_id', $POST)
+                    ->count();
 
-                if (!$mail->sendMailWithPHPMailer($result->user_email, Text::get('MAIL_FORGETPASSWORD_RECEIVER'), Text::get('MAIL_FORGETPASSWORD_NAME'), 'Afmelding voor '.$activity->name,
-                    'U bent afgemeld voor de activiteit: '.$activity->name.'.', true)):
-                    Session::add('feedback_negative', "iets mis gegaan");
+                $check_reserve = DB::table('activities_signup')
+                    ->where('signup_id', $POST)
+                    ->value('reserve');
+
+                if($check_signup != 1){
+                    Session::flash('feedback_error', "Er is iets mis gegaan!");
                     return false;
-                endif;
+                }
 
-                $sql = "UPDATE activities_signup SET confirmation = 0 WHERE id = :id LIMIT 1";
-                $query = $database->prepare($sql);
-                $query->execute(array(':id' => strip_tags($value)));
+                if($get_max_members > $get_free_places){
+                    $delete_intros = DB::table('activities_quest')
+                        ->where('activity_signup_id', $POST)
+                        ->delete();
 
-                if ($query->rowCount()!=1):
-                    Session::add('feedback_negative', "iets mis gegaan");
+                    $delete_signup = DB::table('activities_signup')
+                        ->where('signup_id', $POST)
+                        ->delete();
+
+                    $check_reserve = DB::table('activities_signup')
+                    ->where('signup_id', $POST)
+                    ->count();
+
+                    if($check_reserve != 0){
+                        Session::flash('feedback_error', "Er is iets mis gegaan!");
+                        return false;
+                    }
+
+                    if($check_reserve == 1){
+                        $free_places = $get_free_places + 1;
+
+                        DB::table('activities')
+                            ->where('id', $activity_id)
+                            ->update([
+                                'free_places' => $free_places,
+                        ]);
+                    }
+
+                }
+                else{
+                    Session::flash('feedback_error', "Er is iets mis gegaan!");
                     return false;
-                endif;
+                }
+
+                $get_activity_name = Activities::get_activity_name($activity_id);
+
+                $get_member_id = DB::table('activities_signup')
+                        ->where('signup_id', $POST)
+                        ->value('member_id');
+
+                $get_user_id = DB::table('members')
+                        ->where('id', $get_member_id)
+                        ->value('user_id');
+
+                $get_user_email = DB::table('users')
+                    ->where('id', $get_user_id)
+                    ->value('email');
+
+
+                //$get_fullname_by_id =  Members::get_fullname_by_id($get_member_id);
+
+               /* mail::send('email.cancelsignup',compact('get_fullname_by_id','get_activity_name','get_user_email'), function($message)
+                use ($get_user_email)
+                {
+                    $message->to($get_user_email, 'Allegria')->subject('Annulering');
+
+                });*/
             }
-            Session::add('feedback_positive', "Het verzenden is gelukt!");
+            Session::flash('feedback_success', "Het annuleren is gelukt!");
             return true;
-        endif;*/
+        }
+        elseif ($action=="overzetten naar inschrijvingen"){
+            $get_free_places = ActivitiesSignup::get_free_places($activity_id);
+            $get_max_members = ActivitiesSignup::get_max_members($activity_id);
+
+            if($get_free_places < count($_POST)){
+                if($get_free_places > 1){
+                Session::flash('feedback_error', "Niet genoeg plek voor iedereen. Er zijn nog ". $get_free_places . " vrije plekken over");
+                }
+                elseif($get_free_places < 1){
+                     Session::flash('feedback_error', "Niet genoeg plek voor iedereen. Er zijn geen vrije plek over");
+                }
+                else{
+                    Session::flash('feedback_error', "Niet genoeg plek voor iedereen. Er is nog ". $get_free_places . " vrije plek over");
+                }
+                return false;
+
+            }
+            foreach($_POST as $POST){
+                if($get_max_members >= $get_free_places){
+                    $check_reserve = DB::table('activities_signup')
+                    ->where('signup_id', $POST)
+                    ->where('reserve', 2)
+                    ->count();
+
+                    if($check_reserve != 1){
+                        Session::flash('feedback_error', "Er is iets mis gegaan!");
+                        return false;
+                    }
+
+                    DB::table('activities_signup')
+                    ->where('signup_id', $POST)
+                    ->where('reserve', 2)->update([
+                        'reserve' => 1,
+                    ]);
+
+
+                    DB::table('activities_quest')
+                    ->where('activity_signup_id', $POST)
+                    ->where('reserve', 2)->update([
+                        'reserve' => 1,
+                    ]);
+
+                    $check_reserve = DB::table('activities_signup')
+                    ->where('signup_id', $POST)
+                    ->where('reserve', 1)
+                    ->count();
+
+                    if($check_reserve != 1){
+                        Session::flash('feedback_error', "Er is iets mis gegaan!");
+                        return false;
+                    }
+
+                    $get_free_places = ActivitiesSignup::get_free_places($activity_id);
+
+                    $get_max_members = ActivitiesSignup::get_max_members($activity_id);
+
+                    if($get_free_places <= $get_max_members){
+                        $free_places = $get_free_places - 1;
+                        DB::table('activities')
+                        ->where('id', $activity_id)
+                        ->update([
+                            'free_places' => $free_places,
+                        ]);
+                    }
+                }
+                else{
+                   Session::flash('feedback_error', "Geen plekken meer vrij.");
+                   return true; 
+                }
+            }
+            Session::flash('feedback_success', "Wijzigingen gelukt");
+            return true;
         }
     }
   

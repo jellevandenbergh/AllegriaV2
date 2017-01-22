@@ -22,7 +22,7 @@
                         <td>Max introducés</td>
                         <td>{{ $activitie->max_intros }}</td>
                         <td>Vrije plekken</td>
-                        <td>Freeplace</td>
+                        <td>{{ $activitie->free_places }}</td>
                     </tr>
                     <tr>
                         <td>Datum activiteit</td>
@@ -43,7 +43,9 @@
             </table>
 
             <div class="hr"></div>
-
+            @if($get_overview_members == '[]')
+                <p style="color:red;">Geen inschrijvingen gevonden</p>
+            @else
             <form method="post" action="" class="allegriaform">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -87,7 +89,78 @@
                 </ul>
                 <input type="hidden" name="id" value="">
             </form>
+            @endif
+            <br>
+            @if($get_overview_reserves == '[]')
+                <p style="color:red;">Geen Reservelijst inschrijvingen gevonden</p>
+            @else
+            <form method="post" action="" class="allegriaform">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                <h3>Reservelijst</h3>
+                <table class="table activities-signout single">
+                    <thead id="theadconfirmNo">
+                        <tr>
+                            <td><label><i class="fa fa-check" id="select-all-confirm"></i></label></td>
+                            <td id="confirmNoFirstname" class="link-no">Voornaam <i class="fa"></i></td>
+                            <td id="confirmNolastname" class="link-no">Achternaam <i class="fa"></i></td>
+                            <td id="confirmNoEmail" class="link-no">Email <i class="fa"></i></td>
+                            <td id="confirmNoQuests" class="link-no">Aantal intro's <i class="fa"></i></td>
+                            <td id="confirmNoAmount" class="link-no">Totaal bedrag <i class="fa"></i></td>
+                            <td id="confirmNoPaid" class="link-no">Betaald <i class="fa"></i></td>
+                            <td id="confirmNoSignup" class="link-no">Datum aanmelding <i class="fa fa-caret-down"></i></td>
+                            <td id="confirmNoRemember" class="link-no">Herinnerings email <i class="fa"></i></td>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyreserve">
+                        @foreach($get_overview_reserves as $reserve)
+                            <tr id="data86" class="data link">
+                            <td>
+                            <input type="checkbox" class="checkbox-confirm" id="checkbox-{{$reserve->signup_id}}" name="checkbox-{{$reserve->signup_id}}" value="{{$reserve->signup_id}}"></td><td>
+                            <label for="checkbox-{{$reserve->signup_id}}">{{$reserve->firstname}}</label>
+                            </td>
+                            <td>
+                            <label for="checkbox-{{$reserve->signup_id}}">{{$reserve->lastname}} {{$reserve->insertion}}</label>
+                            </td>
+                            <td>
+                            <label for="checkbox-{{$reserve->signup_id}}">{{$reserve->email}}</label>
+                            </td>
+                            <td>
+                            <label for="checkbox-{{$reserve->signup_id}}">{{$reserve->singup_intros}}</label>
+                            </td>
+                            <td>
+                            <label for="checkbox-{{$reserve->signup_id}}">{{$reserve->amount}}</label>
+                            </td>
+                            <td>
+                            <label for="checkbox-{{$reserve->signup_id}}">{{$reserve->paid}}</label>
+                            </td>
+                            <td>
+                            <label for="checkbox-{{$reserve->signup_id}}">{{$reserve->datetime_signup}}</label>
+                            </td>
+                            <td>
+                            <label for="checkbox-{{$reserve->signup_id}}">{{$reserve->remembersent}}</label>
+                            </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <ul class="action-menu">
+                    <li>
+                        <a class="allegriabutton" id="replace">Verplaatsen<i class="fa fa-caret-down"></i></a>
+                        <ul class="display-none action-sub" id="action-replace">
+                            <!-- <li><input type="submit" name="submit" value="Handmatig"></li> -->
+                            <li><input type="submit" name="submit" value="overzetten naar inschrijvingen"></li>
+                            <li><input type="submit" name="submit" value="Annulering"></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="" class="allegriabutton"><i class="fa fa-arrow-left"></i> Terug</a></li>
+                </ul>
+                <input type="hidden" name="id" value="">
+            </form>
+            @endif
             <div class="hr"></div>
+
             <br>
             <p><a href=" class="allegriabutton"><i class="fa fa-arrow-left"></i> Terug</a></p>
     </div>
@@ -112,6 +185,10 @@ $('#mail').click(function(event){
 });
 $('#pay').click(function(event){
     $('#action-pay').toggle();
+    $('#action-mail').hide();
+});
+$('#replace').click(function(event){
+    $('#action-replace').toggle();
     $('#action-mail').hide();
 });
 
@@ -142,27 +219,33 @@ function getMembers()
 
 function setMembers(respons){
     data = $.parseJSON(respons);
-    for (var d in data) {
-console.log(d);
-        for (var p in data[d]) {
-            if (data[d][p] == null)
-                data[d][p] = "-";
-        };        
-        var totalPrice = (data[d]['count'] * price_intros) + price_members;
-        data[d]['amount'] = "€"+(totalPrice/100).toFixed(2).toString().replace(".", ",");
-        if (data[d]['paid'] == 0) {
-            data[d]['paid'] = "Nee";
-        } else {
-            data[d]['paid'] = "Ja";
+    console.log(data);
+    if(data == []){
+        return false;
+    }
+    else{
+        for (var d in data) {
+            for (var p in data[d]) {
+                if (data[d][p] == null)
+                    data[d][p] = "-";
+            };        
+            var totalPrice = (data[d]['count'] * price_intros) + price_members;
+            data[d]['amount'] = "€"+(totalPrice/100).toFixed(2).toString().replace(".", ",");
+            if (data[d]['paid'] == 0) {
+                data[d]['paid'] = "Nee";
+            } else {
+                data[d]['paid'] = "Ja";
+            };
+            if (data[d]['confirmation'] == 0) {
+                ConfirmNo.push(data[d]);
+            } else {
+                ConfirmYes.push(data[d]);
+            };
         };
-        if (data[d]['confirmation'] == 0) {
-            ConfirmNo.push(data[d]);
-        } else {
-            ConfirmYes.push(data[d]);
-        };
-    };
-    buildTable();
+        buildTable();
+    }
 }
+
 
 function buildTable()
 {   
@@ -181,7 +264,6 @@ function buildTable()
         tableConfirmYes += '</tr>';
     };
     $('#tbodyconfirm').html(tableConfirmYes);
-
 }
 
 function sortTable(event, confirm)
@@ -315,4 +397,4 @@ function sortTable(event, confirm)
 }
 </script>
 
-@include('layouts.header')
+@include('layouts.footer')

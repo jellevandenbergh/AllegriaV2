@@ -252,7 +252,7 @@ class Members extends Model
 
         $query = DB::table('users')->where('user_forgot_password_token', $token)->update([
             'password' => bcrypt($_POST['password_new']),
-            'user_forgot_password_token' => '',
+            'user_forgot_password_token' => NULL,
         ]);
 
         Session::flash('feedback_success', 'Paswoord resetten gelukt!');
@@ -266,10 +266,13 @@ class Members extends Model
     public static function editPasswordValidation($password_new, $password_repeat) {
         if (empty($password_new) OR empty($password_repeat)) {
             //Session::add('feedback_negative', Text::get('FEEDBACK_PASSWORD_FIELD_EMPTY'));
+            return false;
         } else if ($password_new !== $password_repeat) {
             //Session::add('feedback_negative', Text::get('FEEDBACK_PASSWORD_REPEAT_WRONG'));
+            return false;
         } else if (strlen($password_new) < 6) {
            // Session::add('feedback_negative', Text::get('FEEDBACK_PASSWORD_TOO_SHORT'));
+           return false;
         } else {
             return true;
         }
@@ -363,12 +366,22 @@ class Members extends Model
 
     public static function edit_member($member_id){
     	$query = DB::table('members')->where('id', $member_id)->update([
+            'RNRnumber' => $_POST['RNRnumber'],
+            'lastname' => $_POST['lastname'],
+            'initials' => $_POST['initials'],
+            'insertion' => $_POST['insertion'],
+            'salutation' => $_POST['salutation'],
+            'firstname' => $_POST['firstname'],
+            'address' => $_POST['address'],
             'housenumber' => $_POST['housenumber'],
             'zipcode' => $_POST['zipcode'],
             'place' => $_POST['place'],
+            'birthday' => $_POST['birthday'],
             'location_building' => $_POST['location_building'],
             'location_floor' => $_POST['location_floor'],
+            'member_since' => $_POST['member_since'],
             'phonenumber' => $_POST['phonenumber'],
+            'edit_timestamp' => date('Y-m-d H:i:s'),
         ]);
         // check if query was succesfull
         if(count($query) == 1){

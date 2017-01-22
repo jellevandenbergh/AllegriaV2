@@ -22,15 +22,15 @@
                 <tbody>
                     <tr>
                         <td>Achternaam</td>
-                        <td>{{ $member->lastname }}</td>
+                        <td><input type="text" name="lastname" value="{{ $member->lastname }}" required>
                         <td>Straat</td>
-                        <td>{{ $member->address }}</td>
+                        <td><input type="text" name="address" value="{{ $member->address }}" required></td>
                         <td>RNRnummer</td>
-                        <td>{{ $member->RNRnumber }}</td>
+                        <td><input type="number" name="RNRnumber" value="{{ $member->RNRnumber }}" maxlength="6"></td>
                     </tr>
                     <tr>
                         <td>Tussenvoegsel</td>
-                        <td>{{ $member->insertion }}</td>
+                        <td><input type="text" name="insertion" value="{{ $member->insertion }}"></td>
                         <td>Huisnummer</td>
                         <td><input type="text" name="housenumber" value="{{ $member->housenumber }}" maxlength="10"></td>
                         <td>Gebouw</td>
@@ -38,7 +38,7 @@
                     </tr>
                     <tr>
                         <td>Voornaam</td>
-                        <td>{{ $member->firstname }}</td>
+                        <td><input type="text" name="firstname" value="{{ $member->firstname }}" required></td>
                         <td>Postcode</td>
                         <td><input type="text" name="zipcode" value="{{ $member->zipcode }}" maxlength="6"></td>
                         <td>Lokaal</td>
@@ -46,22 +46,22 @@
                     </tr>
                     <tr>
                         <td>Voorletter</td>
-                        <td>{{ $member->initials }}</td>
+                        <td><input type="text" name="initials" value="{{ $member->initials }}" required></td>
                         <td>Plaats</td>
                         <td><input type="text" name="place" value="{{ $member->place }}"></td>
                         <td>Lid sinds</td>
-                        <td>{{ $member->member_since }}</td>
+                        <td><input type="date" name="member_since" value="{{ $member->member_since }}" required></td>
                     </tr>
                     <tr>
                         <td>Aanhef</td>
-                        <td>{{ $member->salutation }}</td>
+                        <td><select name="salutation"><option value="de heer"<?=(($member->salutation=="de heer")?" selected":"")?>>De heer</option><option value="mevrouw"<?=(($member->salutation=="mevrouw")?" selected":"")?>>Mevrouw</option></td>
                         <td colspan="2"></td>
                         <td>Email:</td>
-                        <td>{{ $member->email }}</td>
+                        <td><input type="email" name="email" value="{{ $member->email }}" required></td>
                     </tr>
                     <tr>
                         <td>Geboortedatum</td>
-                        <td>{{ $member->birthday }}</td>
+                        <td><input type="date" name="birthday" value="{{ $member->birthday }}" required></td>
                         <td colspan="2"></td>
                         <td>Geverifieerd</td>
                         <td><?php echo($member->user_activated < 2 ? 'Nee' : 'Ja') ?></td>

@@ -21,6 +21,7 @@ class ActivitiesQuest extends Model
         'name',
         'birthday',
         'comments',
+        'reserve',
     ];
 
     public static function addQuest($activity_id){

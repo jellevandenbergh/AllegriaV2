@@ -4,12 +4,9 @@
     $(function(){
         $('tr.dataA').tabledataslider({detailIdPrefix:'detailA'});
         $('tr.dataB').tabledataslider({detailIdPrefix:'detailB'});
+        $('tr.dataC').tabledataslider({detailIdPrefix:'detailC'});
         $('.activities-memberdetails').css('display','table');
     });
-
-    function alreadysignup(){
-        alert('U bent al aangemeld voor deze activiteit');
-    }
 </script>
 <style>
 .hide{
@@ -94,15 +91,15 @@
                 </thead>
                 <tbody>
                     <?php foreach($signed_up_activities as $signed_up_activitie): ?>
-                    <tr id="dataA{{ $signed_up_activitie->id }}" class="dataA link">
+                    <tr id="dataC{{ $signed_up_activitie->id }}" class="dataC link">
                         <td>{{ $signed_up_activitie->name }}</td>
                         <td>{{ $signed_up_activitie->date }}</td>
-                        <td></td>
+                        <td>{{ $signed_up_activitie->free_places }}</td>
                         <td class="center"><a href="<?= Config::get('URL') . 'activities/quest/' . $signed_up_activitie->id; ?>"><i class="fa fa-plus-square"></i></i></a></td>
                         <td class="center"><a href="<?= Config::get('URL') . 'activities/signout/' . $signed_up_activitie->id; ?>"><i class="fa fa-sign-out"></i></a></td>
                     </tr>
                     <tr>
-                        <td colspan="6" id="detailA{{ $signed_up_activitie->id }}">
+                        <td colspan="6" id="detailC{{ $signed_up_activitie->id }}">
                             <table class="activities-detail activities-memberdetails">
                                 <tr>
                                     <td>Uiterste inschrijfdatum</td>

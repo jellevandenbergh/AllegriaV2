@@ -60,8 +60,14 @@ class ActivitiesController extends Controller
     	$get_activitie = Activities::get_activity_by_id($activity_id);
         // get members signed up for activitie by activity id
     	//$get_activitie_signup_confirmed = Activities::get_activitie_signup_confirmed($activity_id);
+        $get_overview_reserves = ActivitiesSignup::get_overview_reserves($activity_id);
+
+        $get_overview_members = ActivitiesSignup::get_overview_members($activity_id);
+        // var_dump($get_overview_reserves);
+        //return $get_overview_reserves;
+
         // return activities overview view
-    	return view('activities.overview', compact('get_activitie','get_activitie_signup_confirmed','activity_id'));
+    	return view('activities.overview', compact('get_activitie','get_overview_members','activity_id','get_overview_reserves'));
     }
 
     public function overviewACTION($activity_id){
@@ -72,10 +78,9 @@ class ActivitiesController extends Controller
     public function overviewmembers($activity_id)
     {
         // get activity by id
-        $get_overview_members = Activities::get_overview_members($activity_id);
+        $get_overview_members = ActivitiesSignup::get_overview_members($activity_id);
         return json_encode($get_overview_members);
     }
-
 
     public function signup($activity_id)
     {
