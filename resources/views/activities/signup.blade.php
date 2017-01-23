@@ -8,6 +8,11 @@
             Er zijn geen vrije plekken meer over. U kunt u hier aanmelden voor de reservelijst
             </div>
         @endif
+        @if($rowcount >= 1)
+            <div class="feedback error">
+            U bent al aangemeld voor deze activiteit.
+            </div>
+        @endif
             <form method="post" action="{{$activity_id}}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <h3>Informatie activiteit:</h3>

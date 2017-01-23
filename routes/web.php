@@ -63,6 +63,7 @@ Route::post('/members/sendverification/{member_id}', ['uses' => 'MembersControll
 
 /* UNAUTHORIZED ROUTE */
 Route::get('/unauthorized', 'HomeController@unauthorized');
+/* END UNAUTHORIZED ROUTE */
 
 
 /* AUTH ROUTES */ 

@@ -96,7 +96,9 @@ class ActivitiesController extends Controller
         // return activities signup view
         $get_free_places = ActivitiesSignup::get_free_places($activity_id);
 
-    	return view('activities.signup', compact('get_free_places','get_activitie','get_member','activity_id','get_activitie_name','fullname','get_max_intros','get_price_members','get_price_intros'));
+        $rowcount = ActivitiesSignup::check_dubble_signup($activity_id);
+
+    	return view('activities.signup', compact('rowcount','get_free_places','get_activitie','get_member','activity_id','get_activitie_name','fullname','get_max_intros','get_price_members','get_price_intros'));
     }
     public function signupACTION($activity_id)
     {
