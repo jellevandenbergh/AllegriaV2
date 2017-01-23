@@ -1,7 +1,7 @@
 @include('layouts.header')
 
 <div class="container">
-    <h1>Inloggen</h1>
+    <h1>Peter is dik</h1>
     <div class="box">
 
         <!-- echo out the system feedback (error and success messages) -->

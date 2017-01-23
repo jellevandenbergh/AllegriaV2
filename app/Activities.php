@@ -131,6 +131,7 @@ class Activities extends Model
 		if ($get_new_activitie == "[]") {
             // if new activity is not found add error message to session
 		    Session::flash('feedback_error', 'Er is iets mis gegaan!');
+            return false;
 		}
 		else{
             // get server name
@@ -138,7 +139,8 @@ class Activities extends Model
             // create signup url
 			$signupUrl =  $server .'/AllegriaV2/public/activities/signup/'. $new_activitie->id;
             // add feedback succes message to session with signupurl
-			Session::flash('feedback_success', 'Activiteit toegevoegd! De link voor het aanmelden van deze activiteit is: '.$signupUrl.'');
+            Session::flash('feedback_success', 'Activiteit toegevoegd! De link voor het aanmelden van deze activiteit is: '.$signupUrl.'');
+            return true;
 		}
 
     }
