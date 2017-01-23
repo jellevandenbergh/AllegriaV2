@@ -45,11 +45,14 @@ class AccountController extends Controller
 
     public function editpassword()
     {
+        // return resetpassword view
         return view('account.resetpassword');
     }
     public function editpasswordACTION()
     {
+        // call model to handle request
        User::edit_password();
+       // redirect to account
        return redirect('account');
     }
 }

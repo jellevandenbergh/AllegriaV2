@@ -41,6 +41,7 @@ class ActivitiesController extends Controller
 
     public function delete($activity_id)
     {
+        // get activity_name by id
         $activity_name = DB::table('activities')->where('id', $activity_id)->value('name');
         // return activities delete view
         return view('activities.delete', compact('activity_name'));
@@ -58,15 +59,18 @@ class ActivitiesController extends Controller
     {
         // get activity by id
     	$get_activitie = Activities::get_activity_by_id($activity_id);
+        // get signup reserves by activity_id
         $get_overview_reserves = ActivitiesSignup::get_overview_reserves($activity_id);
-
+        // get signups by activity_id
         $get_overview_members = ActivitiesSignup::get_overview_members($activity_id);
-       
+        // return view with variables
     	return view('activities.overview', compact('get_activitie','get_overview_members','activity_id','get_overview_reserves','get_free_places'));
     }
 
     public function overviewACTION($activity_id){
+        // call model to handle request
         Activities::overview_ACTION($activity_id);
+        // redirect to activity overview page
         return redirect('activities/overview/'.$activity_id); 
     }
 
@@ -74,6 +78,7 @@ class ActivitiesController extends Controller
     {
         // get activity by id
         $get_overview_members = ActivitiesSignup::get_overview_members($activity_id);
+        // return json encoded array
         return json_encode($get_overview_members);
     }
 
@@ -95,9 +100,9 @@ class ActivitiesController extends Controller
         $fullname = User::get_fullname();
         // return activities signup view
         $get_free_places = ActivitiesSignup::get_free_places($activity_id);
-
+        // check if user isnt already singedup
         $rowcount = ActivitiesSignup::check_dubble_signup($activity_id);
-
+        // return signup view with variables
     	return view('activities.signup', compact('rowcount','get_free_places','get_activitie','get_member','activity_id','get_activitie_name','fullname','get_max_intros','get_price_members','get_price_intros'));
     }
     public function signupACTION($activity_id)
@@ -110,6 +115,7 @@ class ActivitiesController extends Controller
         else{
             // if terms and conditions is not checked add error message to session
             Session::flash('feedback_error', 'Accepteer de regelementen');
+            return false;
         }
         // return activities view
         return redirect('activities'); 
@@ -117,11 +123,14 @@ class ActivitiesController extends Controller
 
     public function signout($activity_id)
     {
+        // return signout view
         return view('activities.signout');
     }
     public function signoutACTION($activity_id)
     {
+        // call model to handle request
         ActivitiesSignup::signout($activity_id);
+        // redirect back to activities
         return redirect('activities'); 
     }
 
@@ -147,18 +156,26 @@ class ActivitiesController extends Controller
 
     public function editintrosACTION($activity_id)
     {
-       ActivitiesQuest::addQuest($activity_id);
+        // call model to handle request
+       if(!ActivitiesQuest::addQuest($activity_id)){
+            return redirect('activities/quest/'.$activity_id.'');
+       }
+       // redirect back to activities
        return redirect('activities');
     }
     public function confirmsignupACTION($token)
     {
+        // call model to handle request
         ActivitiesSignup::confirmsignup($token);
+        // redirect back to activities
         return redirect('activities');
     }
 
-    public function formatprice($price){
+   /* public function formatprice($price){
+        // call model to handle request
         $formatprice = Activities::formatprice($price);
+        // return formatprice
         return $formatprice;
-    }
+    }*/
 }
 
