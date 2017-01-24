@@ -90,7 +90,7 @@ class ActivitiesSignup extends Model
                     'member_id' => $member_id,
                     'place' => $_POST['place'],
                     'comments' => $_POST['comments'],
-                    'confirmation_token' => $token,
+                    'confirmation_token' => NULL,
                     'status' => 2,
                     'confirmation' => 2,
                     'reserve' => 2,

@@ -41,14 +41,14 @@
                         <td><label>Bus</label></td>
                         <td><input type="radio" id="bus-1" name="bus" value="1" onclick="bus_no()" checked> <label for="bus-1">Nee</label> <input type="radio" id="bus-2" name="bus" value="2" onclick="bus_yes()"> <label for="status-2">Ja</label></td>
                     </tr>
-                    <tr class="display_none" id="bus_form">
+                    <!--<tr class="display_none" id="bus_form">
                         <td>Opstapplaats</td>
                         <td><input id="bus_boarding_point" type="text" name="bus_boarding_point" placeholder="Verplicht"></td>
                         <td>Aantal bussen</td>
                         <td><input id="bus_amount" type="number" name="bus_amount" value="1"></td>
                         <td></td>
                         <td style="cursor: pointer"><a  onclick="bus_save()">Opslaan</a></td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <td><label for="max_signup_date">Uiterste inschrijfdatum</label></td>
                         <td><input id="max_signup_date" type="date" name="max_signup_date" placeholder="dd-mm-jjjj" required></td>
@@ -69,27 +69,42 @@
                     </tr>
                 </tbody>
             </table>
+            <table class="table activities-signup single">
+                <thead>
+                    <tr>
+                        <td colspan="6">Bussen</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><label for="bus">Aantal bussen</label></td>
+                        <td><input id="bus" type="number" name="bus" required value="0"></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table activities-signup single">
+            <tbody id="bus_tdbody">
+            </tbody>
+            </table>
             <button type="submit" class="btn btn-primary">Opslaan</button>
             <p><a>Annuleren</a></p>
+        </form>
     </div>
 </div>
 <script>
-function bus_yes(){
-    document.getElementById("bus_form").className = "table_row";
-}
-function bus_no(){
-    document.getElementById("bus_form").className = "display_none";
-}
-function bus_save(){
-    document.getElementById("bus_form").className = "display_none";
-}
-function test_check(params) {
-    if(conditions){
-        return true;
+$('#bus').on('input', function() { 
+    busamount = ($(this).val());
+    var html = '';
+    for (i=1;i<=busamount;i++){
+        html += '<tr id="bus-'+i+'"><td>Bus '+i+'</td><td><label>Opstapplaats</label</td><td><input type="text" name="bus-'+i+'"></td><td colspan="2"></td></tr>';
+        document.getElementById('bus_tdbody').innerHTML = html;
     }
-    else 
-        return false;    
-}
+});
+
+
+
 </script>
 <script>
 $("#max_members").keypress(function(e) {

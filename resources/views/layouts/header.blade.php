@@ -44,7 +44,7 @@
             @if($user = Auth::guest())
             @else
                 <li class="loggedin">
-                    Ingelogd als: <strong>
+                    Ingelogd als:<strong>
                     @if(auth::user()->user_account_type == 1)
                     (Lid)
                     @elseif(auth::user()->user_account_type == 2)

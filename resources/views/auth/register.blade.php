@@ -3,7 +3,7 @@
 <div class="container">
     <h1>Lid toevoegen</h1>
     <div class="box">
-
+    	@include('layouts.feedback')
         <!-- echo out the system feedback (error and success messages) -->
 		<form method="post" action="{{ url('/register') }}" class="allegriaform">
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">

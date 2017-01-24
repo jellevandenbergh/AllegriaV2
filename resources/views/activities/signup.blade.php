@@ -51,7 +51,7 @@
                     </tbody>
                     @endforeach
                 </table>
-
+                
                 <div class="hr"></div>
                 <h3>Eigen gegevens:</h3>
                 <table class="table activities-signup single">
