@@ -26,14 +26,14 @@
                     </tr>
                     <tr>
                         <td>Datum activiteit</td>
-                        <td>{{ $activitie->date }}</td>
+                        <td>{{ Helpers::convertDate($activitie->date) }}</td>
                         <td>Prijs per introducé</td>
                         <td>{{ $activitie->price_intros }}</td>
                         <td colspan="2"><?= (($activitie->comments)?"Opmerkingen":"Geen opmerkingen")?></td>
                     </tr>
                     <tr>
                         <td>Uiterste inschrijfdatum</td>
-                        <td>{{ $activitie->max_signup_date }}</td>
+                        <td>{{ Helpers::convertDate($activitie->max_signup_date) }}</td>
                         <td>Prijs per lid</td>
                         <td>{{ $activitie->price_members }}</td>
                         <td colspan="2">{{ $activitie->comments }}</td>
@@ -135,7 +135,7 @@
                             <label for="checkbox-{{$reserve->signup_id}}">{{$reserve->paid}}</label>
                             </td>
                             <td>
-                            <label for="checkbox-{{$reserve->signup_id}}">{{$reserve->datetime_signup}}</label>
+                            <label for="checkbox-{{$reserve->signup_id}}">{{Helpers::convertDate($reserve->datetime_signup)}}</label>
                             </td>
                             <td>
                             <label for="checkbox-{{$reserve->signup_id}}">{{$reserve->remembersent}}</label>
@@ -228,7 +228,7 @@ function setMembers(respons){
             for (var p in data[d]) {
                 if (data[d][p] == null)
                     data[d][p] = "-";
-            };        
+            };
             var totalPrice = (data[d]['count'] * price_intros) + price_members;
             data[d]['amount'] = "€"+(totalPrice/100).toFixed(2).toString().replace(".", ",");
             if (data[d]['paid'] == 0) {
@@ -248,7 +248,7 @@ function setMembers(respons){
 
 
 function buildTable()
-{   
+{
     var tableConfirmYes = '';
     for (var i in ConfirmYes) {
         tableConfirmYes += '<tr id="data'+ConfirmYes[i].signup_id+'" class="data link">';
@@ -362,8 +362,8 @@ function sortTable(event, confirm)
     // get tbody
     // var tbody+confirm = document.getElementById('tbody'+confirm);
     var tbody = document.getElementById('tbody');
-    
-    // extract tr-nodes and link them to the data-array, this detaches all tr-nodes from html-table, 
+
+    // extract tr-nodes and link them to the data-array, this detaches all tr-nodes from html-table,
     // without destroying them.
     var nr = 0;
     var row = 0;
@@ -378,7 +378,7 @@ function sortTable(event, confirm)
             nr++;
         }
     }
-    
+
     // sort the array with compare
 
     if (sortColumn) {
@@ -387,7 +387,7 @@ function sortTable(event, confirm)
         ConfirmYes.sort(compareMembersASC);
     }
 
-    
+
     // attach all tr-nodes to html-table
     for (var d in ConfirmYes){
         for (t in ConfirmYes[d].tr)

@@ -34,14 +34,14 @@
                         </tr>
                         <tr>
                             <td>Datum activiteit</td>
-                            <td>{{ $activity->date }}</td>
+                            <td>{{ Helpers::convertDate($activity->date) }}</td>
                             <td>Prijs per introducé</td>
                             <td>{{ $activity->price_intros }}</td>
                             <td colspan="2"><?= (($activity->comments)?"Opmerkingen":"Geen opmerkingen")?></td>
                         </tr>
                         <tr>
                             <td>Uiterste inschrijfdatum</td>
-                            <td>{{ $activity->max_signup_date }}</td>
+                            <td>{{ Helpers::convertDate($activity->max_signup_date) }}</td>
                             <td>Prijs per lid</td>
                             <td>{{ $activity->price_members }}</td>
                             <td colspan="2">{{ $activity->comments }}</td>

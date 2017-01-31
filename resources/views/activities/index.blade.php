@@ -41,8 +41,8 @@
                     <?php foreach($active_activities as $activeactivitie): ?>
                     <tr id="dataA{{ $activeactivitie->id }}" class="dataA link">
                         <td>{{ $activeactivitie->name }}</td>
-                        <td>{{ $activeactivitie->date }}</td>
-                        <td>{{ $activeactivitie->max_signup_date }}</td>
+                        <td>{{ Helpers::convertDate($activeactivitie->date) }}</td>
+                        <td>{{ Helpers::convertDate($activeactivitie->max_signup_date) }}</td>
                         <td>{{ $activeactivitie->free_places }}</td>
                         <td class="center"><a href="<?= Config::get('URL') . 'activities/signup/' . $activeactivitie->id; ?>"><i class="fa fa-sign-in"></i></a></td>
                     </tr>
@@ -62,7 +62,7 @@
                                     <td>€{{ $activeactivitie->price_intros }}</td>
                                     <td colspan="2" rowspan="2">{{ $activeactivitie->comments }}</td>
                                 </tr>
-                        <?php if ($activeactivitie->comments): ?> 
+                        <?php if ($activeactivitie->comments): ?>
                                 <tr>
                                     <td colspan="6" rowspan="2"></td>
                                 </tr>
@@ -77,7 +77,7 @@
         <?php if ($signed_up_activities == '[]'): ?>
             <strong style="color:red;">Geen activiteiten waarvoor aangemeld</strong>
             <hr>
-        <?php else: ?> 
+        <?php else: ?>
             <h3>Aangemeld voor:</h3>
             <table class="table activities-all dubble">
                 <thead>
@@ -93,7 +93,7 @@
                     <?php foreach($signed_up_activities as $signed_up_activitie): ?>
                     <tr id="dataC{{ $signed_up_activitie->id }}" class="dataC link">
                         <td>{{ $signed_up_activitie->name }}</td>
-                        <td>{{ $signed_up_activitie->date }}</td>
+                        <td>{{ Helpers::convertDate($signed_up_activitie->date) }}</td>
                         <td>{{ $signed_up_activitie->free_places }}</td>
                         <td class="center"><a href="<?= Config::get('URL') . 'activities/quest/' . $signed_up_activitie->id; ?>"><i class="fa fa-plus-square"></i></i></a></td>
                         <td class="center"><a href="<?= Config::get('URL') . 'activities/signout/' . $signed_up_activitie->id; ?>"><i class="fa fa-sign-out"></i></a></td>
@@ -103,7 +103,7 @@
                             <table class="activities-detail activities-memberdetails">
                                 <tr>
                                     <td>Uiterste inschrijfdatum</td>
-                                    <td>{{ $signed_up_activitie->max_signup_date }}</td>
+                                    <td>{{ Helpers::convertDate($signed_up_activitie->max_signup_date) }}</td>
                                     <td>Prijs per lid</td>
                                     <td>€{{ $signed_up_activitie->price_members }}</td>
                                     <td colspan="2"><?= (($signed_up_activitie->comments)?"Opmerkingen":"Geen opmerkingen")?></td>
@@ -115,7 +115,7 @@
                                     <td>€{{ $signed_up_activitie->price_intros }}</td>
                                     <td colspan="2" rowspan="2">{{ $signed_up_activitie->comments }}</td>
                                 </tr>
-                                <?php if ($signed_up_activitie->comments): ?> 
+                                <?php if ($signed_up_activitie->comments): ?>
                                 <tr>
                                     <td colspan="6" rowspan="2"></td>
                                 </tr>
@@ -133,7 +133,7 @@
             <?php if ($all_activities == '[]'): ?>
                 <strong style="color:red;">Geen activiteiten gevonden</strong>
                 <hr>
-            <?php else: ?>    
+            <?php else: ?>
                 <table class="table activities-all dubble">
                     <thead>
                     <tr>
@@ -152,7 +152,7 @@
                         <?php foreach($all_activities as $all_activitie): ?>
                         <tr id="dataB{{ $all_activitie->id }}" class="dataB link">
                             <td>{{ $all_activitie->name }}</td>
-                            <td>{{ $all_activitie->date }}</td>
+                            <td>{{ Helpers::convertDate($all_activitie->date) }}</td>
                             <td><?= ($all_activitie->status == 1?"Nee":"Ja")?></td>
 <?php if (Auth::user()->user_account_type >= 2): ?>
                             <td class="center"><a href="<?= Config::get('URL') . 'activities/overview/' . $all_activitie->id; ?>"><i class="fa fa-link"></i></a></td>
@@ -166,7 +166,7 @@
                             <table class="activities-detail activities-memberdetails">
                                 <tr>
                                     <td>Uiterste inschrijfdatum</td>
-                                    <td>{{ $all_activitie->max_signup_date }}</td>
+                                    <td>{{ Helpers::convertDate($all_activitie->max_signup_date) }}</td>
                                     <td>Prijs per lid</td>
                                     <td>€{{ $all_activitie->price_members }}</td>
                                     <td colspan="2"><?= (($all_activitie->comments)?"Opmerkingen":"Geen opmerkingen")?></td>
