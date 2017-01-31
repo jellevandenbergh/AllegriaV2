@@ -50,7 +50,7 @@
                         <td>Plaats</td>
                         <td><input type="text" name="place" value="{{ $member->place }}"></td>
                         <td>Lid sinds</td>
-                        <td>{{ $member->member_since }}</td>
+                        <td>{{ Helpers::convertDate($member->member_since) }}</td>
                     </tr>
                     <tr>
                         <td>Aanhef</td>
@@ -61,7 +61,7 @@
                     </tr>
                     <tr>
                         <td>Geboortedatum</td>
-                        <td>{{ $member->birthday }}</td>
+                        <td>{{ Helpers::convertDate($member->birthday) }}</td>
                         <td colspan="4"></td>
                     </tr>
                     <tr>
@@ -73,7 +73,7 @@
                     @endforeach
                 </table>
             <p><input type="submit" name="submit" value="Opslaan"> <a href="">Annuleren</a></p>
-        </form>        
+        </form>
     </div>
 </div>
 @include('layouts.footer')

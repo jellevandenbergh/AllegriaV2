@@ -3,14 +3,14 @@
 <div class="container">
     <div class="avatarright">
         <h1>{{ $fullname }}</h1>
-        <img src="http://localhost/AllegriaV2/public/avatars/default.jpg">
+        <img src="<?= url('/'); ?>/avatars/default.jpg">
     </div>
     <div class="box">
     @include('layouts.feedback')
         <?php if ($get_member == "[]") : ?>
             <p style="color:red">Geen gegevens gevonden</p>
         <?php else : ?>
-  
+
         <!-- echo out the system feedback (error and success messages) -->
         <table class="table account single">
             <thead>
@@ -52,7 +52,7 @@
                     <td>Plaats</td>
                     <td>{{ $member->place }}</td>
                     <td>Lid sinds</td>
-                    <td>{{ $member->member_since }}</td>
+                    <td>{{ Helpers::convertDate($member->member_since) }}</td>
                 </tr>
                 <tr>
                     <td>Aanhef</td>
@@ -63,7 +63,7 @@
                 </tr>
                 <tr>
                     <td>Geboortedatum</td>
-                    <td>{{ $member->birthday }}</td>
+                    <td>{{ Helpers::convertDate($member->birthday) }}</td>
                     <td colspan="4"></td>
                 </tr>
                 <tr>
@@ -74,7 +74,7 @@
                 @endforeach
             </tbody>
         </table>
-        <p><a href="<?php echo Config::get('URL'); ?>account/edit" class="allegriabutton">Profiel wijzigen</a> <a href="<?php echo Config::get('URL'); ?>account/editpassword" class="allegriabutton">Wachtwoord wijzigen</a></p>
+        <p><a href="<?= Config::get('URL'); ?>account/edit" class="allegriabutton">Profiel wijzigen</a> <a href="<?php echo Config::get('URL'); ?>account/editpassword" class="allegriabutton">Wachtwoord wijzigen</a></p>
         <?php endif; ?>
     </div>
 </div>
