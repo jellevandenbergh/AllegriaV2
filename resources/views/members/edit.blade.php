@@ -50,7 +50,7 @@
                         <td>Plaats</td>
                         <td><input type="text" name="place" value="{{ $member->place }}"></td>
                         <td>Lid sinds</td>
-                        <td><input type="date" name="member_since" value="{{ $member->member_since }}" required></td>
+                        <td><input type="date" name="member_since" value="{{ Helpers::convertDate($member->member_since) }}" required></td>
                     </tr>
                     <tr>
                         <td>Aanhef</td>
@@ -61,7 +61,7 @@
                     </tr>
                     <tr>
                         <td>Geboortedatum</td>
-                        <td><input type="date" name="birthday" value="{{ $member->birthday }}" required></td>
+                        <td><input type="date" name="birthday" value="{{ Helpers::convertDate($member->birthday) }}" required></td>
                         <td colspan="2"></td>
                         <td>Geverifieerd</td>
                         <td><?php echo($member->user_activated < 2 ? 'Nee' : 'Ja') ?></td>
@@ -78,7 +78,7 @@
                     @endforeach
                 </table>
             <p><input type="submit" name="submit" value="Opslaan"> <a href="">Annuleren</a></p>
-        </form>        
+        </form>
     </div>
 </div>
 @include('layouts.footer')

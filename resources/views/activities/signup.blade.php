@@ -36,14 +36,14 @@
                     </tr>
                     <tr>
                         <td>Datum activiteit</td>
-                        <td>{{ $activitie->date }}</td>
+                        <td>{{ Helpers::convertDate($activitie->date) }}</td>
                         <td>Prijs per introducé</td>
                         <td>{{ $activitie->price_intros }}</td>
                         <td colspan="2"><?= (($activitie->comments)?"Opmerkingen":"Geen opmerkingen")?></td>
                     </tr>
                     <tr>
                         <td>Uiterste inschrijfdatum</td>
-                        <td>{{ $activitie->max_signup_date }}</td>
+                        <td>{{ Helpers::convertDate($activitie->max_signup_date) }}</td>
                         <td>Prijs per lid</td>
                         <td>{{ $activitie->price_members }}</td>
                         <td colspan="2">{{ $activitie->comments }}</td>
@@ -51,7 +51,7 @@
                     </tbody>
                     @endforeach
                 </table>
-                
+
                 <div class="hr"></div>
                 <h3>Eigen gegevens:</h3>
                 <table class="table activities-signup single">
@@ -70,14 +70,14 @@
                             <td>
 <?php for ($i=0; $i <= $get_max_intros; $i++) { ?>
                             <input type="radio" id="intros-<?=$i?>" name="max_intros" value="<?=$i?>" <?= (($i==0)?"checked":"")?>><label for="intros-<?=$i?>"><?=$i?></label><?= (($i==5)?"<br>":"")?>
-<?php } ?>       
+<?php } ?>
                             </td>
                         </tr>
                         <tr>
                             <td>Geboortedatum</td>
                             <td>{{ $member->birthday }}</td>
                             <td colspan="2">Opmerkingen</td>
-                            
+
                         </tr>
                         <tr>
                             <td>Email</td>
