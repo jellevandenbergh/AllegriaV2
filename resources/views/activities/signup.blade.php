@@ -75,7 +75,7 @@
                         </tr>
                         <tr>
                             <td>Geboortedatum</td>
-                            <td>{{ $member->birthday }}</td>
+                            <td>{{ Helpers::convertDate($member->birthday) }}</td>
                             <td colspan="2">Opmerkingen</td>
 
                         </tr>
@@ -88,7 +88,7 @@
                         <tr>
                             <td><label for="place">Opstapplaats</label></td>
                             <td><select name="place"><option value="LPP">LPP</option><option value="MBW">MBW</option></select></td>
-                        </tr>             
+                        </tr>
 @endif
                     </tbody>
                     @endforeach
