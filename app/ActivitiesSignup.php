@@ -85,7 +85,7 @@ class ActivitiesSignup extends Model
         }
 
         // create new token
-        //$token = hash_hmac('sha256', str_random(40), config('app.key'));
+        $token = hash_hmac('sha256', str_random(40), config('app.key'));
 
         // add new signup to database
         if($get_free_places < 1){
@@ -456,11 +456,29 @@ class ActivitiesSignup extends Model
 
 
     public static function getpassengerlist($activity_id){
-        $list = DB::table('activities_signup')
+        $list['lid'] = DB::table('activities_signup')
                 ->leftjoin('members', 'activities_signup.member_id', '=', 'members.id')
                 ->leftjoin('users', 'members.user_id', '=', 'users.id')
                 ->where('activities_signup.reserve', 1)
                 ->select('members.lastname','members.insertion','members.firstname','members.birthday','activities_signup.paid','users.email','activities_signup.datetime_signup')
+                ->get();
+
+        foreach($list['lid'] as $passenger){
+            if($passenger->paid <= 0){
+                $passenger->paid = "Nee";
+            }
+            else{
+                $passenger->paid = "ja";
+            }
+        }
+        
+        $signup_ids = DB::table('activities_signup')
+                ->where('activity_id', $activity_id)
+                ->pluck('signup_id');
+
+        $list['intros'] = DB::table('activities_quest')
+                ->whereIn('activity_signup_id', $signup_ids)
+                ->select('name','birthday')
                 ->get();
 
         return $list;

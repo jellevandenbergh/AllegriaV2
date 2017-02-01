@@ -67,6 +67,7 @@ class Members extends Model
     	// get all members
         $members =  DB::table('users')
             ->join('members', 'users.id', '=', 'members.user_id')
+            ->select('lastname','initials', 'insertion', 'salutation', 'firstname', 'address', 'housenumber', 'zipcode', 'place', 'location_building', 'location_floor', 'phonenumber', 'email', 'user_account_type', 'birthday','members.id','location_building','location_floor','phonenumber','status','RNRnumber','member_since') 
             ->get();
 
         foreach ($members as $member) {
