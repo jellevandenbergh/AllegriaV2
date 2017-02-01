@@ -37,6 +37,8 @@
     </div>
 </div>
 <script>
+var base_url = "<?= url(''); ?>";
+
 getMembers();
 $("#search").keyup(function(){
     setFilterMembers(this);
@@ -51,7 +53,7 @@ var column = "lastname";
 function getMembers()
 {
     $.ajax({
-        url:"http://localhost/AllegriaV2/public/members/getmembers",
+        url: base_url + '/members/getmembers',
         success:setMembers
     });
 }
@@ -68,8 +70,8 @@ function setMembers(respons){
 }
 
 function buildTable()
-{   
-    $('#waiting').hide(); 
+{
+    $('#waiting').hide();
     var html = '';
     for (var i in data) {
         <?php if (Auth::user()->user_account_type >= 3): ?>
@@ -155,8 +157,8 @@ function sortTable(event)
 
     // get tbody
     var tbody = document.getElementById('tbody');
-    
-    // extract tr-nodes and link them to the data-array, this detaches all tr-nodes from html-table, 
+
+    // extract tr-nodes and link them to the data-array, this detaches all tr-nodes from html-table,
     // without destroying them.
     var nr = 0;
     var row = 0;
@@ -171,7 +173,7 @@ function sortTable(event)
             nr++;
         }
     }
-    
+
     // sort the array with compare
 
     if (sortColumn) {
@@ -180,7 +182,7 @@ function sortTable(event)
         data.sort(compareMembersASC);
     }
 
-    
+
     // attach all tr-nodes to html-table
     for (var d in data){
         for (t in data[d].tr)
@@ -210,14 +212,14 @@ function filterMembers()
     for (var i in memberin) {
         $('#data'+memberin[i]).addClass('filterIn');
         $('#detail'+memberin[i]).parent().addClass('filterIn');
-    }       
+    }
 }
 
 function setFilterMembers(me)
 {
     filter = $(me).val();
     filterMembers();
-    setBG();    
+    setBG();
 }
 
 function setBG() {

@@ -71,7 +71,7 @@
                         <td><input type="text" name="phonenumber" value="{{ $member->phonenumber }}"></td>
                         <td colspan="3"></td>
 @if($member->user_activated == 1)
-                        <td><a href="http://localhost/AllegriaV2/public/members/sendverification/{{$member_id}}" class="allegriabutton" type="submit"><i class="fa fa-mail-forward"></i> Stuur verivicatielink</a></td>
+                        <td><a href="{{url('members/sendverification/')}} {{$member_id}}" class="allegriabutton" type="submit"><i class="fa fa-mail-forward"></i> Stuur verivicatielink</a></td>
 @endif
                     </tr>
                     </tbody>

@@ -58,7 +58,7 @@
                 </li>
 
                 <li>
-                    <a href="http://localhost/AllegriaV2/public/logout">Uitloggen</a>
+                    <a href="{{ url('logout') }}">Uitloggen</a>
                 </li>
 
             @endif

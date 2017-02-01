@@ -203,8 +203,6 @@ var ConfirmNo = [];
 var ConfirmYes = [];
 var isBusySortingTable = false;
 
-
-
 getMembers();
 $('.link-yes').on('click', function(event){sortTable(event, 'confirmYes')});
 $('.link-no').on('click', function(event){sortTable(event, 'confirmNo')});
@@ -212,7 +210,7 @@ $('.link-no').on('click', function(event){sortTable(event, 'confirmNo')});
 function getMembers()
 {
     $.ajax({
-        url:"http://localhost/AllegriaV2/public/activities/overviewmembers/<?=$activity_id?>",
+        url: "activities/overviewmembers/<?=$activity_id?>",
         success:setMembers
     });
 }

@@ -14,7 +14,7 @@
     <span class="clear"></span>
     <div class="box">
     @include('layouts.feedback')
-        <form class="form-horizontal" role="form" method="POST" action="{{ url('http://localhost/AllegriaV2/public/activities/add') }}">
+        <form class="form-horizontal" role="form" method="POST" action="{{ url('activities/add') }}">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <table class="table activities-signup single">
                 <thead>
