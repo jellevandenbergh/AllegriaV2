@@ -83,7 +83,7 @@
                             <li><input type="submit" name="submit" value="Nee"></li>
                         </ul>
                     </li>
-                    <li><a href="" target="_blank" class="allegriabutton">Printen <i class="fa fa-print"></i></a></li>
+                    <li><a href="<?= url('activities/passengerlist') . '/' . $activity_id; ?>" target="_blank" class="allegriabutton">Printen <i class="fa fa-print"></i></a></li>
 
                     <li><a href="" class="allegriabutton"><i class="fa fa-arrow-left"></i> Terug</a></li>
                 </ul>
@@ -203,14 +203,17 @@ var ConfirmNo = [];
 var ConfirmYes = [];
 var isBusySortingTable = false;
 
+var base_url = "<?=url('');?>";
+
 getMembers();
 $('.link-yes').on('click', function(event){sortTable(event, 'confirmYes')});
 $('.link-no').on('click', function(event){sortTable(event, 'confirmNo')});
 
+
 function getMembers()
 {
     $.ajax({
-        url: "activities/overviewmembers/<?=$activity_id?>",
+        url: base_url + "/activities/overviewmembers/<?=$activity_id?>",
         success:setMembers
     });
 }
