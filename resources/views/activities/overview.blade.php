@@ -135,7 +135,7 @@
                             <label for="checkbox-{{$reserve->signup_id}}">{{$reserve->paid}}</label>
                             </td>
                             <td>
-                            <label for="checkbox-{{$reserve->signup_id}}">{{Helpers::convertDate($reserve->datetime_signup)}}</label>
+                            <label for="checkbox-{{$reserve->signup_id}}">{{ Helpers::convertDate($reserve->datetime_signup, 'Y-m-d H:i:s') }}</label>
                             </td>
                             <td>
                             <label for="checkbox-{{$reserve->signup_id}}">{{$reserve->remembersent}}</label>
