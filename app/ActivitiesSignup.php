@@ -461,6 +461,7 @@ class ActivitiesSignup extends Model
                 ->leftjoin('users', 'members.user_id', '=', 'users.id')
                 ->where('activities_signup.reserve', 1)
                 ->select('members.lastname','members.insertion','members.firstname','members.birthday','activities_signup.paid','users.email','activities_signup.datetime_signup')
+                ->where('activity_id', $activity_id)
                 ->get();
 
         foreach($list['lid'] as $passenger){
