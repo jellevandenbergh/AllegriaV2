@@ -23,8 +23,7 @@ class Activities extends Model
         'status',
         'date',
         'max_intros',
-        'bus_boarding_point',
-        'bus_amount',
+        'bus',
         'max_signup_date',
         'price_members',
         'price_intros',
@@ -114,8 +113,7 @@ class Activities extends Model
 			'status' => $_POST['status'],
 			'date' => $_POST['date'],
 			'max_intros' => $_POST['max_intros'],
-			'bus_boarding_point' => $_POST['bus_boarding_point'],
-			'bus_amount' => $_POST['bus_amount'],
+			'bus' => $_POST['bus'],
 			'free_places' => $_POST['max_members'],
 			'free_reserves' => $_POST['max_reserves'],
 			'max_signup_date' => $_POST['max_signup_date'],
@@ -151,34 +149,37 @@ class Activities extends Model
         $check_activity = DB::table('activities')->where('id', $activity_id)->get();
         if (!count($check_activity) ==  1) {
             Session::flash('feedback_error', 'Activiteit niet gevonden');
-            return flase;
+            return false;
         }
 
 
         // delete activity
         DB::table('activities')->where('id', $activity_id)->delete();
         // get all id's from all signups for this activity
-        $activities_signup_id = DB::table('activities_signup')->where('activity_id', $activity_id)->pluck('id');
-        // delete all intro's where activity_signup_id = $activities_signup_id
-        foreach($activities_signup_id as $id){
-             DB::table('activities_quest')->where('activity_signup_id', $id)->delete();
+        $activities_signup_id = DB::table('activities_signup')->where('activity_id', $activity_id)->pluck('signup_id');
+        if(count($activities_signup_id) == 0){
+
         }
+        else{
+            DB::table('activities_quest')->where('activity_signup_id', $activities_signup_id)->delete();
+        }
+        // delete all intro's where activity_signup_id = $activities_signup_id
         // delete all signups where activity_id = $activity_id
         DB::table('activities_signup')->where('activity_id', $activity_id)->delete();
 
         // check if signups are deleted
-        $check_signup_delete = DB::table('activities_signup')->where('signup_id',$activities_signup_id)->count();
+        /*$check_signup_delete = DB::table('activities_signup')->where('signup_id', $activities_signup_id)->count();
         if(!$check_signup_delete == 0){
             Session::flash('feedback_error', 'Er is iets mis gegaan!');
             return flase;
-        }
+        }*/
 
         // check if activity is deleted
-        $check_activity = DB::table('activities')->where('id', $activity_id)->count();
-        if (!$check_activity ==  1) {
+        /*$check_activity = DB::table('activities')->where('id', $activity_id)->get();
+        if (!count($check_activity) ==  1) {
             Session::flash('feedback_error', 'Er is iets mis gegaan!');
             return flase;
-        }
+        }*/
         // add succes message to session
         Session::flash('feedback_success', 'Activiteit verwijderd');
         return true;

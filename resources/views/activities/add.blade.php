@@ -39,7 +39,8 @@
                         <td><label for="max_intros">Max introducés</label></td>
                         <td><input id="max_intros" type="number" name="max_intros" value="0" required></td>
                         <td><label>Bus</label></td>
-                        <td><input type="radio" id="bus-1" name="bus" value="1" onclick="bus_no()" checked> <label for="bus-1">Nee</label> <input type="radio" id="bus-2" name="bus" value="2" onclick="bus_yes()"> <label for="status-2">Ja</label></td>
+                        <td><input type="radio" id="bus-1" name="bus" value="1" checked> <label for="bus-1">Nee</label>
+                        <input type="radio" id="bus-2" name="bus" value="2" > <label for="status-2">Ja</label></td>
                     </tr>
                     <!--<tr class="display_none" id="bus_form">
                         <td>Opstapplaats</td>
@@ -69,43 +70,11 @@
                     </tr>
                 </tbody>
             </table>
-            <table class="table activities-signup single">
-                <thead>
-                    <tr>
-                        <td colspan="6">Bussen</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><label for="bus">Aantal bussen</label></td>
-                        <td><input id="bus" type="number" name="bus" required value="0"></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table activities-signup single">
-            <tbody id="bus_tdbody">
-            </tbody>
-            </table>
             <button type="submit" class="btn btn-primary">Opslaan</button>
             <p><a>Annuleren</a></p>
         </form>
     </div>
 </div>
-<script>
-$('#bus').on('input', function() { 
-    busamount = ($(this).val());
-    var html = '';
-    for (i=1;i<=busamount;i++){
-        html += '<tr id="bus-'+i+'"><td>Bus '+i+'</td><td><label>Opstapplaats</label</td><td><input type="text" name="bus-'+i+'"></td><td colspan="2"></td></tr>';
-        document.getElementById('bus_tdbody').innerHTML = html;
-    }
-});
-
-
-
-</script>
 <script>
 $("#max_members").keypress(function(e) {
     var val = $("#max_members").val();

@@ -70,6 +70,12 @@ class ActivitiesSignup extends Model
         // get activity by id
         $activity_by_id = Activities::get_activity_by_id($activity_id);
 
+        foreach($activity_by_id as $activity){
+            if($activity->bus == 1){
+                $_POST['place'] = NULL;
+            }
+        }
+
         //check is signup date has expired
         foreach ($activity_by_id as $activity) {
             if (strtotime($activity->max_signup_date) < time() - 86400) {

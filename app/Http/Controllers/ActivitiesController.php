@@ -86,6 +86,9 @@ class ActivitiesController extends Controller
     {
         // get activity by id
     	$get_activitie = Activities::get_activity_by_id($activity_id);
+        foreach($get_activitie as $activity){
+            $bus = $activity->bus;
+        }
         // get activity name
         $get_activitie_name = Activities::get_activity_name($activity_id);
         // get max intros
@@ -103,7 +106,7 @@ class ActivitiesController extends Controller
         // check if user isnt already singedup
         $rowcount = ActivitiesSignup::check_dubble_signup($activity_id);
         // return signup view with variables
-    	return view('activities.signup', compact('rowcount','get_free_places','get_activitie','get_member','activity_id','get_activitie_name','fullname','get_max_intros','get_price_members','get_price_intros'));
+    	return view('activities.signup', compact('rowcount','get_free_places','get_activitie','get_member','activity_id','get_activitie_name','fullname','get_max_intros','get_price_members','get_price_intros','bus'));
     }
     public function signupACTION($activity_id)
     {

@@ -84,10 +84,12 @@
                             <td><label for="comments">{{ $member->email }}</label></td>
                             <td colspan="2" rowspan="2"><textarea name="comments" placeholder="Niet verplicht"></textarea></td>
                         </tr>
+@if($bus == 2)
                         <tr>
                             <td><label for="place">Opstapplaats</label></td>
                             <td><select name="place"><option value="LPP">LPP</option><option value="MBW">MBW</option></select></td>
-                        </tr>
+                        </tr>             
+@endif
                     </tbody>
                     @endforeach
                 </table>

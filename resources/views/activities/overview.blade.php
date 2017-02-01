@@ -28,7 +28,7 @@
                         <td>Datum activiteit</td>
                         <td>{{ Helpers::convertDate($activitie->date) }}</td>
                         <td>Prijs per introducé</td>
-                        <td>{{ Helpers::convertPrice($activitie->price_intros) }}</td>
+                        <td>{{Helpers::convertPrice($activitie->price_intros) }}</td>
                         <td colspan="2"><?= (($activitie->comments)?"Opmerkingen":"Geen opmerkingen")?></td>
                     </tr>
                     <tr>
