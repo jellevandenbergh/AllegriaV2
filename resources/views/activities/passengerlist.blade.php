@@ -27,6 +27,7 @@
         <tr>
             <td><strong>Naam</strong></td>
             <td><strong>Geboortedatum</strong></td>
+            <td><strong>Aangemeld door</strong></td>
         </tr>
     </thead>
     <tbody>
@@ -34,6 +35,7 @@
         <tr>
             <td>{{ $intros->name }}</td>
             <td>{{ $intros->birthday }}</td>
+            <td>{{ Helpers::convertFullname($intros->firstname, $intros->lastname, $intros->insertion) }}</td>
         </tr>
         @endforeach
     </tbody>

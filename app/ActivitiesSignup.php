@@ -471,14 +471,16 @@ class ActivitiesSignup extends Model
                 $passenger->paid = "ja";
             }
         }
-        
+
         $signup_ids = DB::table('activities_signup')
                 ->where('activity_id', $activity_id)
                 ->pluck('signup_id');
 
         $list['intros'] = DB::table('activities_quest')
+                ->leftjoin('activities_signup', 'activities_quest.activity_signup_id', '=', 'activities_signup.signup_id')
+                ->leftjoin('members', 'activities_signup.member_id', '=', 'members.id')
                 ->whereIn('activity_signup_id', $signup_ids)
-                ->select('name','birthday')
+                ->select('activities_quest.name','activities_quest.birthday','members.lastname','members.insertion','members.firstname')
                 ->get();
 
         return $list;
