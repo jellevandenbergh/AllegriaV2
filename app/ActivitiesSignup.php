@@ -452,4 +452,18 @@ class ActivitiesSignup extends Model
         // return activity signup reserve
         return $get_activitie_reserves;
     }
+
+
+
+    public static function getpassengerlist($activity_id){
+        $list = DB::table('activities_signup')
+                ->join('activities_quest', 'signup_id', '=', 'activities_quest.activity_signup_id')
+                ->join('members', 'member_id', '=', 'members.id')
+                ->join('users', 'id', '=', 'members.user_id')
+                ->where('reserve', 1)
+                ->select('lastname','insertion','firstname','birthday','birtday','birthday-intro','paid','email','datetime_signup')
+                ->get();
+
+        return $list;
+    }
 }
