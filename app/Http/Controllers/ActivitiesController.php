@@ -71,7 +71,7 @@ class ActivitiesController extends Controller
         // call model to handle request
         Activities::overview_ACTION($activity_id);
         // redirect to activity overview page
-        return redirect('activities/overview/'.$activity_id); 
+        return redirect('activities/overview/'.$activity_id);
     }
 
     public function overviewmembers($activity_id)
@@ -121,7 +121,7 @@ class ActivitiesController extends Controller
             return false;
         }
         // return activities view
-        return redirect('activities'); 
+        return redirect('activities');
     }
 
     public function signout($activity_id)
@@ -134,7 +134,7 @@ class ActivitiesController extends Controller
         // call model to handle request
         ActivitiesSignup::signout($activity_id);
         // redirect back to activities
-        return redirect('activities'); 
+        return redirect('activities');
     }
 
     public function editintros($activity_id)
@@ -174,6 +174,13 @@ class ActivitiesController extends Controller
         return redirect('activities');
     }
 
+    public function passengerlist($activity_id)
+    {
+        $passengerlist = ActivitiesSignup::getpassengerlist($activity_id);
+        
+        return view('activities.passengerlist', compact('passengerlist'));
+    }
+
    /* public function formatprice($price){
         // call model to handle request
         $formatprice = Activities::formatprice($price);
@@ -181,4 +188,3 @@ class ActivitiesController extends Controller
         return $formatprice;
     }*/
 }
-

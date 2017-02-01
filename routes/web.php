@@ -44,6 +44,7 @@ Route::post('/activities/signout/{activity_id}', ['uses' => 'ActivitiesControlle
 //Route::get('/activities/confirmsignup/{token}', ['uses' => 'ActivitiesController@confirmsignupACTION', 'middleware' => 'lid']);
 Route::get('/activities/quest/{activity_id}', ['uses' => 'ActivitiesController@editintros', 'middleware' => 'lid']);
 Route::post('/activities/quest/{activity_id}', ['uses' => 'ActivitiesController@editintrosACTION', 'middleware' => 'lid']);
+Route::get('/activities/passengerlist/{activity_id}', ['uses' => 'ActivitiesController@passengerlist', 'middleware' => 'admin']);
 /* END ACTIVITIES ROUTES */
 
 /* MEMBERS ROUTES */
@@ -66,7 +67,7 @@ Route::get('/unauthorized', 'HomeController@unauthorized');
 /* END UNAUTHORIZED ROUTE */
 
 
-/* AUTH ROUTES */ 
+/* AUTH ROUTES */
 //Route::get('register', 'Auth\Registercontroller@showRegistrationForm');
 //Route::post('register', 'Auth\Registercontroller@register');
 Route::get('/login', ['as' => 'auth.login', 'uses' => 'Auth\LoginController@showLoginForm']);
@@ -74,5 +75,3 @@ Route::get('/', ['as' => 'auth.login', 'uses' => 'Auth\LoginController@showLogin
 Route::post('/login', ['as' => 'auth.login', 'uses' => 'Auth\LoginController@login']);
 Route::get('/logout', ['as' => 'auth.logout', 'uses' => 'Auth\LoginController@logout']);
 /* END AUTH ROUTES */
-
-

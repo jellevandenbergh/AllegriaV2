@@ -17,4 +17,14 @@ class Helpers
         $price = ($data / 100);
         return number_format($price, 2, ",", ".");
     }
+
+    public static function convertFullname($firstName, $lastName, $insertion = null) {
+        if ($insertion) {
+            $fullName = $firstName . ' ' . $insertion . ' ' . $lastName;
+        } else {
+            $fullName = $firstName . ' ' . $lastName;
+        }
+
+        return $fullName;
+    }
 }

@@ -62,7 +62,7 @@ class ActivitiesSignup extends Model
         $get_max_reserves = ActivitiesSignup::get_max_reserves($activity_id);
         // get reserves count
         $get_reserves_count = ActivitiesSignup::get_reserves_count($activity_id);
-        
+
         /*if($get_free_places <= 0){
             Session::flash('feedback_error', 'Er zijn geen vrije plekken meer beschikbaar');
             return false;
@@ -109,7 +109,7 @@ class ActivitiesSignup extends Model
             }
 
             // add new signupQuest to database
-            for ($i=1; $i <= $_POST['max_intros']; $i++) { 
+            for ($i=1; $i <= $_POST['max_intros']; $i++) {
                 $new_activitie_signupQuest = ActivitiesQuest::create([
                     'activity_signup_id' => $new_activitie_signup->id,
                     'name' => $_POST['name-intro-'.$i],
@@ -135,7 +135,7 @@ class ActivitiesSignup extends Model
             ]);
 
             // add new signupQuest to database
-            for ($i=1; $i <= $_POST['max_intros']; $i++) { 
+            for ($i=1; $i <= $_POST['max_intros']; $i++) {
                 $new_activitie_signupQuest = ActivitiesQuest::create([
                     'activity_signup_id' => $new_activitie_signup->id,
                     'name' => $_POST['name-intro-'.$i],
@@ -457,11 +457,10 @@ class ActivitiesSignup extends Model
 
     public static function getpassengerlist($activity_id){
         $list = DB::table('activities_signup')
-                ->join('activities_quest', 'signup_id', '=', 'activities_quest.activity_signup_id')
-                ->join('members', 'member_id', '=', 'members.id')
-                ->join('users', 'id', '=', 'members.user_id')
-                ->where('reserve', 1)
-                ->select('lastname','insertion','firstname','birthday','birtday','birthday-intro','paid','email','datetime_signup')
+                ->leftjoin('members', 'activities_signup.member_id', '=', 'members.id')
+                ->leftjoin('users', 'members.user_id', '=', 'users.id')
+                ->where('activities_signup.reserve', 1)
+                ->select('members.lastname','members.insertion','members.firstname','members.birthday','activities_signup.paid','users.email','activities_signup.datetime_signup')
                 ->get();
 
         return $list;
